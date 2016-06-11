@@ -1,6 +1,9 @@
 //dbapi.js
 
-
+/**
+*	Funkcija za unos novog korisnika u bazu koji se
+*	prijavio na aplikaciji.
+*/
 module.exports.insertUser = function(user, db) {
 	var users = db.collection('users');
 	users.insert({
@@ -11,6 +14,10 @@ module.exports.insertUser = function(user, db) {
 	});	
 };
 
+
+/**
+*	Funkcija za unos novog pitanja u bazu podataka.
+**/
 module.exports.insertQuestion = function(question, db) {
 	var questions = db.collection('questions');
 	questions.insert({
