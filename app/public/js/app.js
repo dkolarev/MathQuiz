@@ -5,6 +5,8 @@ angular
 	.controller('mainPageController', mainPageController)
 	.directive('checkUsername', checkUsername)
 	.directive('checkPassword', checkPassword)
+	.directive('checkEmail', checkEmail)
+	.factory('usersData', usersData)
 	.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 		$stateProvider
 			.state('main', {

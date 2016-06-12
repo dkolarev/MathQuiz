@@ -9,24 +9,35 @@
 					<label>Username</label>
 					<input type="text" name="username" class="form-control" ng-model="user.username" ng-model-options="{updateOn: 'blur'}" required ng-pattern="/^[0-9]*[A-Za-z][A-Za-z0-9]*/" ng-minlength="2" check-username="user.username" placeholder="Enter username">
 
-					<div ng-messages="signInForm.username.$error" ng-show="signInForm.username.$touched" role="alert" style="padding-top: 5px">
+					<div ng-messages="signInForm.username.$error" ng-show="signInForm.username.$touched" role="alert">
                       <div ng-show="signInForm.username.$error.unique" class="errorMessage">Username already exists.</div>
+                      <div ng-message="pattern" class="errorMessage">Username must have at least one letter.</div>
+                      <div ng-message="minlength" class="errorMessage">Username must have more than one character.</div>
                     </div>
 				</div>
 				<div class="form-group">
 					<label>Password</label>
-					<input type="password" name="password" required class="form-control" ng-model="user.password" placeholder="Enter password">
+					<input type="password" name="password" required class="form-control" ng-model="user.password" ng-model-options="{updateOn: 'blur'}" ng-minlength="6" placeholder="Enter password">
+					<div ng-messages="signInForm.password.$error" ng-show="signInForm.password.$touched" role="alert">
+						<div ng-message="minlength" class="errorMessage">Password must be at least 6 characters.</div>
+					</div>
 				</div>
 				<div class="form-group">
 					<label>Repeat Password</label>
-					<input type="password" name="password" required class="form-control" ng-model="repeatPassword" placeholder="Enter password">
+					<input type="password" name="repeatPassword" required class="form-control" ng-model="repeatPassword" ng-model-options="{updateOn: 'blur'}" password="user.password" check-password="repeatPassword" placeholder="Enter password">
+					<div ng-messages="signInForm.repeatPassword.$error" ng-show="signInForm.repeatPassword.$touched" role="alert">
+						<div ng-show="signInForm.repeatPassword.$error.correct" class="errorMessage">Passwords don't match.</div>
+					</div>
 				</div>
 				<div class="form-group">
 					<label>Email</label>
-					<input type="email" name="email" required class="form-control" ng-model="user.email" placeholder="Enter email">
+					<input type="email" name="email" required class="form-control" ng-model="user.email" check-email="user.email" placeholder="Enter email">
+					<div ng-messages="signInForm.email.$error" ng-show="signInForm.email.$touched" role="alert">
+						<div ng-show="signInForm.email.$error.unique" class="errorMessage">Email alredy taken.</div>
+					</div>
 				</div>
 				<div style="margin-top: 40px">
-					<button type="submit" class="btn btn-primary" ng-click="onClickSubmitRegistration()">Submit</button>
+					<button type="submit" class="btn btn-primary" ng-click="onClickSubmitRegistration(user, signInForm)">Submit</button>
 					<button type="button" class="btn btn-danger" ng-click="onClickCancel()">Cancel</button>
 				<div>
 			</form>

@@ -21,6 +21,7 @@ body {
 .errorMessage {
 	color: red;
 	font-size: 12px;
+	padding-top: 5px;
 }
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {

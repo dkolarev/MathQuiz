@@ -11,7 +11,17 @@ function checkPassword(){
 		restrict: 'A',
 		require: 'ngModel',
 		link: function(scope, element, attrs, controller) {
-			
+			element.bind('blur', function(e) {
+				if(scope.password != element.val()){
+					controller.$setValidity('correct', false);
+				}
+				else{
+					controller.$setValidity('correct', true);
+				}
+			});
+		},
+		scope: {
+			password: "=password"
 		}
 	};
 };
