@@ -1,0 +1,28 @@
+body {
+	background-color: #00ffff;
+}
+
+.navHeader {
+	margin: 0px;
+	font-size: 22px;
+	color:  #d9d9d9;
+	padding-top: 5px;
+}
+
+.signIn {
+	margin: 0 auto;
+	border: 1px solid #b3b300;
+	border-radius: 5px;
+	max-width: 368px;
+	background-color: #e6ffff;
+	padding: 25px;
+}
+
+.errorMessage {
+	color: red;
+	font-size: 12px;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}

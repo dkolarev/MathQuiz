@@ -1,0 +1,45 @@
+ <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container" style="padding-top: 8px">
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="navbar-header">
+              <h3 class="navHeader">MathQuiz</h3>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+              <li>
+                <div class="dropdown">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Log In</button>
+                <ul class="dropdown-menu" role="menu" style="background-color: #262626; opacity: 0.9; width: 300px; padding-left: 20px">
+                  <li style="color: white; font-size: 25px">Log In</li>
+                  <li style="padding: 15px">
+                      <div class="input-group">
+                        <span class="input-group-addon" id="username-addon">
+                          <span class="glyphicon glyphicon-user"></span>
+                        </span>
+                        <input type="text" name="username" class="form-control input-md" placeholder="Username" aria-describedby="username-addon">
+                      </div>
+                  </li>
+                  <li style="padding: 15px">
+                    <div class="input-group">
+                      <span class="input-group-addon" id="password-addon">
+                        <span class="glyphicon glyphicon-lock"></span>
+                      </span>
+                      <input type="password" name="password" class="form-control input-md" placeholder="Password" aria-describedby="password-addon">
+                    </div>
+                  </li>
+                  <li style="text-align: center; padding: 15px 0px">
+                    <button type="button" class="btn btn-primary">Submit</button>
+                  </li>
+                </ul>
+                </div>
+              </li>        
+              <li style="margin-left: 10px">
+                <button type="button" class="btn btn-danger" ng-click="onClickSignIn()">Sign In</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div ui-view></div>

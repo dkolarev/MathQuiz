@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="quizApp">
-  <head>
+<head>
+    <base href="/">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,6 +10,7 @@
 
     <!-- Bootstrap -->
     <link href="lib/bootstrap-3.3.6-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -17,14 +19,25 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body>
-    <h1>MATH Quiz</h1>
+  <body ng-cloak>
+  <div class="container-fluid">
+
+    <div ui-view></div>
+
+  </div>
+
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="lib/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="lib/angular/angular.min.js"></script>
+    <script type="text/javascript" src="lib/angular/ui-router.js"></script>
+    <script type="text/javascript" src="lib/angular/angular-messages.min.js"></script>
+    <script type="text/javascript" src="lib/angular/angular-resource.js"></script>
+    <script type="text/javascript" src="js/controllers/mainPageController.js"></script>
+    <script type="text/javascript" src="js/directives/checkUsername.js"></script>
+    <script type="text/javascript" src="js/directives/checkPassword.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
   </body>
 </html>

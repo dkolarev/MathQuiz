@@ -4,8 +4,11 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var mongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
-var dbapi = require('./dbapi');
 var path = require('path');
+var dbapi;
+
+var apiRoute = require('./apiRoute');
+
 
 //database connection URL
 var dbUrl = 'mongodb://localhost:27017/mathquiz';
@@ -25,11 +28,14 @@ mongoClient.connect(dbUrl, function(err, database) {
 	assert.equal(null, err);
 
 	db = database;
+	dbapi = require('./dbapi').setDB(db);
 	server = app.listen(port, function() {
 		console.log("DAV listening on port", port);
 	});
 });
 
-app.get('/', function(req, res) {
-	res.sendFile(__dirname + '/public/index.html')
-})
+app.use('/check', apiRoute);
+
+app.use('/', function(req, res) {
+	res.sendFile(__dirname + '/public/index.html');
+});

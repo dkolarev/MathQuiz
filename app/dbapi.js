@@ -1,40 +1,52 @@
 //dbapi.js
 
+var db;
+
 /**
-*	Funkcija za unos novog korisnika u bazu koji se
-*	prijavio na aplikaciji.
+*	Inicijalizira bazu
 */
-module.exports.insertUser = function(user, db) {
-	var users = db.collection('users');
-	users.insert({
-		"username": user.username,
-		"password": user.password,
-		"email": user.email,
-		"quizList": []
-	});	
+module.exports.setDB = function(database) {
+	db = database;
 };
 
 
-/**
-*	Funkcija za unos novog pitanja u bazu podataka.
-**/
-module.exports.insertQuestion = function(question, db) {
-	var questions = db.collection('questions');
-	questions.insert({
-		"title": question.title,
-		"description": question.description,
-		"time": question.time,
-		"correct": question.correct,
-		"createdBy": question.createdBy,
-		"difficulty": question.difficulty,
-		"answers": question.answers
-	});
-};
+module.exports.api = function() {
+	/**
+	*	Funkcija koja provjerava jedinstvenost korisnickog
+	*	imena u bazi. Funkcija vraca promise.
+	*/
+	var checkUsernameAvailability = function(username){
+		var cursor = db.collection('users').find({"username": username});
+		return cursor.count(); //count vraca promise
+	};
 
-module.exports.deleteQuestion = function(question, db) {
+	var insertUser = function(user) {
+		var users = db.collection('users');
+		users.insert({
+			"username": user.username,
+			"password": user.password,
+			"email": user.email,
+			"quizList": []
+		});	
+	};
 
-};
+	var insertQuestion = function(question) {
+		var questions = db.collection('questions');
+		questions.insert({
+			"title": question.title,
+			"description": question.description,
+			"time": question.time,
+			"correct": question.correct,
+			"createdBy": question.createdBy,
+			"difficulty": question.difficulty,
+			"answers": question.answers
+		});
+	};
 
-module.exports.createQuiz = function(quiz, db) {
 
+	return {
+		checkUsernameAvailability: checkUsernameAvailability,
+		insertUser: insertUser,
+		insertQuestion: insertQuestion
+	};
 };
