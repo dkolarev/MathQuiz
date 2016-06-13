@@ -70,7 +70,7 @@ router.post('/login', function(req, res) {
 	dbapi.getUserByUsername(user.username).then(function(doc) {
 		if(!doc) {
 			res.send({"success": false, "message": "User not found"});
-		} else{
+		} else {
 			if(crypt.validPassword(user.password, doc.password))
 				res.send({"success": true, "message": "Successful authentication"});
 			else

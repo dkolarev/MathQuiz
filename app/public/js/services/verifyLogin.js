@@ -2,7 +2,7 @@
 
 function verifyLogin() {
 	return {
-		isAuth: false
+		isAuth: true
 	};
 
 };

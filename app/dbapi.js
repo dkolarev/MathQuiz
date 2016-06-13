@@ -28,8 +28,8 @@ module.exports.connect = function(databaseUrl, callb) {
 
 module.exports.api = function() {
 	/**
-	*	Funkcija koja provjerava jedinstvenost email
-	*	adrese u bazi.
+	*	Funkcija koja vraca korisnike iz baze na osnovu email
+	*	adrese.
 	*/
 	var getUserByEmail = function(email) {
 		return usersCollection.find({"email": email});

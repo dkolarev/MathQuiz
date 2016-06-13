@@ -29,7 +29,7 @@ function mainPageController($scope, $state, usersData) {
 			usersData.logIn(user).$promise.then(
 				function(response){
 					if(response.success){
-						$location.url('/user');
+						$state.go('user');
 					} else {
 						logInForm.$setValidity('wrongUorP', false);
 						$scope.message = response.message;

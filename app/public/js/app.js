@@ -43,7 +43,8 @@ angular
 	.run(function($rootScope, verifyLogin, $state) {
 		$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
 			/**
-			*	Ako je potrebno biti prijavljen zaustavi i redirektaj
+			*	Ako je potrebno biti prijavljen zaustavi, provjeri
+			*	je li korisnik logiran. Ako nije redirektaj
 			*	na login formu.
 			*/
 			if(toState.needLogin) {
