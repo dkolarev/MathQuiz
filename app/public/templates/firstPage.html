@@ -11,14 +11,14 @@
                 <div class="dropdown">
                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Log In</button>
                 <ul class="dropdown-menu" role="menu" style="background-color: rgba(38,38,38,0.9); width: 300px; padding-left: 20px">
-                  <form role="form" name="logInForm">
+                  <form role="form" name="logInNavForm">
                   <li style="color: white; font-size: 25px">Log In</li>
                   <li style="padding: 15px">
                       <div class="input-group">
                         <span class="input-group-addon" id="username-addon">
                           <span class="glyphicon glyphicon-user"></span>
                         </span>
-                        <input type="text" name="username" ng-model="loginUser.username" class="form-control input-md" placeholder="Username" aria-describedby="username-addon">
+                        <input type="text" name="username" ng-model="navUser.username" class="form-control input-md" placeholder="Username" aria-describedby="username-addon">
                       </div>
                   </li>
                   <li style="padding: 15px">
@@ -26,14 +26,14 @@
                       <span class="input-group-addon" id="password-addon">
                         <span class="glyphicon glyphicon-lock"></span>
                       </span>
-                      <input type="password" name="password" ng-model="loginUser.password" class="form-control input-md" placeholder="Password" aria-describedby="password-addon">
+                      <input type="password" name="password" ng-model="navUser.password" class="form-control input-md" placeholder="Password" aria-describedby="password-addon">
                     </div>
-                    <div ng-messages="logInForm.$error" role="alert" style="min-height: 25px">
-                        <div ng-show="logInForm.$error.wrongUorP" class="errorMessage" style="text-align: center">{{message}}</div>
+                    <div ng-messages="logInNavForm.$error" role="alert" style="min-height: 25px">
+                        <div ng-show="logInNavForm.$error.wrongUorP" class="errorMessage" style="text-align: center">{{message}}</div>
                       </div>
                   </li>
                   <li style="text-align: center; padding: 15px 0px">
-                    <button type="button" class="btn btn-primary" ng-click="onClickLogIn(loginUser)">Submit</button>
+                    <button type="button" class="btn btn-primary" ng-click="onClickLogIn(navUser, logInNavForm)">Submit</button>
                   </li>
                   </form>
                 </ul>

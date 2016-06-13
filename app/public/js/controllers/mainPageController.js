@@ -1,13 +1,14 @@
 //mainPageController.js
 
-function mainPageController($scope, $location, usersData) {
+function mainPageController($scope, $state, usersData) {
+
 
 	$scope.onClickSignIn = function() {
-		$location.url('/main/signin');
+		$state.go('main.signin');
 	};
 
 	$scope.onClickCancel = function() {
-		$location.url('/main/index');
+		$state.go('main.index');
 	};
 
 	$scope.onClickSubmitRegistration = function(user, signInForm) {
@@ -15,7 +16,7 @@ function mainPageController($scope, $location, usersData) {
 			usersData.signIn(user).$promise.then(
 				function(response) {
 					console.log("Succesfully sign in as + " + user.username);
-					$location.url('/user');
+					$state.go('user');
 				}, function(response) {
 					console.log(response);
 				}
@@ -23,14 +24,14 @@ function mainPageController($scope, $location, usersData) {
 		}
 	};
 
-	$scope.onClickLogIn = function(user) {
+	$scope.onClickLogIn = function(user, logInForm) {
 		if(user.username.length > 0 && user.password.length > 0){
 			usersData.logIn(user).$promise.then(
 				function(response){
 					if(response.success){
 						$location.url('/user');
 					} else {
-						$scope.logInForm.$setValidity('wrongUorP', false);
+						logInForm.$setValidity('wrongUorP', false);
 						$scope.message = response.message;
 					}
 				}, function(response) {

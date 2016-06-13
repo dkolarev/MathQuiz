@@ -1,0 +1,42 @@
+<div class="row text-center" style="padding-top: 90px">
+	<div class="col-xs-12">
+		<h2 style="color:  #4d4d4d">Log In</h2>
+	</div>
+	<div class="col-xs-12" style="margin-top: 10px">
+		<div class="signIn">
+			<form class="form" role="form" name="logInForm">
+				<div class="form-group">
+					<label>Username</label>
+				<div class="input-group">
+                        <span class="input-group-addon" id="username-addon">
+                          <span class="glyphicon glyphicon-user"></span>
+                        </span>
+                        <input type="text" name="username" ng-model="loginUser.username" class="form-control input-md" placeholder="Username" aria-describedby="username-addon">
+                 </div>
+
+
+				</div>
+				<div class="form-group">
+					<label>Password</label>
+					<div class="input-group">
+                      <span class="input-group-addon" id="password-addon">
+                        <span class="glyphicon glyphicon-lock"></span>
+                      </span>
+                      <input type="password" name="password" ng-model="loginUser.password" class="form-control input-md" placeholder="Password" aria-describedby="password-addon">
+                    </div>
+                    <div ng-messages="logInForm.$error" role="alert" style="min-height: 25px">
+                        <div ng-show="logInForm.$error.wrongUorP" class="errorMessage" style="text-align: center">{{message}}</div>
+                      </div>
+				</div>
+
+				<p style="font-size: 15px">Don't have account? <a href="main/signin" style="text-decoration: none">Register</a></p>
+				
+
+				<div style="margin-top: 40px">
+					<button type="submit" class="btn btn-primary" ng-click="onClickLogIn(loginUser, logInForm)">Submit</button>
+					<button type="button" class="btn btn-danger" ng-click="onClickCancel()">Cancel</button>
+				<div>
+			</form>
+		</div>
+	</div>
+</div>
