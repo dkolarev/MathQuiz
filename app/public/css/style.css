@@ -24,6 +24,16 @@ body {
 	padding-top: 5px;
 }
 
+.opacityForm {
+ -khtml-opacity:.90; 
+ -moz-opacity:.90; 
+ -ms-filter:”alpha(opacity=90)”;
+  filter:alpha(opacity=90);
+  filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0.9);
+  opacity:.90; 
+}
+
+
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
 }

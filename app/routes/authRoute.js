@@ -1,8 +1,9 @@
-//checkRoute.js
+//authRoute.js
 
 var express = require('express');
 var router = express.Router();
 var dbapi = require('../dbapi').api();
+var crypt = require('../bcryptConfig');
 
 /**
 *	Provjera jedinstvenosti korisnickog imena
@@ -14,8 +15,8 @@ var dbapi = require('../dbapi').api();
 router.get('/username/:username', function(req, res) {
 	var username = req.params.username;
 	var response;
-	var status = dbapi.checkUsernameAvailability(username).then(function(count) {
-		if(count > 0) 
+	dbapi.getUserByUsername(username).then(function(doc) {
+		if(doc) 
 			response = 'collision';
 		else
 			response = 'unique'; 
@@ -35,7 +36,7 @@ router.get('/username/:username', function(req, res) {
 router.get('/email/:email', function(req, res) {
 	var email = req.params.email;
 	var response;
-	var status = dbapi.checkEmailAvailability(email).then(function(count) {
+	dbapi.getUserByEmail(email).count().then(function(count) {
 		if(count > 0)
 			response = 'collision';
 		else
@@ -43,7 +44,7 @@ router.get('/email/:email', function(req, res) {
 
 		res.setHeader('Content-Type', 'application/json');
 		res.send({unique: response});
-	})
+	});
 });
 
 /**
@@ -54,8 +55,28 @@ router.get('/email/:email', function(req, res) {
 */
 router.post('/signin', function(req, res) {
 	var user = req.body;
-	dbapi.insertUser(user);
+	var cryptedPassword = crypt.generateHash(user.password);
+	dbapi.insertUser(user, cryptedPassword);
 	res.end();
+});
+
+/**
+*	Ruta za autentifikaciju korisnika. U bazi se provjerava
+*	postojanje korisnika.
+*/
+router.post('/login', function(req, res) {
+	var user = req.body;
+	res.setHeader('Content-Type', 'application/json');
+	dbapi.getUserByUsername(user.username).then(function(doc) {
+		if(!doc) {
+			res.send({"success": false, "message": "User not found"});
+		} else{
+			if(crypt.validPassword(user.password, doc.password))
+				res.send({"success": true, "message": "Successful authentication"});
+			else
+				res.send({"success": false, "message": "Wrong password"});
+		}
+	});
 });
 
 module.exports = router;

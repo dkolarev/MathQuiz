@@ -21,6 +21,10 @@ angular
 			.state('main.signin', {
 				url: '/signin',
 				templateUrl: 'templates/signIn.html'
+			})
+			.state('user', {
+				url: '/user',
+				templateUrl: 'templates/userHome.html'
 			});
 
 		$urlRouterProvider.otherwise('/main/index');

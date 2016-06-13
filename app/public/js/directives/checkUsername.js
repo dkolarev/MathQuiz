@@ -5,7 +5,7 @@
 *	već zauzet u bazi. Ako je, postavi 'signIn' formu na 'invalid'.
 */
 function checkUsername($resource) {
-	var resource = $resource('/check/username/:username', {username: '@username'});
+	var resource = $resource('/auth/username/:username', {username: '@username'});
 	return {
 		restrict: 'A',
 		require: 'ngModel',

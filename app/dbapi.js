@@ -1,5 +1,8 @@
 //dbapi.js
 
+var mongoClient = require('mongodb').MongoClient;
+var assert = require('assert');
+
 var db;
 var usersCollection;
 
@@ -11,25 +14,35 @@ module.exports.setDB = function(database) {
 	usersCollection = db.collection('users');
 };
 
+module.exports.connect = function(databaseUrl, callb) {
+	mongoClient.connect(databaseUrl, function(err, database) {
+		assert.equal(null, err);
+
+		db = database;
+		usersCollection = db.collection('users');
+		
+		callb();
+	});
+};
+
 
 module.exports.api = function() {
 	/**
-	*	Funkcija koja provjerava jedinstvenost korisnickog
-	*	imena u bazi. Funkcija vraca promise.
+	*	Funkcija koja provjerava jedinstvenost email
+	*	adrese u bazi.
 	*/
-	var checkUsernameAvailability = function(username){
-		var cursor = usersCollection.find({"username": username});
-		return cursor.count(); //count vraca promise
+	var getUserByEmail = function(email) {
+		return usersCollection.find({"email": email});
 	};
 
 	/**
-	*	Funkcija koja provjerava jedinstvenost email
-	*	adrese u bazi. Funkcija vraca promise.
+	*	Funkcija vraca korisnika iz baze na osnovni korisnickog
+	*	imena. Napomena: korisnicko ime je jedinstveno za svakog
+	*	korisnika u bazi.
 	*/
-	var checkEmailAvailability = function(email) {
-		var cursor = usersCollection.find({"email": email});
-		return cursor.count();
-	}
+	var getUserByUsername = function(username) {
+		return usersCollection.findOne({"username": username});
+	};
 
 	/**
 	*	Funkcija ubacuje novog korisnika u
@@ -37,10 +50,10 @@ module.exports.api = function() {
 	*	je korisnik uspjesno ispunio 'signIn'
 	*	formu.
 	*/
-	var insertUser = function(user) {
+	var insertUser = function(user, cryptedPassword) {
 		usersCollection.insert({
 			"username": user.username,
-			"password": user.password,
+			"password": cryptedPassword,
 			"email": user.email,
 			"quizList": []
 		});	
@@ -61,8 +74,8 @@ module.exports.api = function() {
 
 
 	return {
-		checkUsernameAvailability: checkUsernameAvailability,
-		checkEmailAvailability: checkEmailAvailability,
+		getUserByEmail: getUserByEmail,
+		getUserByUsername: getUserByUsername,
 		insertUser: insertUser,
 		insertQuestion: insertQuestion
 	};

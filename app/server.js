@@ -5,7 +5,8 @@ var bodyParser = require('body-parser');
 var mongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var path = require('path');
-var checkRoute = require('./routes/checkRoute');
+var authRoute = require('./routes/authRoute');
+var dbapi = require('./dbapi');
 
 
 //database connection URL
@@ -24,7 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 var db; //database instance
 var server;	//server instance
 
-
+/*
 mongoClient.connect(dbUrl, function(err, database) {
 	assert.equal(null, err);
 
@@ -34,8 +35,15 @@ mongoClient.connect(dbUrl, function(err, database) {
 		console.log("DAV listening on port", port);
 	});
 });
+*/
 
-app.use('/check', checkRoute);
+dbapi.connect(dbUrl, function() {
+	server = app.listen(port, function() {
+		console.log("DAV listening on port ", port);
+	});
+});
+
+app.use('/auth', authRoute);
 
 app.use('/', function(req, res) {
 	res.sendFile(__dirname + '/public/index.html');

@@ -31,9 +31,10 @@
 				</div>
 				<div class="form-group">
 					<label>Email</label>
-					<input type="email" name="email" required class="form-control" ng-model="user.email" check-email="user.email" placeholder="Enter email">
+					<input type="email" name="email" required class="form-control" ng-model="user.email" ng-pattern='/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/' ng-model-options="{updateOn: 'blur'}" check-email="user.email" placeholder="Enter email">
 					<div ng-messages="signInForm.email.$error" ng-show="signInForm.email.$touched" role="alert">
 						<div ng-show="signInForm.email.$error.unique" class="errorMessage">Email alredy taken.</div>
+						<div ng-message="pattern" class="errorMessage">Not an email address.</div>
 					</div>
 				</div>
 				<div style="margin-top: 40px">
