@@ -5,14 +5,7 @@ var assert = require('assert');
 
 var db;
 var usersCollection;
-
-/**
-*	Inicijalizira bazu
-*/
-module.exports.setDB = function(database) {
-	db = database;
-	usersCollection = db.collection('users');
-};
+var questionsCollection;
 
 module.exports.connect = function(databaseUrl, callb) {
 	mongoClient.connect(databaseUrl, function(err, database) {
@@ -20,7 +13,8 @@ module.exports.connect = function(databaseUrl, callb) {
 
 		db = database;
 		usersCollection = db.collection('users');
-		
+		questionsCollection = db.collection('questions');
+
 		callb();
 	});
 };
@@ -55,6 +49,7 @@ module.exports.api = function() {
 			"username": user.username,
 			"password": cryptedPassword,
 			"email": user.email,
+			"joined": new Date().toISOString(),
 			"quizList": []
 		});	
 	};
@@ -65,10 +60,12 @@ module.exports.api = function() {
 			"title": question.title,
 			"description": question.description,
 			"time": question.time,
-			"correct": question.correct,
 			"createdBy": question.createdBy,
 			"difficulty": question.difficulty,
-			"answers": question.answers
+			"correctAnswer": question.correct,
+			"allAnswers": question.answers,
+			"created": new Date().toISOString(),
+			"last_modified": new Date().toISOString()
 		});
 	};
 

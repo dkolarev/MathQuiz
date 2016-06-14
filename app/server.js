@@ -5,7 +5,8 @@ var bodyParser = require('body-parser');
 var mongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var path = require('path');
-var authRoute = require('./routes/authRoute');
+var unauthRoute = require('./routes/unauthRoute');
+var apiRoute = require('./routes/apiRoute');
 var dbapi = require('./dbapi');
 
 
@@ -25,25 +26,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 var db; //database instance
 var server;	//server instance
 
-/*
-mongoClient.connect(dbUrl, function(err, database) {
-	assert.equal(null, err);
-
-	db = database;
-	require('./dbapi').setDB(db); //proslijedi instancu baze
-	server = app.listen(port, function() {
-		console.log("DAV listening on port", port);
-	});
-});
-*/
-
+//spoji se na bazu i pokreni server
 dbapi.connect(dbUrl, function() {
 	server = app.listen(port, function() {
 		console.log("DAV listening on port ", port);
 	});
 });
 
-app.use('/auth', authRoute);
+
+app.use('/auth', unauthRoute);
+app.use('/api', apiRoute);
 
 app.use('/', function(req, res) {
 	res.sendFile(__dirname + '/public/index.html');

@@ -7,8 +7,25 @@ angular
 	.directive('checkPassword', checkPassword)
 	.directive('checkEmail', checkEmail)
 	.factory('usersData', usersData)
-	.factory('verifyLogin', verifyLogin)
-	.config(function($stateProvider, $urlRouterProvider, $locationProvider){
+	.factory('authService', authService)
+	.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider){
+		$httpProvider.interceptors.push(function($window, $q, $rootScope) {
+			return {
+				request: function(config) {
+					if($window.localStorage.token) {
+						config.headers['x-auth-token'] = $window.localStorage.token;
+					}
+					return config;
+				},
+				responseError: function(response) {
+					if (response.status == 401 || response.status == 403) {
+						$rootScope.$emit('unauthorized');
+					}
+					return $q.reject(response);
+				}
+			}
+		});
+
 		$stateProvider
 			.state('main', {
 				needLogin: false,
@@ -35,24 +52,37 @@ angular
 				needLogin: true,
 				url: '/user',
 				templateUrl: 'templates/userHome.html'
-			});
+			})
+			.state('api', {
+				needLogin: true,
+				url: '/api',
+				templateUrl: 'templates/userHome.html'
+			})
 
 		$urlRouterProvider.otherwise('/main/index');
 		$locationProvider.html5Mode(true);
 	})
-	.run(function($rootScope, verifyLogin, $state) {
+	.run(function($rootScope, authService, $state, usersData) {
 		$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
 			/**
-			*	Ako je potrebno biti prijavljen zaustavi, provjeri
-			*	je li korisnik logiran. Ako nije redirektaj
-			*	na login formu.
+			*	Ako je potrebno biti prijavljen provjeri jel korisnik
+			*	ima valjan token. Ako nema, server ce vratiti gresku 401.
 			*/
-			if(toState.needLogin) {
-				if(verifyLogin.isAuth == false) {
-					console.log("You must login.");
-					event.preventDefault(); //zaustavi pristup ruti
-					$state.go('main.login'); //redirektaj na login
-				};
+			
+			if(toState.needLogin) {				
+				authService.checkToken().$promise.then(function(response) {
+					//console.log(response);
+				}, function(response) {
+					console.log(response);
+				});
+			} else if(toState.name == 'main') {
+				event.preventDefault();
+				$state.go('main.index');
 			}
 		});
+
+		$rootScope.$on('unauthorized', function(event) {
+			event.preventDefault(); //zaustavi
+			$state.go('main.login'); //redirektaj na login formu
+		})
 	});
