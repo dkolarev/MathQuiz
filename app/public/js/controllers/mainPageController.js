@@ -1,16 +1,6 @@
 //mainPageController.js
 
 function mainPageController($scope, $state, authService, $window) {
-
-
-	$scope.onClickSignIn = function() {
-		$state.go('main.signin');
-	};
-
-	$scope.onClickCancel = function() {
-		$state.go('main.index');
-	};
-
 	/**
 	*	Ako je signIn forma valjano popunjena posalji popunjene
 	*	informacije na server za unos u bazu. Kao odgovor korisnik
@@ -23,8 +13,8 @@ function mainPageController($scope, $state, authService, $window) {
 			authService.signIn(user).$promise.then(
 				function(response) {
 					console.log("Succesfully sign in as + " + user.username);
-					authService.saveUserAndToken(response.token, function() {
-						$state.go('user');
+					authService.saveToken(response.token, function() {
+						$state.go('user.home');
 					});
 				}, function(response) {
 					console.log(response);
@@ -46,8 +36,8 @@ function mainPageController($scope, $state, authService, $window) {
 			authService.logIn(user).$promise.then(
 				function(response){
 					if(response.success){
-						authService.saveUserAndToken(response.token, function() {
-							$state.go('user');
+						authService.saveToken(response.token, function() {
+							$state.go('user.home');
 						});
 					} else {
 						logInForm.$setValidity('wrongUorP', false);
@@ -58,15 +48,4 @@ function mainPageController($scope, $state, authService, $window) {
 			});
 		};
 	};
-
-	$scope.onClickTest = function() {
-		authService.checkToken().$promise.then(
-			function (response) {
-				console.log(response);
-			}, function (response) {
-				console.log(response);
-			})
-	}
-
-	
 };

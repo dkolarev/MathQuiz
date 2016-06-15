@@ -2,8 +2,6 @@
 
 var express = require('express');
 var bodyParser = require('body-parser');
-var mongoClient = require('mongodb').MongoClient;
-var assert = require('assert');
 var path = require('path');
 var unauthRoute = require('./routes/unauthRoute');
 var apiRoute = require('./routes/apiRoute');
@@ -16,14 +14,12 @@ var mlab = 'mongodb://dkolarev:dkolarev2016@ds013024.mlab.com:13024/projects';
 //server port
 var port = process.env.PORT || 3000;
 
-
 var app = express();
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-var db; //database instance
 var server;	//server instance
 
 //spoji se na bazu i pokreni server

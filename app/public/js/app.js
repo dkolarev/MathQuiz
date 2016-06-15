@@ -3,6 +3,8 @@
 angular
 	.module('quizApp', ['ui.router', 'ngMessages', 'ngResource'])
 	.controller('mainPageController', mainPageController)
+	.controller('userController', userController)
+	.controller('newQuestionController', newQuestionController)
 	.directive('checkUsername', checkUsername)
 	.directive('checkPassword', checkPassword)
 	.directive('checkEmail', checkEmail)
@@ -26,52 +28,83 @@ angular
 			}
 		});
 
+		//angular rute
 		$stateProvider
 			.state('main', {
 				needLogin: false,
-				url: '/main',
+				url: '/',
 				templateUrl: 'templates/firstPage.html',
 				controller: 'mainPageController'
 			})
 			.state('main.index', {
 				needLogin: false,
-				url: '/index',
+				url: 'index',
 				templateUrl: '/templates/firstPageContent.html'
 			})
 			.state('main.signin', {
 				needLogin: false,
-				url: '/signin',
+				url: 'signin',
 				templateUrl: 'templates/signIn.html'
 			})
 			.state('main.login', {
 				needLogin: false,
-				url: '/login',
+				url: 'login',
 				templateUrl: 'templates/logIn.html'
 			})
 			.state('user', {
 				needLogin: true,
 				url: '/user',
-				templateUrl: 'templates/userHome.html'
+				templateUrl: 'templates/user.html',
+				controller: 'userController',
+				resolve: {
+					data: function($resource) {
+						return $resource('/api/getdata').get();
+					}
+				}
 			})
-			.state('api', {
+			.state('user.home', {
 				needLogin: true,
-				url: '/api',
+				url: '/home',
 				templateUrl: 'templates/userHome.html'
 			})
+			.state('user.profile', {
+				needLogin: true,
+				url: '/profile',
+				templateUrl: 'templates/userProfile.html'
+			})
+			.state('user.quiz', {
+				needLogin: true,
+				url: '/quiz',
+				templateUrl: 'templates/userQuiz.html'
+			})
+			.state('user.questions', {
+				needLogin: true,
+				url: '/questions',
+				templateUrl: 'templates/userQuestions.html'
+			})
+			.state('user.newquestion', {
+				needLogin: true,
+				url: '/questions/newquestion/:questionId',
+				templateUrl: 'templates/userNewQuestion.html',
+				controller: 'newQuestionController'
+			});
 
-		$urlRouterProvider.otherwise('/main/index');
+
+		$urlRouterProvider.otherwise('/index');
 		$locationProvider.html5Mode(true);
 	})
-	.run(function($rootScope, authService, $state, usersData) {
+	.run(function($rootScope, authService, $state) {
 		$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
 			/**
 			*	Ako je potrebno biti prijavljen provjeri jel korisnik
 			*	ima valjan token. Ako nema, server ce vratiti gresku 401.
 			*/
-			
 			if(toState.needLogin) {				
-				authService.checkToken().$promise.then(function(response) {
-					//console.log(response);
+				authService.verifyToken().$promise.then(function(response) {
+					if(toState.name == 'user') {
+						event.preventDefault();
+						$state.go('user.home');
+					}
 				}, function(response) {
 					console.log(response);
 				});
@@ -83,6 +116,8 @@ angular
 
 		$rootScope.$on('unauthorized', function(event) {
 			event.preventDefault(); //zaustavi
-			$state.go('main.login'); //redirektaj na login formu
+			authService.logOut(function () {
+				$state.go('main.login'); //redirektaj na login formu
+			});
 		})
 	});

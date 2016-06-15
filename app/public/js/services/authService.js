@@ -2,9 +2,6 @@
 
 function authService($window, $resource) {
 
-	var currentUser;
-
-
 	var signIn = function(user) {
 		return $resource('/auth/signin').save(user);
 	};
@@ -14,7 +11,6 @@ function authService($window, $resource) {
 	};
 
 	var logOut = function(callb) {
-		currentUser = {};
 		delete $window.localStorage.token;
 		
 		callb();
@@ -53,26 +49,27 @@ function authService($window, $resource) {
 	/**
 	*	Provjerava je li token valjan. 
 	*/
-	var checkToken = function() {
+	var verifyToken = function() {
 		return $resource('/api').get();
 	};
 
-	var saveUserAndToken = function(token, callb) {
-		currentUser = getTokenClaim(token);
+	var saveToken = function(token, callb) {
 		$window.localStorage.token = token;
 
 		callb();
 	};
 
+	var getUser = function() {
+		return getTokenClaim($window.localStorage.token);
+	};
 
 	return {
 		signIn: signIn,
 		logIn: logIn,
 		logOut: logOut,
-		currentUser: currentUser,
-		saveUserAndToken: saveUserAndToken,
-		checkToken: checkToken,
-		currentUser: currentUser
+		saveToken: saveToken,
+		verifyToken: verifyToken,
+		getUser: getUser
 	};
 
 };

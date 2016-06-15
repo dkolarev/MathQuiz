@@ -61,15 +61,18 @@ router.get('/email/:email', function(req, res) {
 router.post('/signin', function(req, res) {
 	var user = req.body;
 	var cryptedPassword = crypt.generateHash(user.password); //hashiraj lozinku
+	//spremi korisnika u bazu sa hashiranom lozinkom
 	dbapi.insertUser(user, cryptedPassword);
 
+	//korisnicke informacije za slanje zajedno sa tokenom
 	var userInformations = {
 		"username": user.username,
 		"email": user.email
 	};
 
+	//generiraj token
 	var token = jwt.sign(userInformations, secret, {
-		expiresIn: '1m'
+		expiresIn: '60m'
 	});
 
 	res.status(200).json({
@@ -89,15 +92,23 @@ router.post('/login', function(req, res) {
 	res.setHeader('Content-Type', 'application/json');
 	dbapi.getUserByUsername(user.username).then(function(doc) {
 		if(!doc) {
+			//Ako se uneseno korisnicko ime ne podudara ni s jednim u bazi
 			res.send({"success": false, "message": "User not found"});
 		} else {
 			if(crypt.validPassword(user.password, doc.password)) {
+				/*
+				*	Ako se unesena lozinka podudara sa hashiranom
+				*	u bazi generiraj korisnicke informacije
+				*	za slanje sa tokenom.
+				*/
 				var userInformations = {
-					"username": user.username,
-					"email": user.email,
-				}
+					"username": doc.username,
+					"email": doc.email,
+				};
+
+				//generiraj token
 				var token = jwt.sign(userInformations, secret, {
-					expiresIn: '1m'
+					expiresIn: '60m'
 				});
 
 				res.send({
@@ -106,8 +117,10 @@ router.post('/login', function(req, res) {
 					"token": token
 				});
 			}
-			else
+			else{
+				//ako se unesena lozinka ne podudara s hashiranom u bazi
 				res.send({"success": false, "message": "Wrong password"});
+			}
 		}
 	});
 });

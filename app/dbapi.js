@@ -55,18 +55,22 @@ module.exports.api = function() {
 	};
 
 	var insertQuestion = function(question) {
-		var questions = db.collection('questions');
-		questions.insert({
+		var time = new Date().toISOString();
+		questionsCollection.insert({
 			"title": question.title,
 			"description": question.description,
 			"time": question.time,
 			"createdBy": question.createdBy,
 			"difficulty": question.difficulty,
-			"correctAnswer": question.correct,
-			"allAnswers": question.answers,
-			"created": new Date().toISOString(),
-			"last_modified": new Date().toISOString()
+			"correctAnswer": question.correctAnswer,
+			"allAnswers": question.allAnswers,
+			"created": time,
+			"lastModified": time
 		});
+	};
+
+	var queryQuestions = function() {
+		return questionsCollection.find().toArray();
 	};
 
 
@@ -74,6 +78,7 @@ module.exports.api = function() {
 		getUserByEmail: getUserByEmail,
 		getUserByUsername: getUserByUsername,
 		insertUser: insertUser,
-		insertQuestion: insertQuestion
+		insertQuestion: insertQuestion,
+		queryQuestions: queryQuestions
 	};
 };
