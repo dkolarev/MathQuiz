@@ -31,25 +31,31 @@ router.use(function(req, res, next) {
 	}
 });
 
-
+/*
 router.get('/questions', function(req, res) {
 	dbapi.queryQuestions().then(function (documents) {
 		res.setHeader('Content-Type', 'application/json');
 		res.send({"questions": documents});
 	});
 });
+*/
 
 router.get('/getdata', function (req, res) {
 	dbapi.queryQuestions().then(function (documents) {
 		res.setHeader('Content-Type', 'application/json');
-		res.send({"questions": documents});
+		res.send({"questionsList": documents});
 	});
 });
 
 router.post('/savequestion', function(req, res) {
 	var question = req.body;
-	console.log(question);
-	dbapi.insertQuestion(question);
+
+	if(question._id) {
+		dbapi.updateQuestion(question);
+	} else {
+		dbapi.insertQuestion(question);
+	}
+
 	res.end();
 });
 

@@ -4,7 +4,7 @@ function userController($scope, $state, $window, authService, usersData, data) {
 
 	$scope.user = authService.getUser($window.localStorage.token);
 
-	$scope.questionsList = data.questions;
+	$scope.questionsList = data.questionsList;
 
 	$scope.onClickLogOut = function () {
 		authService.logOut(function() {

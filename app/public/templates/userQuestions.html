@@ -9,13 +9,13 @@
 		
 	<div class="panel panel-default" style="border-color: #80d4ff" ng-repeat="question in questionsList track by question._id">
 		<div class="panel-body" style="padding: 12px 15px 0px 15px; background-color: #4dc3ff">
-		<ul class="list-unstyled list-inline"">
+		<ul class="list-unstyled list-inline" style="color: black">
 			<li><strong>Title:</strong> {{question.title}}<li>
 			<li style="float: right"><a ng-href="/user/questions/newquestion/{{question._id}}"><i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 20px"></i></a></li>
 			<li style="float:right"><strong>Modified:</strong> {{question.lastModified | date:'dd/MM/yyyy hh:mm'}}</li>
 		</div>
 		<div class="panel-footer" style="background-color: #d9d9d9">
-		<ul class="list-unstyled list-inline">
+		<ul class="list-unstyled list-inline" style="color: #243942">
 			<li><strong>created by:</strong> {{question.createdBy}}</li>
 			<li><strong>difficulty:</strong> {{question.difficulty}}</li>
 		</ul>

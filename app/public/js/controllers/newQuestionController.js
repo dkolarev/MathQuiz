@@ -2,6 +2,12 @@
 
 function newQuestionController($scope, $state, usersData) {
 
+	/*
+	*	Ako je kao URL parametar predaj id zadatka
+	*	provjeri jel postoji u listi za zadatcima i postavi
+	*	ga kao varijablu newQuestion na scope. Time se omogucava
+	*	modifikacija vec postojeceg zadatka.
+	*/
 	(function() {
 		for (var q of $scope.questionsList) {
 			if ($state.params.questionId == q._id) {
@@ -10,6 +16,7 @@ function newQuestionController($scope, $state, usersData) {
 			}
 		}
 	})();
+
 
 	$scope.onClickSaveQuestion = function (question) {
 		if($scope.newQuestionForm.$valid) {
