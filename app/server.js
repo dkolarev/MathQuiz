@@ -21,12 +21,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 var server;	//server instance
+var io;
 
 //spoji se na bazu i pokreni server
 dbapi.connect(dbUrl, function() {
 	server = app.listen(port, function() {
 		console.log("DAV listening on port ", port);
 	});
+	io = require('socket.io')(server);
+	app.set('socketio', io);
 });
 
 

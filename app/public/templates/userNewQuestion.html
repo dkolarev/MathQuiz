@@ -67,7 +67,7 @@
 			<label for="imageUrl">Image (optional):</label>
 			<input type="url" name="questionImageUrl" class="form-control" ng-model="newQuestion.imageUrl" placeholder="Enter url of question image ...">
 		</div>
-		<div class="col-sm-12" style="padding: 10px">
+		<div class="col-sm-12" style="padding: 10px" ng-show="newQuestion.imageUrl">
 			<img src="{{newQuestion.imageUrl}}" width="100%">
 		</div>
 	</div>

@@ -60,7 +60,6 @@ module.exports.api = function() {
 	*	u kolekciju Questions.
 	*/	
 	var insertQuestion = function(question) {
-		var time = new Date().toISOString();
 		questionsCollection.insertOne({
 			"title": question.title,
 			"description": question.description,
@@ -70,8 +69,8 @@ module.exports.api = function() {
 			"correctAnswer": question.correctAnswer,
 			"allAnswers": question.allAnswers,
 			"imageUrl": question.imageUrl,
-			"created": time,
-			"lastModified": time
+			"created": question.created,
+			"lastModified": question.lastModified
 		});
 	};
 
@@ -89,17 +88,15 @@ module.exports.api = function() {
 	*	vrijeme.
 	*/
 	var updateQuestion = function(question) {
-		var time = new Date().toISOString();
 		questionsCollection.updateOne({"_id": new ObjectId (question._id)}, {$set: {
 			"title": question.title,
 			"description": question.description,
 			"time": question.time,
-			"createdBy": question.createdBy,
 			"difficulty": question.difficulty,
 			"correctAnswer": question.correctAnswer,
 			"allAnswers": question.allAnswers,
 			"imageUrl": question.imageUrl,
-			"lastModified": time
+			"lastModified": question.lastModified
 		}});
 	};
 

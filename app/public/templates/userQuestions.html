@@ -2,16 +2,19 @@
 <div class="row">
 	<div class="col-xs-12">
 		<button type="button" class="btn btn-default" ui-sref="user.newquestion"><span class="glyphicon glyphicon-file"></span> New question</button>
-		<button type="button" class="btn btn-default" ng-click="onClickGetQuestions()">Get Questions</button>
 	</div>
 	<div class="row">
 	<div style="max-width: 70%; margin: 0px auto; padding-top:100px">
 		
-	<div class="panel panel-default" style="border-color: #80d4ff" ng-repeat="question in questionsList track by question._id">
+	<div class="panel panel-default" style="border-color: #80d4ff" ng-repeat="question in questionsList track by trackByItem(question)">
 		<div class="panel-body" style="padding: 12px 15px 0px 15px; background-color: #4dc3ff">
 		<ul class="list-unstyled list-inline" style="color: black">
+			<li style="padding-right: 0px"><a ng-href="#deleteQuestion" data-toggle="modal">
+			<span class="glyphicon glyphicon-remove" style="color: #cc0000; font-size: 16px"></span>
+			</a>
+			</li>
 			<li><strong>Title:</strong> {{question.title}}<li>
-			<li style="float: right"><a ng-href="/user/questions/newquestion/{{question._id}}"><i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 20px"></i></a></li>
+			<li style="float: right"><a href="/user/questions/newquestion/{{question._id}}"><i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 20px"></i></a></li>
 			<li style="float:right"><strong>Modified:</strong> {{question.lastModified | date:'dd/MM/yyyy hh:mm'}}</li>
 		</div>
 		<div class="panel-footer" style="background-color: #d9d9d9">
@@ -21,8 +24,7 @@
 		</ul>
 		</div>
 	</div>
-
-
 	</div>
 	<div>
+
 </div>

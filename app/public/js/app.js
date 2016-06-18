@@ -13,12 +13,14 @@ angular
 	.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider){
 		$httpProvider.interceptors.push(function($window, $q, $rootScope) {
 			return {
+				//na svaki request prema serveru u header dodaj korisnikov token
 				request: function(config) {
 					if($window.localStorage.token) {
 						config.headers['x-auth-token'] = $window.localStorage.token;
 					}
 					return config;
 				},
+				//ako je server vrati 401 ili 403 gresku, digni 'unauthorized' event
 				responseError: function(response) {
 					if (response.status == 401 || response.status == 403) {
 						$rootScope.$emit('unauthorized');
@@ -114,10 +116,14 @@ angular
 			}
 		});
 
+		/**
+		*	Ako je server vratio 401 ili 403 gresku (unauthorized)
+		*	vrati korisnika na login formu.
+		*/
 		$rootScope.$on('unauthorized', function(event) {
 			event.preventDefault(); //zaustavi
 			authService.logOut(function () {
 				$state.go('main.login'); //redirektaj na login formu
 			});
-		})
+		});
 	});
