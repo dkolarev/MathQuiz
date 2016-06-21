@@ -21,9 +21,9 @@
     <![endif]-->
   </head>
   <body ng-cloak>
-  <div class="container-fluid">
+  <div class="container-fluid" style="height: 100%; padding-left: 0px">
 
-    <div ui-view></div>
+    <div ui-view style="height: 100%"></div>
 
   </div>
 
@@ -38,9 +38,14 @@
     <script type="text/javascript" src="lib/angular/ui-router.js"></script>
     <script type="text/javascript" src="lib/angular/angular-messages.min.js"></script>
     <script type="text/javascript" src="lib/angular/angular-resource.js"></script>
+    <script type="text/javascript" src="lib/angular/ui-bootstrap-tpls-1.3.3.min.js"></script>
+    <script type="text/javascript" src="lib/angular/checklist-model.js"></script>
     <script type="text/javascript" src="js/controllers/mainPageController.js"></script>
     <script type="text/javascript" src="js/controllers/userController.js"></script>
     <script type="text/javascript" src="js/controllers/newQuestionController.js"></script>
+    <script type="text/javascript" src="js/controllers/deleteQuestionModalController.js"></script>
+    <script type="text/javascript" src="js/controllers/questionInfoModalController.js"></script>
+    <script type="text/javascript" src="js/controllers/quizzesController.js"></script>
     <script type="text/javascript" src="js/directives/checkUsername.js"></script>
     <script type="text/javascript" src="js/directives/checkPassword.js"></script>
     <script type="text/javascript" src="js/directives/checkEmail.js"></script>

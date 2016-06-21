@@ -4,7 +4,7 @@
 		<form class="form" role="form" name="newQuestionForm">
 			<div class="form-group">
 				<label for="title">Question title:</label>
-				<input type="text" name="questionName" class="form-control" ng-model="newQuestion.title" required placeholder="Title">
+				<input type="text" name="questionName" class="form-control" style="background-color: #333333; color:white" ng-model="newQuestion.title" required placeholder="Title">
 			</div>
 			<div class="form-group" style="font-size: 15px; padding: 15px 0px">
 			<label class="radio-inline" style="margin-right: 15px">
@@ -17,47 +17,47 @@
 				<input type="radio" ng-model="newQuestion.difficulty" ng-required="!newQuestion.difficulty" value="hard" name="diffRadio">Hard
 			</label>
 			<div class="col-xs-6 col-sm-5 col-md-4 col-lg-3" style="padding-left: 0px">
-				<input type="text" name="time" class="form-control" ng-model="newQuestion.time" required ng-pattern="/^[1-9][0-9]*$/" placeholder="Time (min)">
+				<input type="text" name="time" class="form-control" style="background-color: #333333; color:white" ng-model="newQuestion.time" required ng-pattern="/^[1-9][0-9]*$/" placeholder="Time (min)">
 			</div>
 			</div>
 			<div class="form-group" style="padding: 15px 0px">
 				<label for="description">Description:</label>
-				<textarea type="text" name="questionDescription" class="form-control" rows="5" ng-model="newQuestion.description" required placeholder="Description"></textarea>
+				<textarea type="text" name="questionDescription" class="form-control" style="background-color: #333333; color:white" rows="5" ng-model="newQuestion.description" required placeholder="Description"></textarea>
 			</div>
 			<div class="form-group col-sm-6">
 					<label for="answer1">Answer #1</label>
 					<div class="input-group">
-						<span class="input-group-addon" style="background-color: #00b300">
+						<span class="input-group-addon">
 							<input type="radio" ng-model="newQuestion.correctAnswer" ng-required="!newQuestion.correctAnswer" ng-value="newQuestion.allAnswers.answer1" name="correctAnswer">
 						</span>
-						<input type="text" name="answer1" ng-model="newQuestion.allAnswers.answer1" class="form-control" required placeholder="Enter answer">
+						<input type="text" name="answer1" ng-model="newQuestion.allAnswers.answer1" class="form-control" style="background-color: #333333; color:white" required placeholder="Enter answer">
 					</div>
 				</div>
 				<div class="form-group col-sm-6">
 					<label for="answer2">Answer #2</label>
 					<div class="input-group">
-						<span class="input-group-addon" style="background-color: #00b300">
+						<span class="input-group-addon">
 							<input type="radio" ng-model="newQuestion.correctAnswer" ng-required="!newQuestion.correctAnswer" ng-value="newQuestion.allAnswers.answer2" name="correctAnswer">
 						</span>
-						<input type="text" name="answer2" ng-model="newQuestion.allAnswers.answer2" class="form-control" required placeholder="Enter answer">
+						<input type="text" name="answer2" ng-model="newQuestion.allAnswers.answer2" class="form-control" style="background-color: #333333; color:white" required placeholder="Enter answer">
 					</div>
 				</div>
 				<div class="form-group col-sm-6">
 					<label for="answer3">Answer #3</label>
 					<div class="input-group">
-						<span class="input-group-addon" style="background-color: #00b300">
+						<span class="input-group-addon">
 							<input type="radio" ng-model="newQuestion.correctAnswer" ng-required="!newQuestion.correctAnswer" ng-value="newQuestion.allAnswers.answer3" name="correctAnswer">
 						</span>
-						<input type="text" name="answer3" ng-model="newQuestion.allAnswers.answer3" class="form-control" required placeholder="Enter answer">
+						<input type="text" name="answer3" ng-model="newQuestion.allAnswers.answer3" class="form-control" style="background-color: #333333; color:white" required placeholder="Enter answer">
 					</div>
 				</div>
 				<div class="form-group col-sm-6" style="padding-bottom: 15px">
 					<label for="answer4">Answer #4</label>
 					<div class="input-group">
-						<span class="input-group-addon" style="background-color: #00b300">
+						<span class="input-group-addon">
 							<input type="radio" ng-model="newQuestion.correctAnswer" ng-required="!newQuestion.correctAnswer" ng-value="newQuestion.allAnswers.answer4" name="correctAnswer">
 						</span>
-						<input type="text" name="answer4" ng-model="newQuestion.allAnswers.answer4" class="form-control" required placeholder="Enter answer">
+						<input type="text" name="answer4" ng-model="newQuestion.allAnswers.answer4" class="form-control" style="background-color: #333333; color:white" required placeholder="Enter answer">
 					</div>
 				</div>
 		</form>
@@ -65,7 +65,7 @@
 	<div class="col-sm-6">
 		<div class="col-sm-12">
 			<label for="imageUrl">Image (optional):</label>
-			<input type="url" name="questionImageUrl" class="form-control" ng-model="newQuestion.imageUrl" placeholder="Enter url of question image ...">
+			<input type="url" name="questionImageUrl" class="form-control" style="background-color: #333333; color:white" ng-model="newQuestion.imageUrl" placeholder="Enter url of question image ...">
 		</div>
 		<div class="col-sm-12" style="padding: 10px" ng-show="newQuestion.imageUrl">
 			<img src="{{newQuestion.imageUrl}}" width="100%">
@@ -75,7 +75,7 @@
 	<div class="col-xs-12">
 		<div style="margin:0px auto; max-width: 200px; padding-left: 40px">
 			<button type="button" class="btn btn-default" ng-click="onClickSaveQuestion(newQuestion)"><span class="glyphicon glyphicon-save-file"></span> Save</button>
-			<button type="button" class="btn btn-danger" ui-sref="user.home">Cancel</button>
+			<button type="button" class="btn btn-danger" ui-sref="user.questions">Cancel</button>
 		</div>
 	</div>
 	</div>

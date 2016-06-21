@@ -1,6 +1,7 @@
-body {
+body, html {
 	background-color: #243942;
 	color: #F5F5F5;
+	height: 100%;
 }
 
 .navHeader {
@@ -68,6 +69,11 @@ body {
 	color: #0099e6;;
 	padding-right: 15px;
 	text-decoration: none;
+}
+
+.questionsList {
+	padding: 15px 10px;
+	border-bottom: 1px solid #007acc;
 }
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {

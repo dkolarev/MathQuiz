@@ -1,48 +1,4 @@
-<h1>Questions collection</h1>
-<div class="row">
-	<div class="col-xs-12">
-		<button type="button" class="btn btn-default" ui-sref="user.newquestion"><span class="glyphicon glyphicon-file"></span> New question</button>
-	</div>
-	<div class="row">
-	<div style="max-width: 70%; margin: 0px auto; padding-top:100px">
-		
-	<div class="panel panel-default" style="border-color: #80d4ff" ng-repeat="question in questionsList track by trackByItem(question)">
-		<div class="panel-body" style="padding: 12px 15px 0px 15px; background-color: #4dc3ff">
-		<ul class="list-unstyled list-inline" style="color: black">
-			<li style="padding-right: 0px"><a ng-href="#deleteQuestion" data-toggle="modal" ng-click="onClickDeleteQuestion(question)">
-			<span class="glyphicon glyphicon-remove" style="color: #cc0000; font-size: 16px"></span>
-			</a>
-			</li>
-			<li><strong>Title: </strong><a href="#" ng-click="onClickQuestionInfo(question)" style="text-decoration: none; color:black">{{question.title}}</a><li>
-			<li style="float: right"><a ng-href="/user/questions/newquestion/{{question._id}}"><i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 20px"></i></a></li>
-			<li style="float:right"><strong>Modified:</strong> {{question.lastModified | date:'dd/MM/yyyy hh:mm'}}</li>
-		</div>
-		<div class="panel-footer" style="background-color: #d9d9d9">
-		<ul class="list-unstyled list-inline" style="color: #243942">
-			<li><strong>created by:</strong> {{question.createdBy}}</li>
-			<li><strong>difficulty:</strong> {{question.difficulty}}</li>
-		</ul>
-		</div>
-	</div>
-	</div>
-	<div>
-
-	<div>
-		 <script type="text/ng-template" id="deleteQuestionModal.html">
-        <div class="modal-header">
-            <h3 class="modal-title" style="color: black">Delete question</h3>
-        </div>
-        <div class="modal-body" style="color: black">
-            Are you sure you want to delete <strong>{{question.title}}</strong> ?
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-primary" type="button" ng-click="onClickYes(question._id)">Yes</button>
-            <button class="btn btn-warning" type="button" ng-click="onClickNo()">No</button>
-        </div>
-    </script>
-	</div>
-
-	<div>
+<div>
 		 <script type="text/ng-template" id="QuestionInfoModal.html">
         <div class="modal-header">
         <span class="glyphicon glyphicon-remove" style="color: black; float:right; font-size: 16px" ng-click="onClickClose()"></span>
@@ -86,7 +42,3 @@
         </div>
     </script>
 	</div>
-
-
-
-</div>

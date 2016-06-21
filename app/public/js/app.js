@@ -1,10 +1,13 @@
 //app.js
 
 angular
-	.module('quizApp', ['ui.router', 'ngMessages', 'ngResource'])
+	.module('quizApp', ['ui.router', 'ngMessages', 'ngResource', 'ui.bootstrap', 'checklist-model'])
 	.controller('mainPageController', mainPageController)
 	.controller('userController', userController)
 	.controller('newQuestionController', newQuestionController)
+	.controller('deleteQuestionModalController', deleteQuestionModalController)
+	.controller('questionInfoModalController', questionInfoModalController)
+	.controller('quizzesController', quizzesController)
 	.directive('checkUsername', checkUsername)
 	.directive('checkPassword', checkPassword)
 	.directive('checkEmail', checkEmail)
@@ -20,7 +23,7 @@ angular
 					}
 					return config;
 				},
-				//ako je server vrati 401 ili 403 gresku, digni 'unauthorized' event
+				//ako server vrati 401 ili 403 gresku, digni 'unauthorized' event
 				responseError: function(response) {
 					if (response.status == 401 || response.status == 403) {
 						$rootScope.$emit('unauthorized');
@@ -60,7 +63,7 @@ angular
 				controller: 'userController',
 				resolve: {
 					data: function($resource) {
-						return $resource('/api/getdata').get();
+						return $resource('/api/getdata').get().$promise;
 					}
 				}
 			})
@@ -74,10 +77,17 @@ angular
 				url: '/profile',
 				templateUrl: 'templates/userProfile.html'
 			})
-			.state('user.quiz', {
+			.state('user.quizzes', {
 				needLogin: true,
-				url: '/quiz',
-				templateUrl: 'templates/userQuiz.html'
+				url: '/quizzes',
+				templateUrl: 'templates/userQuizzes.html',
+				controller: 'quizzesController'
+			})
+			.state('user.newquiz', {
+				needLogin: true,
+				url: '/quizzes/newquiz/:quizId',
+				templateUrl: 'templates/userNewQuiz.html',
+				controller: 'quizzesController'
 			})
 			.state('user.questions', {
 				needLogin: true,

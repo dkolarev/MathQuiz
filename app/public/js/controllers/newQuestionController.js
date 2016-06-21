@@ -3,7 +3,7 @@
 function newQuestionController($scope, $state, usersData) {
 
 	/*
-	*	Ako je kao URL parametar predaj id zadatka
+	*	Ako je kao URL parametar predan id zadatka
 	*	provjeri jel postoji u listi sa zadatcima i postavi
 	*	ga kao varijablu newQuestion na scope. Time se omogucava
 	*	modifikacija vec postojeceg zadatka.

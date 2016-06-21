@@ -32,20 +32,17 @@ router.use(function(req, res, next) {
 	}
 });
 
-/*
-router.get('/questions', function(req, res) {
-	dbapi.queryQuestions().then(function (documents) {
-		res.setHeader('Content-Type', 'application/json');
-		res.send({"questions": documents});
-	});
-});
-*/
 
 router.get('/getdata', function (req, res) {
-	var socketio = req.app.get('socketio');
-	dbapi.queryQuestions().then(function (documents) {
-		res.setHeader('Content-Type', 'application/json');
-		res.send({"questionsList": documents});
+	dbapi.queryQuestions().then(function (questions) {
+		dbapi.queryQuizzes().then(function(quizzes) {
+			console.log("DAV", quizzes);
+			res.setHeader('Content-Type', 'application/json');
+			res.send({
+				"questionsList": questions,
+				"quizzesList": quizzes
+			});
+		});
 	});
 });
 
@@ -71,6 +68,34 @@ router.post('/savequestion', function(req, res) {
 		
 		socketio.emit('newQuestion', question);
 	}
+
+	res.end();
+});
+
+router.get('/deletequestion/:questionId', function(req, res) {
+	var questionId = req.params.questionId;
+	var socketio = req.app.get('socketio');
+	if(questionId) {
+		dbapi.deleteQuestion(questionId);
+
+		socketio.emit('deleteQuestion', {
+			"questionId": questionId
+		});
+	}
+	res.end();
+});
+
+router.post('/savequiz', function(req, res) {
+	var quiz = req.body;
+	var socketio = req.app.get('socketio');
+	var currentTime = new Date().toISOString();
+
+	quiz.created = currentTime;
+	quiz.lastModified = currentTime;
+
+	dbapi.insertQuiz(quiz);
+
+	socketio.emit('newQuiz', quiz);
 
 	res.end();
 });

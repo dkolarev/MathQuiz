@@ -37,6 +37,7 @@ function mainPageController($scope, $state, authService, $window) {
 				function(response){
 					if(response.success){
 						authService.saveToken(response.token, function() {
+							authService.isLogedIn = true;
 							$state.go('user.home');
 						});
 					} else {

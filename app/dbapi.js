@@ -7,6 +7,7 @@ var assert = require('assert');
 var db;
 var usersCollection;
 var questionsCollection;
+var quizzesCollection;
 
 module.exports.connect = function(databaseUrl, callb) {
 	mongoClient.connect(databaseUrl, function(err, database) {
@@ -15,6 +16,7 @@ module.exports.connect = function(databaseUrl, callb) {
 		db = database;
 		usersCollection = db.collection('users');
 		questionsCollection = db.collection('questions');
+		quizzesCollection = db.collection('quizzes');
 
 		callb();
 	});
@@ -100,6 +102,24 @@ module.exports.api = function() {
 		}});
 	};
 
+	var deleteQuestion = function(questionId) {
+		questionsCollection.deleteOne({"_id": new ObjectId (questionId)});
+	};
+
+	var insertQuiz = function(quiz) {
+		quizzesCollection.insertOne({
+			"title": quiz.title,
+			"description": quiz.description,
+			"field": quiz.field,
+			"createdBy": quiz.createdBy,
+			"created": quiz.created,
+			"questions": quiz.questions
+		});
+	};
+
+	var queryQuizzes = function() {
+		return quizzesCollection.find().toArray();
+	};
 
 	return {
 		getUserByEmail: getUserByEmail,
@@ -107,6 +127,9 @@ module.exports.api = function() {
 		insertUser: insertUser,
 		insertQuestion: insertQuestion,
 		queryQuestions: queryQuestions,
-		updateQuestion: updateQuestion
+		updateQuestion: updateQuestion,
+		deleteQuestion: deleteQuestion,
+		insertQuiz: insertQuiz,
+		queryQuizzes: queryQuizzes
 	};
 };

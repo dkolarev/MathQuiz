@@ -8,6 +8,14 @@ function usersData($resource) {
 
 		getQuestions: function() {
 			return $resource('/api/questions').get();
+		},
+
+		deleteQuestion: function(questionId) {
+			return $resource('/api/deletequestion/:questionId', {questionId: '@questionId'}).get({questionId: questionId});
+		},
+
+		saveQuiz: function(quiz) {
+			return $resource('/api/savequiz').save(quiz);
 		}
 	};
-}
+};

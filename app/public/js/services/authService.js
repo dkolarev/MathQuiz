@@ -69,7 +69,8 @@ function authService($window, $resource) {
 		logOut: logOut,
 		saveToken: saveToken,
 		verifyToken: verifyToken,
-		getUser: getUser
+		getUser: getUser,
+		isLogedIn: false
 	};
 
 };
