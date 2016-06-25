@@ -1,16 +1,28 @@
 //app.js
 
 angular
-	.module('quizApp', ['ui.router', 'ngMessages', 'ngResource', 'ui.bootstrap', 'checklist-model'])
+	.module('quizApp', [
+		'ui.router', 
+		'ngMessages', 
+		'ngResource', 
+		'ui.bootstrap', 
+		'checklist-model',
+		'ngScrollbars'])
 	.controller('mainPageController', mainPageController)
 	.controller('userController', userController)
 	.controller('newQuestionController', newQuestionController)
 	.controller('deleteQuestionModalController', deleteQuestionModalController)
 	.controller('questionInfoModalController', questionInfoModalController)
 	.controller('quizzesController', quizzesController)
+	.controller('newQuizController', newQuizController)
+	.controller('profileQuizController', profileQuizController)
+	.controller('playerController', playerController)
 	.directive('checkUsername', checkUsername)
 	.directive('checkPassword', checkPassword)
 	.directive('checkEmail', checkEmail)
+	.directive('eqnBind', eqnBind)
+	.directive('mathjaxBind', mathjaxBind)
+	.directive('dynamicBind', dynamicBind)
 	.factory('usersData', usersData)
 	.factory('authService', authService)
 	.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider){
@@ -83,11 +95,17 @@ angular
 				templateUrl: 'templates/userQuizzes.html',
 				controller: 'quizzesController'
 			})
+			.state('user.quizprofile', {
+				needLogin: true,
+				url: '/quizzes/quizprofile/:quizId',
+				templateUrl : 'templates/userQuizProfile.html',
+				controller: 'profileQuizController'
+			})
 			.state('user.newquiz', {
 				needLogin: true,
 				url: '/quizzes/newquiz/:quizId',
 				templateUrl: 'templates/userNewQuiz.html',
-				controller: 'quizzesController'
+				controller: 'newQuizController'
 			})
 			.state('user.questions', {
 				needLogin: true,
@@ -99,8 +117,13 @@ angular
 				url: '/questions/newquestion/:questionId',
 				templateUrl: 'templates/userNewQuestion.html',
 				controller: 'newQuestionController'
+			})
+			.state('createteam', {
+				needLogin: false,
+				url: '/createteam',
+				templateUrl: 'templates/createTeam.html',
+				controller: 'playerController'
 			});
-
 
 		$urlRouterProvider.otherwise('/index');
 		$locationProvider.html5Mode(true);

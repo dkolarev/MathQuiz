@@ -76,6 +76,20 @@ body, html {
 	border-bottom: 1px solid #007acc;
 }
 
+.correctAnswer {
+	background-color: #e6e600;
+}
+
+.entry:not(:first-of-type)
+{
+    margin-top: 10px;
+}
+
+.glyphicon
+{
+    font-size: 12px;
+}
+
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
 }

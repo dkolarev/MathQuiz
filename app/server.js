@@ -3,8 +3,10 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var path = require('path');
+var helmet = require('helmet');
 var unauthRoute = require('./routes/unauthRoute');
 var apiRoute = require('./routes/apiRoute');
+var gameRoute = require('./routes/gameRoute');
 var dbapi = require('./dbapi');
 
 
@@ -19,6 +21,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(helmet());
+app.disable('x-powered-by'); 
 
 var server;	//server instance
 var io;
@@ -35,6 +39,7 @@ dbapi.connect(dbUrl, function() {
 
 app.use('/auth', unauthRoute);
 app.use('/api', apiRoute);
+app.use('/game', gameRoute);
 
 app.use('/', function(req, res) {
 	res.sendFile(__dirname + '/public/index.html');

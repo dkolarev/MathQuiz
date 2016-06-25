@@ -1,4 +1,5 @@
 //deleteQuestionModalController.js
+
 function deleteQuestionModalController ($scope, $uibModalInstance, question, usersData) {
 	$scope.question = question;
 

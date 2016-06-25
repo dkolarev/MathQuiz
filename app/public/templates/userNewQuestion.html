@@ -1,11 +1,12 @@
 <h1>New question</h1>
-<div class="row" style="padding: 25px 0px">
+<div class="row" style="padding: 25px 0px; margin:0px">
 	<div class="col-sm-6">
 		<form class="form" role="form" name="newQuestionForm">
 			<div class="form-group">
 				<label for="title">Question title:</label>
 				<input type="text" name="questionName" class="form-control" style="background-color: #333333; color:white" ng-model="newQuestion.title" required placeholder="Title">
 			</div>
+			<div class="row" style="padding-left: 15px">
 			<div class="form-group" style="font-size: 15px; padding: 15px 0px">
 			<label class="radio-inline" style="margin-right: 15px">
 				<input type="radio" ng-model="newQuestion.difficulty" ng-required="!newQuestion.difficulty" value="easy" name="diffRadio">Easy
@@ -19,6 +20,24 @@
 			<div class="col-xs-6 col-sm-5 col-md-4 col-lg-3" style="padding-left: 0px">
 				<input type="text" name="time" class="form-control" style="background-color: #333333; color:white" ng-model="newQuestion.time" required ng-pattern="/^[1-9][0-9]*$/" placeholder="Time (min)">
 			</div>
+			</div>
+			</div>
+			<div class="row" style="padding-left: 15px; padding-top: 15px">
+				<button type="button" class="btn btn-default btn-sm" ng-click="onClickText()">Text</button>
+				<button type="button" class="btn btn-default btn-sm" ng-click="onClickSum()">Sum</button>
+				<button type="button" class="btn btn-default btn-sm" ng-click="onClickProduct()">Product</button>
+				<button type="button" class="btn btn-default btn-sm" ng-click="onClickSqrt()">Sqrt</button>
+				<button type="button" class="btn btn-default btn-sm" ng-click="onClickIntegral()">Integral</button>
+				<button type="button" class="btn btn-default btn-sm" ng-click="onClickLim()">Lim</button>
+				<button type="button" class="btn btn-default btn-sm" ng-click="onClickFrac()">Frac</button>
+				<button type="button" class="btn btn-default btn-sm" ng-click="onClickSin()">Sin</button>
+				<button type="button" class="btn btn-default btn-sm" ng-click="onClickCos()">Cos</button>
+				<button type="button" class="btn btn-default btn-sm" ng-click="onClickTan()">Tan</button>
+				<button type="button" class="btn btn-default btn-sm" ng-click="onClickCot()">Cot</button>
+				<button type="button" class="btn btn-default btn-sm" ng-click="onClickArcSin()">ArcSin</button>
+				<button type="button" class="btn btn-default btn-sm" ng-click="onClickArcCos()">ArcCos</button>
+				<button type="button" class="btn btn-default btn-sm" ng-click="onClickArcTan()">ArcTan</button>
+				<button type="button" class="btn btn-default btn-sm" ng-click="onClickArcCot()">ArcCot</button>
 			</div>
 			<div class="form-group" style="padding: 15px 0px">
 				<label for="description">Description:</label>

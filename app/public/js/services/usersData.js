@@ -16,6 +16,14 @@ function usersData($resource) {
 
 		saveQuiz: function(quiz) {
 			return $resource('/api/savequiz').save(quiz);
+		},
+
+		deleteQuiz: function(quizId) {
+			return $resource('/api/deletequiz/:quizId', {quizId: '@quizId'}).get({quizId: quizId});
+		},
+
+		startQuiz: function(quizId) {
+			return $resource('/api/startquiz/:quizId', {quizId: '@quizId'}).get({quizId: quizId});
 		}
 	};
 };

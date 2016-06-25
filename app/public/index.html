@@ -12,6 +12,11 @@
     <link href="lib/bootstrap-3.3.6-dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="lib/font-awesome-4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="lib/malihu-custom-scrollbar/jquery.mCustomScrollbar.min.css">
+
+
+
+
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -21,9 +26,8 @@
     <![endif]-->
   </head>
   <body ng-cloak>
-  <div class="container-fluid" style="height: 100%; padding-left: 0px">
-
-    <div ui-view style="height: 100%"></div>
+  
+  <div ui-view class="container-fluid" style="padding-left: 0px; height:100%">
 
   </div>
 
@@ -33,22 +37,50 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="lib/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+    <!--<script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$','$'], ['\\(','\\)']],
+                processEscapes: true
+            }
+        });
+    </script>-->
+   
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript">
+        MathJax.Hub.Config({
+            skipStartupTypeset: true,
+            messageStyle: "none",
+            "HTML-CSS": {
+                showMathMenu: false
+            }
+        });
+        MathJax.Hub.Configured()
+    </script>
     <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script type="text/javascript" src="lib/malihu-custom-scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
     <script type="text/javascript" src="lib/angular/angular.min.js"></script>
     <script type="text/javascript" src="lib/angular/ui-router.js"></script>
     <script type="text/javascript" src="lib/angular/angular-messages.min.js"></script>
     <script type="text/javascript" src="lib/angular/angular-resource.js"></script>
     <script type="text/javascript" src="lib/angular/ui-bootstrap-tpls-1.3.3.min.js"></script>
     <script type="text/javascript" src="lib/angular/checklist-model.js"></script>
+    <script type="text/javascript" src="lib/angular/scrollbars.min.js"></script>
     <script type="text/javascript" src="js/controllers/mainPageController.js"></script>
     <script type="text/javascript" src="js/controllers/userController.js"></script>
     <script type="text/javascript" src="js/controllers/newQuestionController.js"></script>
     <script type="text/javascript" src="js/controllers/deleteQuestionModalController.js"></script>
     <script type="text/javascript" src="js/controllers/questionInfoModalController.js"></script>
     <script type="text/javascript" src="js/controllers/quizzesController.js"></script>
+    <script type="text/javascript" src="js/controllers/newQuizController.js"></script>
+    <script type="text/javascript" src="js/controllers/profileQuizController.js"></script>
+    <script type="text/javascript" src="js/controllers/playerController.js"></script>
     <script type="text/javascript" src="js/directives/checkUsername.js"></script>
     <script type="text/javascript" src="js/directives/checkPassword.js"></script>
     <script type="text/javascript" src="js/directives/checkEmail.js"></script>
+    <script type="text/javascript" src="js/directives/equationsBind.js"></script>
+    <script type="text/javascript" src="js/directives/dynamicBind.js"></script>
+    <script type="text/javascript" src="js/directives/mathjaxBind.js"></script>
     <script type="text/javascript" src="js/services/usersData.js"></script>
     <script type="text/javascript" src="js/services/authService.js"></script>
     <script type="text/javascript" src="js/app.js"></script>

@@ -1,5 +1,5 @@
 <h1>Questions collection</h1>
-<div class="row">
+<div class="row" style="margin:0px">
 	<div class="col-xs-12">
 		<button type="button" class="btn btn-default" ui-sref="user.newquestion"><span class="glyphicon glyphicon-file"></span> New question</button>
 	</div>
@@ -50,20 +50,19 @@
         </div>
         <div class="modal-body" style="color: black; padding: 10% 10%">
         	<div ng-show="question.imageUrl" style="padding: 15px 15px"><img ng-src="{{question.imageUrl}}" width="100%"></div>
-        	<div style="text-align:center; width: 100%; margin: 0px auto; border: 1px solid #bfbfbf; border-radius: 50px; min-height: 50px; padding: 15px 10px">
-            	<strong>{{question.description}}</strong>
+        	<div dynamic-bind="question.description" style="text-align:center; width: 100%; margin: 0px auto; border: 1px solid #bfbfbf; border-radius: 50px; min-height: 50px; padding: 15px 10px; word-wrap:break-word">
             </div>
             <div class="row" style="padding: 15px 40px">
             	<div class="col-xs-12">
             		<ul class="list-unstyled list-inline">
-						<li class="col-sm-6" style="border: 1px solid #bfbfbf; border-radius: 50px; padding: 5px 25px">
-						<strong>A: </strong>{{question.allAnswers.answer1}}</li> 
-						<li class="col-sm-6" style="border: 1px solid #bfbfbf; border-radius: 50px; padding: 5px 25px">
-						<strong>B: </strong>{{question.allAnswers.answer2}}</li> 
-						<li class="col-sm-6" style="border: 1px solid #bfbfbf; border-radius: 50px; padding: 5px 25px; margin-top: 10px">
-						<strong>C: </strong>{{question.allAnswers.answer3}}</li> 
-						<li class="col-sm-6" style="border: 1px solid #bfbfbf; border-radius: 50px; padding: 5px 25px; margin-top: 10px">
-						<strong>D: </strong>{{question.allAnswers.answer4}}</li> 
+						<li class="col-sm-6" style="border: 1px solid #bfbfbf; border-radius: 50px; padding: 5px 25px" ng-class="{'correctAnswer':  question.allAnswers.answer1 == question.correctAnswer}">
+						<strong>A: </strong><span dynamic-bind="question.allAnswers.answer1"></span></li> 
+						<li class="col-sm-6" style="border: 1px solid #bfbfbf; border-radius: 50px; padding: 5px 25px" ng-class="{'correctAnswer':  question.allAnswers.answer2 == question.correctAnswer}">
+						<strong>B: </strong><span dynamic-bind="question.allAnswers.answer2"></span></li> 
+						<li class="col-sm-6" style="border: 1px solid #bfbfbf; border-radius: 50px; padding: 5px 25px; margin-top: 10px" ng-class="{'correctAnswer':  question.allAnswers.answer3 == question.correctAnswer}">
+						<strong>C: </strong><span dynamic-bind="question.allAnswers.answer3"></span></li> 
+						<li class="col-sm-6" style="border: 1px solid #bfbfbf; border-radius: 50px; padding: 5px 25px; margin-top: 10px" ng-class="{'correctAnswer':  question.allAnswers.answer4 == question.correctAnswer}">
+						<strong>D: </strong><span dynamic-bind="question.allAnswers.answer4"></span></li> 
             		</ul>
             	</div>
             </div>

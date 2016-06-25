@@ -49,4 +49,16 @@ function mainPageController($scope, $state, authService, $window) {
 			});
 		};
 	};
+
+	$scope.onClickEnter = function(gameId) {
+		if(gameId) {
+			console.log(gameId);
+			authService.verifyGameId(gameId).$promise.then(function(response) {
+				console.log(response);
+			}, function(response) {
+				console.log(response);
+			})
+		}
+	};
+
 };

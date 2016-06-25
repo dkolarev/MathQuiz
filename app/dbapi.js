@@ -9,6 +9,8 @@ var usersCollection;
 var questionsCollection;
 var quizzesCollection;
 
+var ActiveQuizzes = [];
+
 module.exports.connect = function(databaseUrl, callb) {
 	mongoClient.connect(databaseUrl, function(err, database) {
 		assert.equal(null, err);
@@ -62,18 +64,18 @@ module.exports.api = function() {
 	*	u kolekciju Questions.
 	*/	
 	var insertQuestion = function(question) {
-		questionsCollection.insertOne({
-			"title": question.title,
-			"description": question.description,
-			"time": question.time,
-			"createdBy": question.createdBy,
-			"difficulty": question.difficulty,
-			"correctAnswer": question.correctAnswer,
-			"allAnswers": question.allAnswers,
-			"imageUrl": question.imageUrl,
-			"created": question.created,
-			"lastModified": question.lastModified
-		});
+		return questionsCollection.insertOne({
+					"title": question.title,
+					"description": question.description,
+					"time": question.time,
+					"createdBy": question.createdBy,
+					"difficulty": question.difficulty,
+					"correctAnswer": question.correctAnswer,
+					"allAnswers": question.allAnswers,
+					"imageUrl": question.imageUrl,
+					"created": question.created,
+					"lastModified": question.lastModified
+				});
 	};
 
 	/**
@@ -85,9 +87,7 @@ module.exports.api = function() {
 	};
 
 	/*
-	*	Funkcija azurira vec postojeci zadatak bazi podataka.
-	*	Pri tome prvo postovi lastModified atribut na trenutno
-	*	vrijeme.
+	*	Funkcija azurira vec postojeci zadatak u bazi podataka.
 	*/
 	var updateQuestion = function(question) {
 		questionsCollection.updateOne({"_id": new ObjectId (question._id)}, {$set: {
@@ -102,24 +102,93 @@ module.exports.api = function() {
 		}});
 	};
 
-	var deleteQuestion = function(questionId) {
-		questionsCollection.deleteOne({"_id": new ObjectId (questionId)});
-	};
-
-	var insertQuiz = function(quiz) {
-		quizzesCollection.insertOne({
-			"title": quiz.title,
-			"description": quiz.description,
-			"field": quiz.field,
-			"createdBy": quiz.createdBy,
-			"created": quiz.created,
-			"questions": quiz.questions
+	/**
+	*	Funkcija vraca listu svih kvizova koji sadrze pitanje s questionId
+	*	te ga brise iz kvizove liste s pitanjima i radi update kolekcije 'quizzes'.
+	*/
+	var deleteQuestionCascade = function(questionId) {
+		quizzesCollection.find({"questions": questionId}).toArray(function(err, documents) {
+			for(var quiz of documents) {
+				var index = quiz.questions.indexOf(questionId);
+				var newQuestionsList = quiz.questions.splice(index, 1);
+				updateQuizQuestions(quiz._id, newQuestionsList);
+			}
 		});
 	};
 
+	/**
+	*	Funkcija brise pitanje u kolekciji 'questions'. Potrebno je
+	*	obrisati pitanje kaskadno i u kolekciji 'quizzes' kako bi se
+	*	sacuvao referencijalni integritet.
+	*/
+	var deleteQuestion = function(questionId) {
+		deleteQuestionCascade(questionId);
+		questionsCollection.deleteOne({"_id": new ObjectId (questionId)});
+	};
+
+	/**
+	*	Funkcija ubacuje novi kviz u bazu.
+	*/
+	var insertQuiz = function(quiz) {
+		return quizzesCollection.insertOne({
+					"title": quiz.title,
+					"description": quiz.description,
+					"field": quiz.field,
+					"createdBy": quiz.createdBy,
+					"created": quiz.created,
+					"lastModified": quiz.lastModified,
+					"questions": quiz.questions
+				});
+	};
+
+	/**
+	*	Funkcija vraca listu svih pitanja u kolekciji 'quizzes'
+	*/
 	var queryQuizzes = function() {
 		return quizzesCollection.find().toArray();
 	};
+
+	var updateQuiz = function(quiz) {
+		quizzesCollection.updateOne({"_id": new ObjectId(quiz._id)}, {$set: {
+			"title": quiz.title,
+			"description": quiz.description,
+			"field": quiz.field,
+			"lastModified": quiz.lastModified,
+			"questions": quiz.questions
+		}});	
+	};
+
+	/**
+	*	Funkcija kvizu s id-om quizId postavlja novu listu s kvizovima. 
+	*/
+	var updateQuizQuestions = function(quizId, questions) {
+		quizzesCollection.updateOne({"_id": new ObjectId(quizId)}, {$set: {
+			"questions": questions
+		}});
+	};
+
+	/*
+	*	Funkcija brise kviz iz kolekcije 'quizzes'
+	*/
+	var deleteQuiz = function(quizId) {
+		quizzesCollection.deleteOne({"_id": new ObjectId (quizId)});
+	};
+
+	var getQuiz = function(quizId) {
+		return quizzesCollection.findOne({"_id": new ObjectId (quizId)});
+	};
+
+	var activateQuiz = function(quiz) {
+		ActiveQuizzes.push(quiz);
+	};
+
+	var verifyGameId = function(gameId) {
+		var quiz = ActiveQuizzes.filter(function(quiz) {
+				 		return quiz.gameId == gameId;
+					});
+
+		return quiz;
+	};	
 
 	return {
 		getUserByEmail: getUserByEmail,
@@ -130,6 +199,11 @@ module.exports.api = function() {
 		updateQuestion: updateQuestion,
 		deleteQuestion: deleteQuestion,
 		insertQuiz: insertQuiz,
-		queryQuizzes: queryQuizzes
+		queryQuizzes: queryQuizzes,
+		updateQuiz: updateQuiz,
+		deleteQuiz: deleteQuiz,
+		getQuiz: getQuiz,
+		activateQuiz: activateQuiz,
+		verifyGameId: verifyGameId
 	};
 };
