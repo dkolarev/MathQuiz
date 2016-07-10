@@ -98,6 +98,12 @@ router.get('/deletequestion/:questionId', function(req, res) {
 });
 
 
+/**
+*	Ruta za spremanje kviza. Ako kviz sadrzi id
+*	znaci da se radio o update kviza jer kviz ima id
+*	tek kad dospije u bazu. U suprotnom sprema se novi
+*	kviz.
+*/
 router.post('/savequiz', function(req, res) {
 	var quiz = req.body;
 	var socketio = req.app.get('socketio');
@@ -122,6 +128,10 @@ router.post('/savequiz', function(req, res) {
 });
 
 
+/**
+*	Ruta za brisanje kviza. Korisnik salje id kviza
+*	koji zeli obrisati.
+*/
 router.get('/deletequiz/:quizId', function(req, res) {
 	var quizId = req.params.quizId;
 	var socketio = req.app.get('socketio');
@@ -135,6 +145,15 @@ router.get('/deletequiz/:quizId', function(req, res) {
 	res.end();
 });
 
+/**
+*	Ruta za aktiviranje kviza. Kada korisnik aktivira kviz
+*	trenutno stanje kviza se premjesta u listu sa aktivnim
+*	kvizovima koja se nalazi u RAM-u. Kako ne bi doslo do
+*	nezeljenih promjena na zadacima tijekom kviza, u istom
+*	trenutku se kopiraju i zadaci. Svaki kviz ili igra je
+*	identificirana sa hash kodom koji je jedinstven za svaku
+*	igru i koristi se za pristup igraca svakom kvizu.
+*/
 router.get('/startquiz/:quizId', function(req, res) {
 	var quizId = req.params.quizId;
 	dbapi.getQuiz(quizId).then(function(quiz) {
@@ -143,13 +162,27 @@ router.get('/startquiz/:quizId', function(req, res) {
 		*	koji se ponasa kao token za pristup igraca.
 		*/
 		var gameId = crypto.randomBytes(4).toString('hex');
-		console.log(gameId);
-
 		quiz.gameId = gameId;
+		quiz.teams = [];
+
+		var questions = [];
 		
-		dbapi.activateQuiz(quiz);
-		
-		console.log(ActiveQuizzes);
+		//izvuci svaki zadatak iz baze
+		for (var questionId of quiz.questions) {
+			dbapi.getQuestionById(questionId).then(function(question) {
+				questions.push(question);
+
+				/**
+				*	ako si izvukao sve zadatke (zadnja iteracija),
+				*	umjesto liste id-eva u quiz.questions stavi
+				*	stvarnu listu zadataka.
+				*/
+				if(questions.length == quiz.questions.length) {
+					quiz.questions = questions;
+					dbapi.activateQuiz(quiz);
+				}
+			});
+		}
 
 		res.send({
 			"gameId": gameId

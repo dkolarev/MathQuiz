@@ -1,4 +1,4 @@
-function playerController($scope) {
+function playerController($scope, playerService) {
 
 	$scope.team = {};
 	$scope.player = "";
@@ -22,7 +22,11 @@ function playerController($scope) {
 		$scope.team.players.splice(index, 1);
 	};
 
-	$scope.onClickReady = function() {
-		console.log($scope.team);
+	$scope.onClickReady = function(team) {
+		playerService.saveTeam(team).$promise.then(function(response) {
+			$scope.team.teamId = response.teamId;
+		}, function(response) {
+			console.log(response);
+		});
 	};
 };

@@ -16,9 +16,7 @@ function authService($window, $resource) {
 		callb();
 	};
 
-	var verifyGameId = function(gameId) {
-		return $resource('/game').save({"gameId": gameId});
-	};
+	
 
 
 	var urlBase64Decode = function(str) {
@@ -74,8 +72,6 @@ function authService($window, $resource) {
 		saveToken: saveToken,
 		verifyToken: verifyToken,
 		getUser: getUser,
-		isLogedIn: false,
-		verifyGameId: verifyGameId
+		isLogedIn: false
 	};
-
 };

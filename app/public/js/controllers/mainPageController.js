@@ -1,6 +1,6 @@
 //mainPageController.js
 
-function mainPageController($scope, $state, authService, $window) {
+function mainPageController($scope, $state, $window, authService, gameService) {
 	/**
 	*	Ako je signIn forma valjano popunjena posalji popunjene
 	*	informacije na server za unos u bazu. Kao odgovor korisnik
@@ -50,14 +50,18 @@ function mainPageController($scope, $state, authService, $window) {
 		};
 	};
 
+	/*
+	*	Nakon sto korisnik koji zeli pristupiti odredenom kvizu
+	*	pritisnio tipku enter, poziva se funkcija saveGameId
+	*	koja ce spremiti gameId u localStorage i redirektati
+	*	korisnika na 'createteam' stanje za unos timova.
+	*	Uneseni gameId mora proci validaciju na serveru,
+	*	te u slucaju krivog gameId-a zabranjuje se pristup.
+	*/
 	$scope.onClickEnter = function(gameId) {
 		if(gameId) {
-			console.log(gameId);
-			authService.verifyGameId(gameId).$promise.then(function(response) {
-				console.log(response);
-			}, function(response) {
-				console.log(response);
-			})
+			gameService.saveGameId(gameId);
+			$state.go('createteam');
 		}
 	};
 

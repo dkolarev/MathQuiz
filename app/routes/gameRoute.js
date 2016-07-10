@@ -8,31 +8,38 @@ var router = express.Router();
 var socket;
 
 router.use(function(req, res, next) {
-	console.log("DAV dasdas");
-	var gameId = req.query.gameId;
-	console.log(req.body.gameId);
+	var gameId = req.query.gameId || req.headers['gameid'];
 	if(gameId) {
-		var quiz = dbapi.verifyGameId(gameId);
-
-		if(quiz) {
+		var verified = dbapi.verifyGameId(gameId);
+		if(verified) {
 			next();
 		} else {
-			res.send({
+			res.status(403).json({
 				'success': false,
 				'status': 'gameId not valid'
 			});
 		}
-
 	} else {
-		res.send({
+		res.status(403).json({
 			'success': false,
 			'status': 'gameId required'
 		});
 	}
 });
 
-router.get('/createteam', function(req, res) {
 
+
+router.post('/saveteam', function(req, res) {
+	var team = req.body;
+	var gameId = req.query.gameId || req.headers['gameid'];
+
+	team.answers = [];
+
+	dbapi.insertTeam(team, gameId, function(teamId) {
+		res.send({
+			'teamId': teamId
+		});
+	});
 });
 
 module.exports = router;

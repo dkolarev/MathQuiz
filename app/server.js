@@ -22,7 +22,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(helmet());
-app.disable('x-powered-by'); 
+app.disable('x-powered-by');
 
 var server;	//server instance
 var io;

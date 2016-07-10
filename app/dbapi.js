@@ -86,6 +86,10 @@ module.exports.api = function() {
 		return questionsCollection.find().toArray();
 	};
 
+	var getQuestionById = function(questionId) {
+		return questionsCollection.findOne({'_id': new ObjectId(questionId)});
+	};
+
 	/*
 	*	Funkcija azurira vec postojeci zadatak u bazi podataka.
 	*/
@@ -167,17 +171,24 @@ module.exports.api = function() {
 		}});
 	};
 
-	/*
+	/**
 	*	Funkcija brise kviz iz kolekcije 'quizzes'
 	*/
 	var deleteQuiz = function(quizId) {
 		quizzesCollection.deleteOne({"_id": new ObjectId (quizId)});
 	};
 
+	/**
+	*	Funkcija vraca kviz na temelju kljuca.
+	*/
 	var getQuiz = function(quizId) {
 		return quizzesCollection.findOne({"_id": new ObjectId (quizId)});
 	};
 
+	/**
+	*	Funkcija aktivira kviz, tj. stavlja kviz u listu
+	*	sa aktivnim kvizovima koji su za igru.
+	*/
 	var activateQuiz = function(quiz) {
 		ActiveQuizzes.push(quiz);
 	};
@@ -187,7 +198,27 @@ module.exports.api = function() {
 				 		return quiz.gameId == gameId;
 					});
 
-		return quiz;
+		if (quiz.length > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	};
+
+	var insertTeam = function(team, gameId, callb) {
+		var teamId;
+		for (var quiz of ActiveQuizzes) {
+			if (quiz.gameId == gameId) {
+				var index = ActiveQuizzes.indexOf(quiz);
+				teamId = quiz.teams.length + 1;
+				team.teamId = teamId;
+				quiz.teams.push(team);
+				ActiveQuizzes[index] = quiz;
+				break;
+			}
+		}
+
+		callb(teamId);
 	};	
 
 	return {
@@ -198,12 +229,14 @@ module.exports.api = function() {
 		queryQuestions: queryQuestions,
 		updateQuestion: updateQuestion,
 		deleteQuestion: deleteQuestion,
+		getQuestionById: getQuestionById,
 		insertQuiz: insertQuiz,
 		queryQuizzes: queryQuizzes,
 		updateQuiz: updateQuiz,
 		deleteQuiz: deleteQuiz,
 		getQuiz: getQuiz,
 		activateQuiz: activateQuiz,
-		verifyGameId: verifyGameId
+		verifyGameId: verifyGameId,
+		insertTeam: insertTeam
 	};
 };

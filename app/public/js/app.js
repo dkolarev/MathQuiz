@@ -25,20 +25,34 @@ angular
 	.directive('dynamicBind', dynamicBind)
 	.factory('usersData', usersData)
 	.factory('authService', authService)
+	.factory('gameService', gameService)
+	.factory('playerService', playerService)
 	.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider){
 		$httpProvider.interceptors.push(function($window, $q, $rootScope) {
 			return {
-				//na svaki request prema serveru u header dodaj korisnikov token
+				//na svaki request prema serveru u header dodaj korisnikov token i gameId
 				request: function(config) {
-					if($window.localStorage.token) {
-						config.headers['x-auth-token'] = $window.localStorage.token;
+					// token za autentifikaciju
+					var token = $window.localStorage.token;
+					// gameId za pristup igri
+					var gameId = $window.localStorage.gameId;
+					if(token) {
+						config.headers['x-auth-token'] = token;
+					}
+					if (gameId) {
+						config.headers['gameid'] = gameId;
 					}
 					return config;
 				},
-				//ako server vrati 401 ili 403 gresku, digni 'unauthorized' event
+				/**
+				*	ako server vrati 401, digni 'unauthorized' event,
+				*	a ako vrati 403 digni 'forbidden' event.
+				*/
 				responseError: function(response) {
-					if (response.status == 401 || response.status == 403) {
+					if (response.status == 401) {
 						$rootScope.$emit('unauthorized');
+					} else if (response.status == 403) {
+						$rootScope.$emit('forbidden');
 					}
 					return $q.reject(response);
 				}
@@ -120,21 +134,29 @@ angular
 			})
 			.state('createteam', {
 				needLogin: false,
+				needGameId: true,
 				url: '/createteam',
 				templateUrl: 'templates/createTeam.html',
+				controller: 'playerController'
+			})
+			.state('quizgame', {
+				needLogin: false,
+				needGameId: true,
+				url: '/quizgame',
+				templateUrl: 'templates/gamePage.html',
 				controller: 'playerController'
 			});
 
 		$urlRouterProvider.otherwise('/index');
 		$locationProvider.html5Mode(true);
 	})
-	.run(function($rootScope, authService, $state) {
+	.run(function($rootScope, $state, authService, gameService) {
 		$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
 			/**
 			*	Ako je potrebno biti prijavljen provjeri jel korisnik
 			*	ima valjan token. Ako nema, server ce vratiti gresku 401.
 			*/
-			if(toState.needLogin) {				
+			if (toState.needLogin) {				
 				authService.verifyToken().$promise.then(function(response) {
 					if(toState.name == 'user') {
 						event.preventDefault();
@@ -143,14 +165,26 @@ angular
 				}, function(response) {
 					console.log(response);
 				});
-			} else if(toState.name == 'main') {
+			} else if (toState.name == 'main') {
 				event.preventDefault();
 				$state.go('main.index');
+			} 
+			/**
+			*	Ako je za pristup stanju potrebno imati gameId, validiraj
+			*	ga na serveru te nastavi ako je sve u redu. U suprotnom
+			*	server ce poslati gresku 403.
+			*/
+			else if (toState.needGameId) {
+				gameService.verifyGameId().$promise.then(function(response) {
+					// ako je sve u redu ne cini nista
+				}, function (response) {
+					console.log(response);
+				});
 			}
 		});
 
 		/**
-		*	Ako je server vratio 401 ili 403 gresku (unauthorized)
+		*	Ako je server vratio 401 gresku (unauthorized)
 		*	vrati korisnika na login formu.
 		*/
 		$rootScope.$on('unauthorized', function(event) {
@@ -158,5 +192,14 @@ angular
 			authService.logOut(function () {
 				$state.go('main.login'); //redirektaj na login formu
 			});
+		});
+
+		/**
+		*	Ako je server vratio 403 gresku (forbidden)
+		*	vrati korisnika na pocetnu stranicu.
+		*/
+		$rootScope.$on('forbidden', function (event) {
+			event.preventDefault();
+			$state.go('main.index');
 		});
 	});
