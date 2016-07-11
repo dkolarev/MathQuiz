@@ -51,8 +51,15 @@ function profileQuizController($scope, $state, $uibModal, $location, usersData) 
 
 	$scope.onClickStartQuiz = function(quizId) {
 		usersData.startQuiz(quizId).$promise.then(function(response) {
-			console.log(response.gameId);
 			$scope.gameId = response.gameId;
+		}, function(response) {
+			console.log(response);
+		});
+	};
+
+	$scope.onClickPlay = function(gameId) {
+		usersData.playQuiz(gameId).$promise.then(function(response) {
+			console.log(response);	
 		}, function(response) {
 			console.log(response);
 		});

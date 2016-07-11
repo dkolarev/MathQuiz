@@ -1,8 +1,32 @@
-function playerController($scope, playerService) {
+function playerController($scope, $rootScope, $state, playerService, gameService) {
 
 	$scope.team = {};
 	$scope.player = "";
 	$scope.team.players = [{'id':1}];
+
+	var gameId = gameService.getGameId();
+	var socketNamespace = '/' + gameId;
+	var socket = io(socketNamespace);
+	
+
+	socket.on('gameStatus', function(data) {
+		if (data.status == 'start') {
+			$rootScope.team = $scope.team;
+			$state.go('quizgame');
+		}
+	});
+
+	socket.on('question', function(data) {
+		console.log(data);
+		$rootScope.currentQuestion = data.question;
+		$rootScope.timer = data.time;
+		$rootScope.$apply();
+	});
+
+	socket.on('timer', function(data) {
+		$rootScope.timer = data.timer;
+		$rootScope.$apply();
+	});
 
 
 	/**

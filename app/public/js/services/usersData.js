@@ -24,6 +24,10 @@ function usersData($resource) {
 
 		startQuiz: function(quizId) {
 			return $resource('/api/startquiz/:quizId', {quizId: '@quizId'}).get({quizId: quizId});
+		},
+
+		playQuiz: function(gameId) {
+			return $resource('/api/playquiz/:gameId', {gameId: '@gameId'}).get({gameId: gameId});
 		}
 	};
 };

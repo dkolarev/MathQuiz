@@ -4,6 +4,8 @@ var express = require('express');
 var jwt = require('jsonwebtoken');
 var crypto = require('crypto');
 var dbapi = require('../dbapi').api();
+var activeGamesCollection = require('../activeGamesCollection');
+var gameControl = require('../gameControl');
 
 var router = express.Router();
 
@@ -163,9 +165,16 @@ router.get('/startquiz/:quizId', function(req, res) {
 		*/
 		var gameId = crypto.randomBytes(4).toString('hex');
 		quiz.gameId = gameId;
-		quiz.teams = [];
 
-		var questions = [];
+		//kreiraj namespace socket za tu igru
+		var socketio = req.app.get('socketio');
+		var socketNamespace = '/' + gameId;
+		var gameSocket = socketio.of(socketNamespace);
+		quiz.gameSocket = gameSocket;
+		
+		quiz.teams = []; //ovdje idu timovi
+		
+		var questions = [];	//pitanja
 		
 		//izvuci svaki zadatak iz baze
 		for (var questionId of quiz.questions) {
@@ -179,16 +188,26 @@ router.get('/startquiz/:quizId', function(req, res) {
 				*/
 				if(questions.length == quiz.questions.length) {
 					quiz.questions = questions;
-					dbapi.activateQuiz(quiz);
+					activeGamesCollection.activateQuiz(quiz);
 				}
 			});
 		}
 
+		//posalji korisniku koji je aktivirao kviz id igre
 		res.send({
 			"gameId": gameId
 		});
 	});
 
+});
+
+
+router.get('/playquiz/:gameId', function(req, res) {
+	var gameId = req.params.gameId;
+	var socketio = req.app.get('socketio');
+	gameControl.play(gameId, socketio);
+
+	res.end();
 });
 
 module.exports = router;

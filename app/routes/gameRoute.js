@@ -1,16 +1,26 @@
 //gameRoute.js
 
+/**
+*	Rute kojima pristupaju igraci tijekom igre.
+*/
+
 var express = require('express');
-var dbapi = require('../dbapi').api();
+var activeGamesCollection = require('../activeGamesCollection');
 
 var router = express.Router();
 
 var socket;
 
+/**
+*	Pri svakom pristupu provjeri jel igrac ima valjani
+*	gameId za aktivnu igru. Ako nema, posalji mu 403
+*	'forbidden' status.
+*/
 router.use(function(req, res, next) {
 	var gameId = req.query.gameId || req.headers['gameid'];
+	
 	if(gameId) {
-		var verified = dbapi.verifyGameId(gameId);
+		var verified = activeGamesCollection.verifyGameId(gameId);
 		if(verified) {
 			next();
 		} else {
@@ -28,14 +38,18 @@ router.use(function(req, res, next) {
 });
 
 
-
+/**
+*	Igrac salje svoj team sa podacima (ime, clanovi)
+*	i registrira se za igru.
+*/
 router.post('/saveteam', function(req, res) {
 	var team = req.body;
 	var gameId = req.query.gameId || req.headers['gameid'];
 
-	team.answers = [];
+	team.answers = [];	//odgovori tima za svaki zadatak
 
-	dbapi.insertTeam(team, gameId, function(teamId) {
+	//ubaci tim u listu timova za kviz s tim gameId
+	activeGamesCollection.insertTeam(team, gameId, function(teamId) {
 		res.send({
 			'teamId': teamId
 		});

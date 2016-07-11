@@ -11,7 +11,6 @@ function userController($scope, $state, $window, authService, usersData, data, $
 
 	var socket = io();
 
-
 	$scope.trackByItem = function(item) {
 		return item._id + item.lastModified;
 	};

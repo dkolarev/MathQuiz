@@ -27,6 +27,7 @@ angular
 	.factory('authService', authService)
 	.factory('gameService', gameService)
 	.factory('playerService', playerService)
+	.filter('timerFilter', timerFilter)
 	.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider){
 		$httpProvider.interceptors.push(function($window, $q, $rootScope) {
 			return {
@@ -141,7 +142,7 @@ angular
 			})
 			.state('quizgame', {
 				needLogin: false,
-				needGameId: true,
+				needGameId: false,
 				url: '/quizgame',
 				templateUrl: 'templates/gamePage.html',
 				controller: 'playerController'

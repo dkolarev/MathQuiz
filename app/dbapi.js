@@ -9,7 +9,6 @@ var usersCollection;
 var questionsCollection;
 var quizzesCollection;
 
-var ActiveQuizzes = [];
 
 module.exports.connect = function(databaseUrl, callb) {
 	mongoClient.connect(databaseUrl, function(err, database) {
@@ -185,42 +184,6 @@ module.exports.api = function() {
 		return quizzesCollection.findOne({"_id": new ObjectId (quizId)});
 	};
 
-	/**
-	*	Funkcija aktivira kviz, tj. stavlja kviz u listu
-	*	sa aktivnim kvizovima koji su za igru.
-	*/
-	var activateQuiz = function(quiz) {
-		ActiveQuizzes.push(quiz);
-	};
-
-	var verifyGameId = function(gameId) {
-		var quiz = ActiveQuizzes.filter(function(quiz) {
-				 		return quiz.gameId == gameId;
-					});
-
-		if (quiz.length > 0) {
-			return true;
-		} else {
-			return false;
-		}
-	};
-
-	var insertTeam = function(team, gameId, callb) {
-		var teamId;
-		for (var quiz of ActiveQuizzes) {
-			if (quiz.gameId == gameId) {
-				var index = ActiveQuizzes.indexOf(quiz);
-				teamId = quiz.teams.length + 1;
-				team.teamId = teamId;
-				quiz.teams.push(team);
-				ActiveQuizzes[index] = quiz;
-				break;
-			}
-		}
-
-		callb(teamId);
-	};	
-
 	return {
 		getUserByEmail: getUserByEmail,
 		getUserByUsername: getUserByUsername,
@@ -234,9 +197,6 @@ module.exports.api = function() {
 		queryQuizzes: queryQuizzes,
 		updateQuiz: updateQuiz,
 		deleteQuiz: deleteQuiz,
-		getQuiz: getQuiz,
-		activateQuiz: activateQuiz,
-		verifyGameId: verifyGameId,
-		insertTeam: insertTeam
+		getQuiz: getQuiz
 	};
 };
