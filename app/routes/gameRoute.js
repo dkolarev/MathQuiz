@@ -6,6 +6,7 @@
 
 var express = require('express');
 var activeGamesCollection = require('../activeGamesCollection');
+var gameControl = require('../gameControl');
 
 var router = express.Router();
 
@@ -47,6 +48,7 @@ router.post('/saveteam', function(req, res) {
 	var gameId = req.query.gameId || req.headers['gameid'];
 
 	team.answers = [];	//odgovori tima za svaki zadatak
+	team.pointsSum = 0; //ukupni bodovi koje je tim dobio
 
 	//ubaci tim u listu timova za kviz s tim gameId
 	activeGamesCollection.insertTeam(team, gameId, function(teamId) {
@@ -54,6 +56,18 @@ router.post('/saveteam', function(req, res) {
 			'teamId': teamId
 		});
 	});
+});
+
+router.post('/sendanswer', function(req, res) {
+	var data = req.body;
+	var gameId = req.query.gameId || req.headers['gameid'];
+
+	var correct = gameControl.validateAnswer(data.answer, gameId, data.questionId, data.teamId);
+
+	res.send({
+		correct: correct
+	});
+
 });
 
 module.exports = router;

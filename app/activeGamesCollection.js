@@ -37,6 +37,17 @@ var dbapi = require('./dbapi').api();
 
 var ActiveQuizzes = [];
 
+
+var asignPoints = function(questionDifficulty) {
+	if (questionDifficulty == "easy") {
+		return 5;
+	} else if (questionDifficulty == "intermediate") {
+		return 10;
+	} else if (questionDifficulty == "hard") {
+		return 20;
+	}
+};
+
 module.exports =  {
 	/**
 	*	Funkcija aktivira kviz, tj. stavlja kviz u listu
@@ -82,5 +93,77 @@ module.exports =  {
 		}
 
 		callb(teamId);
+	},
+
+	validateAnswer: function(answer, gameId, questionId) {
+		var quiz = getQuiz(gameId);
+			for (var question of quiz.questions) {
+				if (question._id == questionId) {
+					if (answer == question.correctAnswer) {
+						var points = asignPoints(question.difficulty);
+							return {
+								correct: true,
+								points: points
+							};
+						} else {
+							return {
+								correct: false,
+								points: 0
+							};
+						}	
+				}
+			}
+	},
+
+	storeAnswer: function(gameId, teamId, questionId, answer, success, points, callb) {
+		for (var quiz of ActiveQuizzes) {
+			if (quiz.gameId == gameId) {
+				var index = ActiveQuizzes.indexOf(quiz);
+
+				for (var team of quiz.teams) {
+					if (team.teamId == teamId) {
+						var teamIndex = quiz.teams.indexOf(team);
+
+						team.answers.push({
+							questionId: questionId,
+							answer: answer,
+							success: success,
+							points: points
+						});
+
+						team.pointsSum = team.pointsSum + points;
+
+						quiz.teams[teamIndex] = team;
+						break;
+					}
+				}
+
+				ActiveQuizzes[index] = quiz;
+
+				callb(quiz.gameSocket, quiz.teams);
+
+				return;
+			}
+		}
+	},
+
+	getActiveQuestion: function(gameId) {
+		for (var quiz of ActiveQuizzes) {
+			if (quiz.gameId == gameId) {
+				return quiz.questions[quiz.currentQuestionPointer];
+			}
+		}
+	},
+
+	iterateCurrentQuestion: function(gameId) {
+		for (var quiz of ActiveQuizzes) {
+			if (quiz.gameId == gameId) {
+				var index = ActiveQuizzes.indexOf(quiz);
+				quiz.currentQuestionPointer++;
+				ActiveQuizzes[index] = quiz;
+				break;
+			}
+		}
 	}
 };
+

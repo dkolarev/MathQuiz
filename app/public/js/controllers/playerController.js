@@ -1,13 +1,21 @@
 function playerController($scope, $rootScope, $state, playerService, gameService) {
 
+	$scope.config = {
+    	theme: 'minimal-dark',
+    	axis: 'y'
+  	};
+
 	$scope.team = {};
 	$scope.player = "";
 	$scope.team.players = [{'id':1}];
 
+	$scope.answerSended = false;
+	$scope.teamSended = false;
+
 	var gameId = gameService.getGameId();
 	var socketNamespace = '/' + gameId;
 	var socket = io(socketNamespace);
-	
+
 
 	socket.on('gameStatus', function(data) {
 		if (data.status == 'start') {
@@ -20,12 +28,17 @@ function playerController($scope, $rootScope, $state, playerService, gameService
 		console.log(data);
 		$rootScope.currentQuestion = data.question;
 		$rootScope.timer = data.time;
+		$scope.answerSended = false;
 		$rootScope.$apply();
 	});
 
 	socket.on('timer', function(data) {
 		$rootScope.timer = data.timer;
 		$rootScope.$apply();
+	});
+
+	socket.on('scoreboard', function(data) {
+		console.log(data);
 	});
 
 
@@ -49,6 +62,22 @@ function playerController($scope, $rootScope, $state, playerService, gameService
 	$scope.onClickReady = function(team) {
 		playerService.saveTeam(team).$promise.then(function(response) {
 			$scope.team.teamId = response.teamId;
+			$scope.teamSended = true;
+		}, function(response) {
+			console.log(response);
+		});
+	};
+
+	$scope.onClickSendAnswer = function(answer, questionId) {
+		var data = {
+			answer: answer,
+			questionId: questionId,
+			teamId: $rootScope.team.teamId
+		};
+
+		playerService.sendAnswer(data).$promise.then(function(response) {
+			$scope.answerSended = true;
+			console.log(response.correct);
 		}, function(response) {
 			console.log(response);
 		});

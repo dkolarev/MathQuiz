@@ -1,11 +1,79 @@
 <div class="row" style="height: 100%">
-<div class="col-xs-12 col-sm-4 col-md-4 col-lg-3" style="height: 100%; background-color: white">
-	scoreboard
+<div class="col-xs-12 col-sm-4 col-md-4 col-lg-3" style="height: 100%; background-color: #1a1a1a; padding-left: 15px; padding-right: 0px">
+	<div class="row-fluid" style="height: 100%" ng-scrollbars ng-scrollbars-config="config">
+		<div class="col-xs-12" style="padding: 15px; border-bottom: 1px solid #00bfff">
+			<span style="float: left">Team</span>
+			<span style="float: right">Points</span>
+		</div>
+		<div class="col-xs-12 team">
+			<span style="float:left">Team1</span>
+			<span style="float:right">50</span>
+		</div>
+		<div class="col-xs-12 team">
+			<span style="float:left">Team1</span>
+			<span style="float:right">50</span>
+		</div>
+		<div class="col-xs-12 team">
+			<span style="float:left">Team1</span>
+			<span style="float:right">50</span>
+		</div>
+		<div class="col-xs-12 team">
+			<span style="float:left">Team1</span>
+			<span style="float:right">50</span>
+		</div>
+		<div class="col-xs-12 team">
+			<span style="float:left">Team1</span>
+			<span style="float:right">50</span>
+		</div>
+		<div class="col-xs-12 team">
+			<span style="float:left">Team1</span>
+			<span style="float:right">50</span>
+		</div>
+		<div class="col-xs-12 team">
+			<span style="float:left">Team1</span>
+			<span style="float:right">50</span>
+		</div>
+		<div class="col-xs-12 team">
+			<span style="float:left">Team1</span>
+			<span style="float:right">50</span>
+		</div>
+		<div class="col-xs-12 team">
+			<span style="float:left">Team1</span>
+			<span style="float:right">50</span>
+		</div>
+		<div class="col-xs-12 team">
+			<span style="float:left">Team1</span>
+			<span style="float:right">50</span>
+		</div>
+		<div class="col-xs-12 team">
+			<span style="float:left">Team1</span>
+			<span style="float:right">50</span>
+		</div>
+		<div class="col-xs-12 team">
+			<span style="float:left">Team1</span>
+			<span style="float:right">50</span>
+		</div>
+		<div class="col-xs-12 team">
+			<span style="float:left">Team1</span>
+			<span style="float:right">50</span>
+		</div>
+		<div class="col-xs-12 team">
+			<span style="float:left">Team1</span>
+			<span style="float:right">50</span>
+		</div>
+		<div class="col-xs-12 team">
+			<span style="float:left">Team1</span>
+			<span style="float:right">50</span>
+		</div>
+	</div>
 </div>
+
+
+
 <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9">
 	<div class="row">
 		<div class="col-xs-12"; style="padding-right: 50px">
-		<span style="float: right; font-size: 40px">{{timer | timerFilter | date: 'HH:mm:ss'}}</span>
+		<span style="float: right; font-size: 40px">{{timer || 0 | timerFilter | date: 'HH:mm:ss'}}</span>
 		</div>
 	</div>
 
@@ -17,15 +85,26 @@
    	</div>
 
 	<div style="margin-top: 25px">
-            		<ul class="list-unstyled list-inline">
-						<li class="col-sm-6" style="border: 1px solid #bfbfbf; border-radius: 50px; padding: 25px 25px; min-height: 50px">
-						<strong>A: </strong>{{currentQuestion.questionAllAnswers.answer1}}</li> 
-						<li class="col-sm-6" style="border: 1px solid #bfbfbf; border-radius: 50px; padding: 25px 25px; min-height: 50px">
-						<strong>B: </strong>{{currentQuestion.questionAllAnswers.answer2}}</li> 
-						<li class="col-sm-6" style="border: 1px solid #bfbfbf; border-radius: 50px; padding: 25px 25px; margin-top: 10px; min-height: 50px">
-						<strong>C: </strong>{{currentQuestion.questionAllAnswers.answer3}}</li> 
-						<li class="col-sm-6" style="border: 1px solid #bfbfbf; border-radius: 50px; padding: 25px 25px; margin-top: 10px; min-height: 50px">
-						<strong>D: </strong>{{currentQuestion.questionAllAnswers.answer4}}</li> 
+            		<ul class="list-unstyled">
+						<li class="col-sm-6">
+						<button type="button" class="btn btn-default answerButton col-xs-12" ng-disabled="answerSended" ng-click="onClickSendAnswer(currentQuestion.questionAllAnswers.answer1,
+						currentQuestion.questionId)">
+						<strong>A: </strong>{{currentQuestion.questionAllAnswers.answer1}}</button></li> 
+						<li class="col-sm-6">
+						<button type="button" class="btn btn-default answerButton col-xs-12" ng-disabled="answerSended" ng-click="onClickSendAnswer(
+						currentQuestion.questionAllAnswers.answer2,
+						currentQuestion.questionId)">
+						<strong>B: </strong>{{currentQuestion.questionAllAnswers.answer2}}</button></li> 
+						<li class="col-sm-6">
+						<button type="button" class="btn btn-default answerButton col-xs-12" ng-disabled="answerSended" ng-click="onClickSendAnswer(
+						currentQuestion.questionAllAnswers.answer3,
+						currentQuestion.questionId)">
+						<strong>C: </strong>{{currentQuestion.questionAllAnswers.answer3}}</button></li> 
+						<li class="col-sm-6">
+						<button type="button" class="btn btn-default answerButton col-xs-12" ng-disabled="answerSended" ng-click="onClickSendAnswer(
+						currentQuestion.questionAllAnswers.answer4,
+						currentQuestion.questionId)">
+						<strong>D: </strong>{{currentQuestion.questionAllAnswers.answer4}}</button></li> 
             		</ul>
             	</div>
     </div>

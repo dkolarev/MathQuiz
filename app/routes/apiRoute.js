@@ -172,7 +172,10 @@ router.get('/startquiz/:quizId', function(req, res) {
 		var gameSocket = socketio.of(socketNamespace);
 		quiz.gameSocket = gameSocket;
 		
-		quiz.teams = []; //ovdje idu timovi
+		//timovi koji se natjecu u kvizu
+		quiz.teams = [];
+		//postavi indeks aktivnog pitanja na prvo pitanje
+		quiz.currentQuestionPointer = 0;
 		
 		var questions = [];	//pitanja
 		

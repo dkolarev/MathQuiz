@@ -5,10 +5,10 @@ var activeGamesCollection = require('./activeGamesCollection');
 var iterateQuizQuestions = function(gameSocket, quiz) {
 	if(quiz.currentQuestionPointer == quiz.questions.length) {
 		return;
-	} 
+	}
 
 	question = quiz.questions[quiz.currentQuestionPointer];
-	question.time = question.time * 60; //pretvori min u sec
+	question.time = question.time; //pretvori min u sec
 	emitQuestion(gameSocket, question);
 	emitTimer(gameSocket, question.time, quiz);
 
@@ -40,6 +40,7 @@ var emitQuestion = function(gameSocket, question) {
 var emitTimer = function(gameSocket, time, quiz) {
 	setInterval(function() {
 		if (time == 0) {
+			activeGamesCollection.iterateCurrentQuestion(quiz.gameId);
 			quiz.currentQuestionPointer++;
 			iterateQuizQuestions(gameSocket, quiz);
 			clearInterval(this);
@@ -51,6 +52,28 @@ var emitTimer = function(gameSocket, time, quiz) {
 			
 		}
 	}, 1000);
+};
+
+var emitScoreboard = function(gameSocket, teams) {
+	var scoreboard = extractScoreboardData(teams);
+
+	gameSocket.emit('scoreboard', {
+		scoreboard: scoreboard
+	});
+};
+
+var extractScoreboardData = function(teams) {
+	var scoreboard = [];
+
+	for (var team of teams) {
+		scoreboard.push({
+			teamName: team.name,
+			teamPlayers: team.players,
+			teamPoints: team.pointsSum
+		});
+	}
+
+	return scoreboard; 
 };
 
 
@@ -75,5 +98,18 @@ module.exports = {
 			emitGameStart(quiz.gameSocket);
 			iterateQuizQuestions(quiz.gameSocket, quiz);
 		}
+	},
+
+	validateAnswer: function(answer, gameId, questionId, teamId) {
+		var result = activeGamesCollection.validateAnswer(answer, gameId, questionId);
+
+		activeGamesCollection.storeAnswer(gameId, teamId, questionId, answer, result.correct, result.points,
+										 	function(gameSocket, teams) {
+												emitScoreboard(gameSocket, teams);
+										 });
+
+		return result.correct;
+
 	}
+
 };

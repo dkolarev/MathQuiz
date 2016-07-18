@@ -3,7 +3,7 @@
 function userController($scope, $state, $window, authService, usersData, data, $uibModal) {
 
 	//stavi korisnicko ime trenutnog korisnika na scope
-	$scope.user = authService.getUser($window.localStorage.token);
+	$scope.user = authService.getUser();
 
 	$scope.questionsList = data.questionsList;
 

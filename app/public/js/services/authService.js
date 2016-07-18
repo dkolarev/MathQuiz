@@ -12,7 +12,7 @@ function authService($window, $resource) {
 
 	var logOut = function(callb) {
 		delete $window.localStorage.token;
-		
+
 		callb();
 	};
 
@@ -61,9 +61,31 @@ function authService($window, $resource) {
 		callb();
 	};
 
+	/*
+	var getUser = function() {
+		return getTokenClaim($window.localStorage.token);
+	};*/
+
+	var storeUser = function(username) {
+		$localStorage.user = {
+			username: username,
+			isAuthenticated: true
+		};
+		console.log($localStorage.user);
+	};
+
 	var getUser = function() {
 		return getTokenClaim($window.localStorage.token);
 	};
+
+	var isAuthenticated = function() {
+		var user = getUser();
+		if (user) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	return {
 		signIn: signIn,
@@ -71,7 +93,8 @@ function authService($window, $resource) {
 		logOut: logOut,
 		saveToken: saveToken,
 		verifyToken: verifyToken,
+		storeUser: storeUser,
 		getUser: getUser,
-		isLogedIn: false
+		isAuthenticated: isAuthenticated
 	};
 };

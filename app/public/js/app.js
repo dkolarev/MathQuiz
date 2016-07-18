@@ -153,6 +153,23 @@ angular
 	})
 	.run(function($rootScope, $state, authService, gameService) {
 		$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+			
+			/**
+			*	Ako je korisnik vec logiran odmah ga
+			*	redirektaj na home stranicu ako pokusa
+			*	pristupiti pocetnoj stranici.
+			*/
+			if(toState.name == 'main.index') {
+				if (authService.isAuthenticated()) {
+					event.preventDefault();
+					authService.verifyToken().$promise.then(function(response) {
+						$state.go('user.home');
+					}, function(response) {
+						console.log(response);
+					});
+				}
+			}
+
 			/**
 			*	Ako je potrebno biti prijavljen provjeri jel korisnik
 			*	ima valjan token. Ako nema, server ce vratiti gresku 401.
