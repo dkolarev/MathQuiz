@@ -1,69 +1,15 @@
 <div class="row" style="height: 100%">
 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3" style="height: 100%; background-color: #1a1a1a; padding-left: 15px; padding-right: 0px">
 	<div class="row-fluid" style="height: 100%" ng-scrollbars ng-scrollbars-config="config">
-		<div class="col-xs-12" style="padding: 15px; border-bottom: 1px solid #00bfff">
+		<div class="col-xs-12" style="padding: 10px; border-bottom: 1px solid #00bfff; font-size:12px">
+			<span style="float: left; margin-right:10px">Position</span>
 			<span style="float: left">Team</span>
 			<span style="float: right">Points</span>
 		</div>
-		<div class="col-xs-12 team">
-			<span style="float:left">Team1</span>
-			<span style="float:right">50</span>
-		</div>
-		<div class="col-xs-12 team">
-			<span style="float:left">Team1</span>
-			<span style="float:right">50</span>
-		</div>
-		<div class="col-xs-12 team">
-			<span style="float:left">Team1</span>
-			<span style="float:right">50</span>
-		</div>
-		<div class="col-xs-12 team">
-			<span style="float:left">Team1</span>
-			<span style="float:right">50</span>
-		</div>
-		<div class="col-xs-12 team">
-			<span style="float:left">Team1</span>
-			<span style="float:right">50</span>
-		</div>
-		<div class="col-xs-12 team">
-			<span style="float:left">Team1</span>
-			<span style="float:right">50</span>
-		</div>
-		<div class="col-xs-12 team">
-			<span style="float:left">Team1</span>
-			<span style="float:right">50</span>
-		</div>
-		<div class="col-xs-12 team">
-			<span style="float:left">Team1</span>
-			<span style="float:right">50</span>
-		</div>
-		<div class="col-xs-12 team">
-			<span style="float:left">Team1</span>
-			<span style="float:right">50</span>
-		</div>
-		<div class="col-xs-12 team">
-			<span style="float:left">Team1</span>
-			<span style="float:right">50</span>
-		</div>
-		<div class="col-xs-12 team">
-			<span style="float:left">Team1</span>
-			<span style="float:right">50</span>
-		</div>
-		<div class="col-xs-12 team">
-			<span style="float:left">Team1</span>
-			<span style="float:right">50</span>
-		</div>
-		<div class="col-xs-12 team">
-			<span style="float:left">Team1</span>
-			<span style="float:right">50</span>
-		</div>
-		<div class="col-xs-12 team">
-			<span style="float:left">Team1</span>
-			<span style="float:right">50</span>
-		</div>
-		<div class="col-xs-12 team">
-			<span style="float:left">Team1</span>
-			<span style="float:right">50</span>
+		<div class="col-xs-12 team" style="padding: 15px 20px" ng-repeat="team in scoreboard | orderBy:'teamPoints':true" ng-class="{'leader': $index == 0}">
+			<span style="float:left; margin-right: 20px">{{$index + 1}}</span>
+			<span style="float:left">{{team.teamName}}</span>
+			<span style="float:right">{{team.teamPoints}}</span>
 		</div>
 	</div>
 </div>

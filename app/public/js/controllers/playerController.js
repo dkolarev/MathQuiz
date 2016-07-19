@@ -38,7 +38,7 @@ function playerController($scope, $rootScope, $state, playerService, gameService
 	});
 
 	socket.on('scoreboard', function(data) {
-		console.log(data);
+		$rootScope.scoreboard = data.scoreboard;
 	});
 
 

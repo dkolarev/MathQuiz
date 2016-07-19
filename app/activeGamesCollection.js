@@ -38,6 +38,17 @@ var dbapi = require('./dbapi').api();
 var ActiveQuizzes = [];
 
 
+var getQuiz = function(gameId) {
+		for (var quiz of ActiveQuizzes) {
+			if (quiz.gameId == gameId) {
+				return quiz;	
+			}
+		}
+
+		return null;	// ako smo dosli ovako daleko kviz nije pronadjen
+};
+
+
 var asignPoints = function(questionDifficulty) {
 	if (questionDifficulty == "easy") {
 		return 5;

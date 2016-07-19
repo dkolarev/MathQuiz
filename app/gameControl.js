@@ -97,6 +97,7 @@ module.exports = {
 			quiz.currentQuestionPointer = 0;
 			emitGameStart(quiz.gameSocket);
 			iterateQuizQuestions(quiz.gameSocket, quiz);
+			emitScoreboard(quiz.gameSocket, quiz.teams);
 		}
 	},
 
