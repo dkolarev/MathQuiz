@@ -176,6 +176,7 @@ router.get('/startquiz/:quizId', function(req, res) {
 		quiz.teams = [];
 		//postavi indeks aktivnog pitanja na prvo pitanje
 		quiz.currentQuestionPointer = 0;
+		quiz.answersRecieved = 0;
 		
 		var questions = [];	//pitanja
 		

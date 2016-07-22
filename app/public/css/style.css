@@ -76,6 +76,16 @@ body, html {
 	border-bottom: 1px solid #007acc;
 }
 
+.quizzesList {
+	text-decoration: none;
+	color: inherit;
+}
+
+.quizzesList:hover {
+	text-decoration: none;
+	color: #ff9933;
+}
+
 .correctAnswer {
 	background-color: #e6e600;
 }

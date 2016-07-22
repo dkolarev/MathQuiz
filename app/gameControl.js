@@ -7,11 +7,14 @@ var iterateQuizQuestions = function(gameSocket, quiz) {
 		return;
 	}
 
+	activeGamesCollection.resetAnswersRecieved(quiz.gameId);
+
 	question = quiz.questions[quiz.currentQuestionPointer];
 	question.time = question.time; //pretvori min u sec
 	emitQuestion(gameSocket, question);
-	emitTimer(gameSocket, question.time, quiz);
 
+	var timer = emitTimer(gameSocket, question.time, quiz);
+	activeGamesCollection.setTimer(timer, quiz.gameId);
 };
 
 /**
@@ -38,7 +41,7 @@ var emitQuestion = function(gameSocket, question) {
 *	isteklo pokreni sljedeci zadatak.
 */
 var emitTimer = function(gameSocket, time, quiz) {
-	setInterval(function() {
+	return setInterval(function() {
 		if (time == 0) {
 			activeGamesCollection.iterateCurrentQuestion(quiz.gameId);
 			quiz.currentQuestionPointer++;
@@ -87,6 +90,18 @@ var emitGameStart = function(gameSocket) {
 	});
 };
 
+var checkAnsweredCounter = function(gameId) {
+	var quiz = activeGamesCollection.getQuiz(gameId);
+	var answersRecieved = quiz.answersRecieved;
+
+	if (answersRecieved == quiz.teams.length) {
+		activeGamesCollection.clearTimerInterval(gameId);
+		quiz.currentQuestionPointer++;
+		iterateQuizQuestions(quiz.gameSocket, quiz);
+	}
+};
+
+
 
 module.exports = {
 	play: function(gameId, socketio) {
@@ -111,6 +126,10 @@ module.exports = {
 
 		return result.correct;
 
-	}
+	},
 
+	iterateAnsweredCounter: function(gameId) {
+		activeGamesCollection.iterateAnswersRecieved(gameId);
+		checkAnsweredCounter(gameId);
+	}
 };

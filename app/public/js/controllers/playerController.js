@@ -12,6 +12,8 @@ function playerController($scope, $rootScope, $state, playerService, gameService
 	$scope.answerSended = false;
 	$scope.teamSended = false;
 
+	$scope.showAlert = false;
+
 	var gameId = gameService.getGameId();
 	var socketNamespace = '/' + gameId;
 	var socket = io(socketNamespace);
@@ -63,6 +65,7 @@ function playerController($scope, $rootScope, $state, playerService, gameService
 		playerService.saveTeam(team).$promise.then(function(response) {
 			$scope.team.teamId = response.teamId;
 			$scope.teamSended = true;
+			$scope.showAlert = true;
 		}, function(response) {
 			console.log(response);
 		});

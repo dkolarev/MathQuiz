@@ -4,10 +4,7 @@
 	<div class="col-xs-12" style="margin-bottom: 10px">
 		<button type="button" class="btn btn-default btn-sm" ng-click="onClickEdit(profileQuiz._id)">Edit</button>
         <button type="button" class="btn btn-danger btn-sm" ng-click="onClickDelete(profileQuiz._id)">Delete</button>
-        <button type="button" class="btn btn-success" ng-click="onClickStartQuiz(profileQuiz._id)">
-        <i class="fa fa-play" aria-hidden="true"></i> 
-        Start Quiz
-        </button>
+        <button type="button" class="btn btn-success" ng-click="onClickStartQuiz(profileQuiz._id)">Start Quiz</button>
 	</div>
 	<div class="col-xs-12"><strong>Title: </strong>{{profileQuiz.title}}</div>
 	<div class="col-xs-12"><strong>Description: </strong>{{profileQuiz.description}}</div>
@@ -25,9 +22,9 @@
 
 <div class="col-sm-6">
     <p>Ovo je drugi stupac.</p>
-    <div ng-show="gameId">
-        <p>Invite players: {{gameId}}</p>
-        <button type="button" class="btn btn-success" ng-click="onClickPlay(gameId)">Play</button>
+    <div class="alert alert-info" ng-show="gameId">
+        <p style="font-size: 25px; margin-bottom: 15px">Invite players: {{gameId}}</p>
+        <button type="button" class="btn btn-success" ng-click="onClickPlay(gameId)"><i class="fa fa-play" aria-hidden="true" style="margin-right: 5px"></i> Play</button>
     </div>
 </div>
 

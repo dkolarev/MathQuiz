@@ -10,6 +10,8 @@ var dbapi = require('./dbapi').api();
 					igrac moze identificirati igru
 			quiz: podaci iz o kvizu iz baze
 			questions: listu sa pitanjima za kviz
+			timer: timer za trenutno pitanje
+			answersRecieved: broji koliko je timova odgovorilo na trenutno pitanje
 			gameSocket: socket namespace za komunikaciju s igracima
 			currentQuestionPointer: broj koji pokazuje koje je trenutno
 									pitanje aktivno
@@ -171,6 +173,48 @@ module.exports =  {
 			if (quiz.gameId == gameId) {
 				var index = ActiveQuizzes.indexOf(quiz);
 				quiz.currentQuestionPointer++;
+				ActiveQuizzes[index] = quiz;
+				break;
+			}
+		}
+	},
+
+	setTimer: function(timer, gameId) {
+		for (var quiz of ActiveQuizzes) {
+			if (quiz.gameId == gameId) {
+				var index = ActiveQuizzes.indexOf(quiz);
+				quiz.timer = timer;
+				ActiveQuizzes[index] = quiz;
+				break;
+			}
+		}
+	},
+
+	iterateAnswersRecieved: function(gameId) {
+		for (var quiz of ActiveQuizzes) {
+			if (quiz.gameId == gameId) {
+				var index = ActiveQuizzes.indexOf(quiz);
+				quiz.answersRecieved++;
+				ActiveQuizzes[index] = quiz;
+				break;
+			}
+		}
+	},
+
+	clearTimerInterval: function(gameId) {
+		for (var quiz of ActiveQuizzes) {
+			if (quiz.gameId == gameId) {
+				clearInterval(quiz.timer);
+				break;
+			}
+		}
+	},
+
+	resetAnswersRecieved: function(gameId) {
+		for (var quiz of ActiveQuizzes) {
+			if (quiz.gameId == gameId) {
+				var index = ActiveQuizzes.indexOf(quiz);
+				quiz.answersRecieved = 0;
 				ActiveQuizzes[index] = quiz;
 				break;
 			}

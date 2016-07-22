@@ -68,6 +68,7 @@ router.post('/sendanswer', function(req, res) {
 		correct: correct
 	});
 
+	gameControl.iterateAnsweredCounter(gameId);
 });
 
 module.exports = router;
