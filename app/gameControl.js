@@ -42,19 +42,19 @@ var emitQuestion = function(gameSocket, question) {
 */
 var emitTimer = function(gameSocket, time, quiz) {
 	return setInterval(function() {
-		if (time == 0) {
-			activeGamesCollection.iterateCurrentQuestion(quiz.gameId);
-			quiz.currentQuestionPointer++;
-			iterateQuizQuestions(gameSocket, quiz);
-			clearInterval(this);
-		} else {
-			time--;
-			gameSocket.emit('timer', {
-				timer: time
-			});
+			if (time == 0) {
+				activeGamesCollection.iterateCurrentQuestion(quiz.gameId);
+				quiz.currentQuestionPointer++;
+				iterateQuizQuestions(gameSocket, quiz);
+				clearInterval(this);
+			} else {
+				time--;
+				gameSocket.emit('timer', {
+					timer: time
+				});
 			
-		}
-	}, 1000);
+			}
+		}, 1000);
 };
 
 var emitScoreboard = function(gameSocket, teams) {

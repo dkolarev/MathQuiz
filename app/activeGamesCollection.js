@@ -70,7 +70,13 @@ module.exports =  {
 		ActiveQuizzes.push(quiz);
 	},
 
+	/**
+	*	Funkcija za uneseni gameId pronalazi quiz sa tim id-om
+	*	i vraca true ako takav kviz postoji medu aktivnim kvizovima, 
+	*	u suprotnom vraca false.
+	*/
 	verifyGameId: function(gameId) {
+		//filter vraca listu objekata
 		var quiz = ActiveQuizzes.filter(function(quiz) {
 				 		return quiz.gameId == gameId;
 					});
@@ -82,6 +88,10 @@ module.exports =  {
 		}
 	},
 
+	/**
+	*	Funkcija pronalazi kviz medu aktivnim kvizovima.
+	*	Ako takav kviz postoji vraca, u suprotnom vraca null.
+	*/
 	getQuiz: function(gameId) {
 		for (var quiz of ActiveQuizzes) {
 			if (quiz.gameId == gameId) {
