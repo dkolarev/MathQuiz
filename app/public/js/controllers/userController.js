@@ -1,6 +1,6 @@
 //userController.js
 
-function userController($scope, $state, $window, authService, usersData, data, $uibModal) {
+function userController($scope, $state, $window, authService, usersData, data, modalService) {
 
 	//stavi korisnicko ime trenutnog korisnika na scope
 	$scope.user = authService.getUser();
@@ -116,31 +116,11 @@ function userController($scope, $state, $window, authService, usersData, data, $
 	*	dijaloski okvir i zatrazi potvrda o brisanju.
 	*/
 	$scope.onClickDeleteQuestion = function(question) {
-		var modalInstance = $uibModal.open({
-			animation: true,
-			templateUrl: 'deleteQuestionModal.html',
-			size: 'sm',
-			resolve: {
-				question: function() {
-					return question;
-				}
-			},
-			controller: 'deleteQuestionModalController'
-		});
+		var modalInstance = modalService.deleteQuestionModal(question);
 	};
 
 	$scope.onClickQuestionInfo = function(question) {
-		var modalInstance = $uibModal.open({
-			animation: true,
-			templateUrl: 'QuestionInfoModal.html',
-			size: 'lg',
-			resolve: {
-				question: function() {
-					return question;
-				}
-			},
-			controller: 'questionInfoModalController'
-		});
+		var modalInstance = modalService.questionInfoModal(question);
 	};
 
 	$scope.onClickLogOut = function () {

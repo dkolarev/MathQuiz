@@ -1,6 +1,6 @@
 //profileQuizController.js
 
-function profileQuizController($scope, $state, $uibModal, $location, usersData) {
+function profileQuizController($scope, $state, $location, usersData, modalService) {
 
 	$scope.profileQuizQuestions = [];
 
@@ -63,5 +63,9 @@ function profileQuizController($scope, $state, $uibModal, $location, usersData) 
 		}, function(response) {
 			console.log(response);
 		});
+	};
+
+	$scope.onClickQuestionInfo = function(question) {
+		var modalInstance = modalService.questionInfoModal(question);
 	};
 };

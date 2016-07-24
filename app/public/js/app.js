@@ -27,6 +27,7 @@ angular
 	.factory('authService', authService)
 	.factory('gameService', gameService)
 	.factory('playerService', playerService)
+	.factory('modalService', modalService)
 	.filter('timerFilter', timerFilter)
 	.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider){
 		$httpProvider.interceptors.push(function($window, $q, $rootScope) {
@@ -86,7 +87,7 @@ angular
 			.state('user', {
 				needLogin: true,
 				url: '/user',
-				templateUrl: 'templates/user.html',
+				templateUrl: 'templates/user/user.html',
 				controller: 'userController',
 				resolve: {
 					data: function($resource) {
@@ -97,54 +98,54 @@ angular
 			.state('user.home', {
 				needLogin: true,
 				url: '/home',
-				templateUrl: 'templates/userHome.html'
+				templateUrl: 'templates/user/userHome.html'
 			})
 			.state('user.profile', {
 				needLogin: true,
 				url: '/profile',
-				templateUrl: 'templates/userProfile.html'
+				templateUrl: 'templates/user/userProfile.html'
 			})
 			.state('user.quizzes', {
 				needLogin: true,
 				url: '/quizzes',
-				templateUrl: 'templates/userQuizzes.html',
+				templateUrl: 'templates/user/userQuizzes.html',
 				controller: 'quizzesController'
 			})
 			.state('user.quizprofile', {
 				needLogin: true,
 				url: '/quizzes/quizprofile/:quizId',
-				templateUrl : 'templates/userQuizProfile.html',
+				templateUrl : 'templates/user/userQuizProfile.html',
 				controller: 'profileQuizController'
 			})
 			.state('user.newquiz', {
 				needLogin: true,
 				url: '/quizzes/newquiz/:quizId',
-				templateUrl: 'templates/userNewQuiz.html',
+				templateUrl: 'templates/user/userNewQuiz.html',
 				controller: 'newQuizController'
 			})
 			.state('user.questions', {
 				needLogin: true,
 				url: '/questions',
-				templateUrl: 'templates/userQuestions.html'
+				templateUrl: 'templates/user/userQuestions.html'
 			})
 			.state('user.newquestion', {
 				needLogin: true,
 				url: '/questions/newquestion/:questionId',
-				templateUrl: 'templates/userNewQuestion.html',
+				templateUrl: 'templates/user/userNewQuestion.html',
 				controller: 'newQuestionController'
 			})
 			.state('createteam', {
 				needLogin: false,
 				needGameId: true,
 				url: '/createteam',
-				templateUrl: 'templates/createTeam.html',
+				templateUrl: 'templates/player/createTeam.html',
 				controller: 'playerController'
 			})
 			.state('quizgame', {
 				needLogin: false,
 				needGameId: false,
 				url: '/quizgame',
-				templateUrl: 'templates/gamePage.html',
+				templateUrl: 'templates/player/gamePage.html',
 				controller: 'playerController'
 			});
 

@@ -1,4 +1,4 @@
-function playerController($scope, $rootScope, $state, playerService, gameService, $uibModal) {
+function playerController($scope, $rootScope, $state, playerService, gameService, modalService) {
 
 	$scope.config = {
     	theme: 'minimal-dark',
@@ -49,21 +49,7 @@ function playerController($scope, $rootScope, $state, playerService, gameService
 	socket.on('correctAnswer', function(data) {
 		var correctAnswer = data.correctAnswer;
 
-		$scope.modalInstance = $uibModal.open({
-			animation: true,
-			keyboard: false,
-			templateUrl: 'templates/correctAnswerModal.html',
-			size: 'sm',
-			resolve: {
-				correctAnswer: function() {
-					return correctAnswer;
-				}
-			},
-			controller: function($scope, correctAnswer) {
-				$scope.correctAnswer = correctAnswer;
-				console.log($scope.correctAnswer);
-			}
-		});
+		$scope.modalInstance = modalService.correctAnswerModal(correctAnswer);
 	});
 
 

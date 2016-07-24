@@ -1,6 +1,6 @@
 //newQuizController.js
 
-function newQuizController ($scope, $state, $uibModal, usersData) {
+function newQuizController ($scope, $state, modalService, usersData) {
 
 	$scope.newQuiz = {};
 
@@ -31,17 +31,7 @@ function newQuizController ($scope, $state, $uibModal, usersData) {
 	};
 
 	$scope.onClickQuestionInfo = function(question) {
-		var modalInstance = $uibModal.open({
-			animation: true,
-			templateUrl: 'QuestionInfoModal.html',
-			size: 'lg',
-			resolve: {
-				question: function() {
-					return question;
-				}
-			},
-			controller: 'questionInfoModalController'
-		});
+		var modalInstance =	modalService.questionInfoModal(question);
 	};
 
 };

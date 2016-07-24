@@ -1,0 +1,12 @@
+<div>
+        <div class="modal-header">
+            <h3 class="modal-title" style="color: black">Delete question</h3>
+        </div>
+        <div class="modal-body" style="color: black">
+            Are you sure you want to delete <strong>{{question.title}}</strong> ?
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="onClickYes(question._id)">Yes</button>
+            <button class="btn btn-warning" type="button" ng-click="onClickNo()">No</button>
+        </div>
+</div>
