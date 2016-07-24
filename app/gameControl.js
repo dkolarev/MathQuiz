@@ -94,8 +94,8 @@ var checkAnsweredCounter = function(gameId) {
 
 	if (answersRecieved == quiz.teams.length) {
 		activeGamesCollection.clearTimerInterval(gameId);
-		quiz.currentQuestionPointer++;
-		iterateQuizQuestions(quiz.gameSocket, quiz);
+		
+		questionTransition(quiz.gameSocket, quiz);
 	}
 };
 
