@@ -43,9 +43,7 @@ var emitQuestion = function(gameSocket, question) {
 var emitTimer = function(gameSocket, time, quiz) {
 	return setInterval(function() {
 			if (time == 0) {
-				activeGamesCollection.iterateCurrentQuestion(quiz.gameId);
-				quiz.currentQuestionPointer++;
-				iterateQuizQuestions(gameSocket, quiz);
+				questionTransition(gameSocket, quiz);
 				clearInterval(this);
 			} else {
 				time--;
@@ -99,6 +97,25 @@ var checkAnsweredCounter = function(gameId) {
 		quiz.currentQuestionPointer++;
 		iterateQuizQuestions(quiz.gameSocket, quiz);
 	}
+};
+
+var emitCorrectAnswer = function(gameSocket, answer) {
+	gameSocket.emit('correctAnswer', {
+		correctAnswer: answer
+	});
+};
+
+var questionTransition = function(gameSocket, quiz) {
+	var question = quiz.questions[quiz.currentQuestionPointer];
+	emitCorrectAnswer(gameSocket, question.correctAnswer);
+
+	setTimeout(function() {
+		activeGamesCollection.iterateCurrentQuestion(quiz.gameId);
+		quiz.currentQuestionPointer++;
+		iterateQuizQuestions(gameSocket, quiz);
+
+		clearTimeout(this);
+	}, 5000);
 };
 
 

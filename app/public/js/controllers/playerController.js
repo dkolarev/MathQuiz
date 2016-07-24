@@ -1,4 +1,4 @@
-function playerController($scope, $rootScope, $state, playerService, gameService) {
+function playerController($scope, $rootScope, $state, playerService, gameService, $uibModal) {
 
 	$scope.config = {
     	theme: 'minimal-dark',
@@ -27,7 +27,10 @@ function playerController($scope, $rootScope, $state, playerService, gameService
 	});
 
 	socket.on('question', function(data) {
-		console.log(data);
+		if($scope.modalInstance) {
+			$scope.modalInstance.close('close');
+		}
+
 		$rootScope.currentQuestion = data.question;
 		$rootScope.timer = data.time;
 		$scope.answerSended = false;
@@ -41,6 +44,26 @@ function playerController($scope, $rootScope, $state, playerService, gameService
 
 	socket.on('scoreboard', function(data) {
 		$rootScope.scoreboard = data.scoreboard;
+	});
+
+	socket.on('correctAnswer', function(data) {
+		var correctAnswer = data.correctAnswer;
+
+		$scope.modalInstance = $uibModal.open({
+			animation: true,
+			keyboard: false,
+			templateUrl: 'templates/correctAnswerModal.html',
+			size: 'sm',
+			resolve: {
+				correctAnswer: function() {
+					return correctAnswer;
+				}
+			},
+			controller: function($scope, correctAnswer) {
+				$scope.correctAnswer = correctAnswer;
+				console.log($scope.correctAnswer);
+			}
+		});
 	});
 
 
