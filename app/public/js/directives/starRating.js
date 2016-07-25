@@ -3,13 +3,15 @@
 function starRating () {
 	return {
 		restrict : 'A',
-		template : '<ul class="rating">' 
-					+ ' <li ng-repeat="star in stars" ng-class="star" ng-click="toggle($index)">'
-   					+ '  <i class="fa fa-star"></i>' + ' </li>' + '</ul>',
+    template : '<ul class="rating">' 
+          + ' <li ng-repeat="star in stars" ng-class="star" ng-click="toggle($index)">'
+            + '  <i class="fa fa-star"></i>' + ' </li>' + '</ul>',
 		scope : {
  			ratingValue : '=',
  			max : '=',
- 			onRatingSelected : '&'
+ 			onRatingSelected : '&',
+      readOnly: '=',
+      rated: '='
 		},
 		link : function(scope, elem, attrs) {
  				var updateStars = function() {
@@ -22,6 +24,9 @@ function starRating () {
  				};
  
  				scope.toggle = function(index) {
+            if (scope.readOnly || scope.rated) return;
+
+            console.log(starSize);
   					scope.ratingValue = index + 1;
   					scope.onRatingSelected({
    						rating : index + 1

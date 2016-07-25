@@ -3,6 +3,7 @@
 var mongoClient = require('mongodb').MongoClient;
 var ObjectId = require('mongodb').ObjectID;
 var assert = require('assert');
+var ratingCalculator = require('./ratingCalculator');
 
 var db;
 var usersCollection;
@@ -140,6 +141,8 @@ module.exports.api = function() {
 					"createdBy": quiz.createdBy,
 					"created": quiz.created,
 					"lastModified": quiz.lastModified,
+					"rating": 0,
+					"ratingCount": 0,
 					"questions": quiz.questions
 				});
 	};
@@ -184,6 +187,20 @@ module.exports.api = function() {
 		return quizzesCollection.findOne({"_id": new ObjectId (quizId)});
 	};
 
+	var updateQuizRating = function(quizId, rating) {
+		quizzesCollection.findOne({"_id": new ObjectId (quizId)});
+
+		var newRatingCount = quiz.ratingCount + 1;
+
+		var newRating = ratingCalculator.calculateRating(quiz.rating, quiz.ratingCount, rating);
+
+		quizzesCollection.updateOne({"_id": new ObjectId(quizId)}, {$set: {
+			"ratingCount": newRatingCount,
+			"rating": newRating
+		}});
+
+	};
+
 	return {
 		getUserByEmail: getUserByEmail,
 		getUserByUsername: getUserByUsername,
@@ -197,6 +214,7 @@ module.exports.api = function() {
 		queryQuizzes: queryQuizzes,
 		updateQuiz: updateQuiz,
 		deleteQuiz: deleteQuiz,
-		getQuiz: getQuiz
+		getQuiz: getQuiz,
+		updateQuizRating: updateQuizRating
 	};
 };

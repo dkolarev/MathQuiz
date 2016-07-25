@@ -14,6 +14,8 @@ function playerController($scope, $rootScope, $state, playerService, gameService
 
 	$scope.showAlert = false;
 
+	$scope.rated = false;
+
 	var gameId = gameService.getGameId();
 	var socketNamespace = '/' + gameId;
 	var socket = io(socketNamespace);
@@ -96,6 +98,19 @@ function playerController($scope, $rootScope, $state, playerService, gameService
 	};
 
 	$scope.rateFunction = function(rating) {
-		console.log(rating);
+		if (!$scope.rated) {
+			/*
+			playerService.sendRating({rating: rating}).$promise.then(function(response) {
+				console.log(response);
+				$scope.rated = true;
+			}, function(response) {
+				console.log(response);
+		});*/
+		$scope.rated = true;
+		}
+	};
+
+	$scope.onClickBackToMainPage = function() {
+		$state.go('main.index');
 	};
 };

@@ -10,8 +10,13 @@ function playerService ($resource) {
 		return $resource('/game/sendanswer').save(data);
 	};
 
+	var sendRating = function(rating) {
+		return $resource('/game/sendrating').save(rating);
+	}
+
 	return {
 		saveTeam: saveTeam,
-		sendAnswer: sendAnswer
+		sendAnswer: sendAnswer,
+		sendRating: sendRating
 	}
 };

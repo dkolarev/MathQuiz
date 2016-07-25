@@ -4,6 +4,8 @@ function profileQuizController($scope, $state, $location, usersData, modalServic
 
 	$scope.profileQuizQuestions = [];
 
+	$scope.rating = 0;
+
 	var getQuestions = function(quiz) {
 		for(var questionId of quiz.questions) {
 			for(var question of $scope.questionsList) {

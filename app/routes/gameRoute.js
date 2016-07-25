@@ -71,4 +71,10 @@ router.post('/sendanswer', function(req, res) {
 	gameControl.iterateAnsweredCounter(gameId);
 });
 
+router.post('/sendrating', function(req, res) {
+	var data = req.body;
+
+	res.end();
+});
+
 module.exports = router;
