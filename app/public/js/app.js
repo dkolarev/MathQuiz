@@ -13,7 +13,6 @@ angular
 	.controller('newQuestionController', newQuestionController)
 	.controller('deleteQuestionModalController', deleteQuestionModalController)
 	.controller('questionInfoModalController', questionInfoModalController)
-	.controller('quizzesController', quizzesController)
 	.controller('newQuizController', newQuizController)
 	.controller('profileQuizController', profileQuizController)
 	.controller('playerController', playerController)
@@ -23,6 +22,7 @@ angular
 	.directive('eqnBind', eqnBind)
 	.directive('mathjaxBind', mathjaxBind)
 	.directive('dynamicBind', dynamicBind)
+	.directive('starRating', starRating)
 	.factory('usersData', usersData)
 	.factory('authService', authService)
 	.factory('gameService', gameService)
@@ -108,8 +108,7 @@ angular
 			.state('user.quizzes', {
 				needLogin: true,
 				url: '/quizzes',
-				templateUrl: 'templates/user/userQuizzes.html',
-				controller: 'quizzesController'
+				templateUrl: 'templates/user/userQuizzes.html'
 			})
 			.state('user.quizprofile', {
 				needLogin: true,
@@ -143,9 +142,16 @@ angular
 			})
 			.state('quizgame', {
 				needLogin: false,
-				needGameId: false,
+				needGameId: true,
 				url: '/quizgame',
 				templateUrl: 'templates/player/gamePage.html',
+				controller: 'playerController'
+			})
+			.state('quizend', {
+				needLogin: false,
+				neeGameId: false,
+				url: '/quizend',
+				templateUrl: 'templates/player/gameEndScreen.html',
 				controller: 'playerController'
 			});
 

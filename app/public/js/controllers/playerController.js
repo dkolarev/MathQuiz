@@ -94,4 +94,8 @@ function playerController($scope, $rootScope, $state, playerService, gameService
 			console.log(response);
 		});
 	};
+
+	$scope.rateFunction = function(rating) {
+		console.log(rating);
+	};
 };

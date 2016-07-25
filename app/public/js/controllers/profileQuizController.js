@@ -40,6 +40,10 @@ function profileQuizController($scope, $state, $location, usersData, modalServic
 		});
 	};
 
+	$scope.onClickBack = function() {
+		$state.go('user.quizzes');
+	};
+
 	$scope.onClickEdit = function(quizId) {
 		$location.url('/user/quizzes/newquiz/' + quizId);
 	};
