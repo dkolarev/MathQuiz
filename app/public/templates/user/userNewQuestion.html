@@ -83,11 +83,14 @@
 	</div>
 	<div class="col-sm-6">
 		<div class="col-sm-12">
+			<input type="file" name="imageFile" file-model="questionImage">
+			<button ng-click="onClickUpload(questionImage)">Upload</button>
 			<label for="imageUrl">Image (optional):</label>
 			<input type="url" name="questionImageUrl" class="form-control" style="background-color: #333333; color:white" ng-model="newQuestion.imageUrl" placeholder="Enter url of question image ...">
 		</div>
 		<div class="col-sm-12" style="padding: 10px" ng-show="newQuestion.imageUrl">
 			<img src="{{newQuestion.imageUrl}}" width="100%">
+			<img ng-src="{{questionImage}}">
 		</div>
 	</div>
 	<div class="row">

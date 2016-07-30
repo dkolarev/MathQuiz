@@ -23,6 +23,7 @@ angular
 	.directive('mathjaxBind', mathjaxBind)
 	.directive('dynamicBind', dynamicBind)
 	.directive('starRating', starRating)
+	.directive('fileModel', fileModel)
 	.factory('usersData', usersData)
 	.factory('authService', authService)
 	.factory('gameService', gameService)

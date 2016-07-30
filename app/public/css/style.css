@@ -87,14 +87,23 @@ body, html {
 }
 
 .questionBox {
-	border: 1px solid white;
 	padding: 10px;
 	margin-bottom: 10px;
 	background-color: #ff9933;
-	border-radius: 5px;
 	text-align: center;
 	max-width: 300px;
 }
+
+.questionTable {
+	border-radius: 2px;
+	background-color: white;
+	color: black;
+}
+
+#questionTitle:hover {
+	color: #0099e6;
+}
+
 
 .correctAnswer {
 	background-color: #e6e600;

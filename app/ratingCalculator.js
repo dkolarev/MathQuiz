@@ -2,7 +2,7 @@
 
 /**
 *	Racuna novi rating na osnovu starog na sljedeci nacin:
-*
+*	
 *	An+1 = An * n/(n+1) + an+1/(n+1)
 */
 module.exports.calculateRating = function(oldRating, oldRatingCount, rating) {

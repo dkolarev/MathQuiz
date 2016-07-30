@@ -4,8 +4,9 @@
 		<button type="button" class="btn btn-default" ui-sref="user.newquestion"><span class="glyphicon glyphicon-file"></span> New question</button>
 	</div>
 	<div class="row">
-	<div style="max-width: 70%; margin: 0px auto; padding-top:100px">
+	<div style="max-width: 80%; margin: 0px auto; padding-top:100px">
 		
+	<!--
 	<div class="panel panel-default" style="border-color: #80d4ff" ng-repeat="question in questionsList track by trackByItem(question)">
 		<div class="panel-body" style="padding: 12px 15px 0px 15px; background-color: #4dc3ff">
 		<ul class="list-unstyled list-inline" style="color: black">
@@ -23,7 +24,30 @@
 			<li><strong>difficulty:</strong> {{question.difficulty}}</li>
 		</ul>
 		</div>
-	</div>
+	</div>-->
+	<table class="table table-hover questionTable">
+		<thead>
+			<tr>
+				<th><span style="margin-left: 15px">Title</span></th>
+				<th><span>Difficulty</span></th>
+				<th><span>Last Modified</span></th>
+				<th><span>Edit</span></th>
+				<th><span>Delete</span></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="question in questionsList track by trackByItem(question)">
+				<td style="color: #0099e6"><a id="questionTitle" ng-href="#" ng-click="onClickQuestionInfo(question)" style="margin-left: 15px">{{question.title}}</a></td>
+				<td>{{question.difficulty}}</td>
+				<td>{{question.lastModified | date: 'dd/MM/yyyy hh:mm'}}</td>
+				<td><a ng-href="/user/questions/newquestion/{{question._id}}"><i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 20px; margin-left: 5px"></i></a></td>
+				<td><a ng-href="#deleteQuestion" data-toggle="modal" ng-click="onClickDeleteQuestion(question)"><span class="glyphicon glyphicon-remove" style="color: #cc0000; font-size: 16px; margin-left: 10px"></span></a></td>
+			</tr>
+		</tbody>
+	</table>
+
+
+
 	</div>
 	<div>
 

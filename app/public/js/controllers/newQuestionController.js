@@ -152,4 +152,10 @@ function newQuestionController($scope, $state, usersData) {
 			});
 		}
 	};
+
+	$scope.onClickUpload = function(questionImage) {
+		var fd = new FormData();
+		fd.append("file", questionImage);
+		console.log(fd);
+	};
 };
