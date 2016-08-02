@@ -153,6 +153,12 @@ function newQuestionController($scope, $state, usersData, uploadFile) {
 		}
 	};
 
+	/**
+	*	Poziva funkciju za upload iz uploadFile servisa
+	*	i dodaje image file za pitanje.
+	* 	dodati sljedecu liniju kao atribut na input elementu:
+	*	onchange="angular.element(this).scope().onClickUpload(this)"
+	*/
 	$scope.onClickUpload = function(element) {
    		uploadFile.upload(element, function(image) {
    			$scope.newQuestion.image = image;
