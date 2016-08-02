@@ -41,7 +41,7 @@
 				<td>{{question.difficulty}}</td>
 				<td>{{question.lastModified | date: 'dd/MM/yyyy hh:mm'}}</td>
 				<td><a ng-href="/user/questions/newquestion/{{question._id}}" style=" margin-left: 5px"><i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 20px"></i></a></td>
-				<td><a ng-href="#deleteQuestion" data-toggle="modal" ng-click="onClickDeleteQuestion(question)" style="margin-left: 10px"><span class="glyphicon glyphicon-remove" style="color: #cc0000; font-size: 16px"></span></a></td>
+				<td><a ng-href="#deleteQuestion" data-toggle="modal" ng-click="onClickDeleteQuestion(question)" style="margin-left: 10px"><i class="fa fa-trash-o" style="color: #333333; font-size: 16px"></i></a></td>
 			</tr>
 		</tbody>
 	</table>

@@ -143,7 +143,7 @@ angular
 			})
 			.state('quizgame', {
 				needLogin: false,
-				needGameId: true,
+				needGameId: false,
 				url: '/quizgame',
 				templateUrl: 'templates/player/gamePage.html',
 				controller: 'playerController'
