@@ -1,6 +1,6 @@
 //newQuestionController.js
 
-function newQuestionController($scope, $state, usersData) {
+function newQuestionController($scope, $state, usersData, uploadFile) {
 
 	$scope.newQuestion = {};
 
@@ -153,15 +153,10 @@ function newQuestionController($scope, $state, usersData) {
 		}
 	};
 
-	$scope.onClickUpload = function() {
-		var f = document.getElementById('file').files[0],
-     	r = new FileReader();
-  		r.onloadend = function(e){
-    		var data = e.target.result;
-    		//send your binary data via $http or $resource or do anything else with it
-    		$scope.questionImage = data;
-    		console.log(data);
-  		}
-  		r.readAsBinaryString(f);
+	$scope.onClickUpload = function(element) {
+   		uploadFile.upload(element, function(image) {
+   			$scope.newQuestion.image = image;
+   			$scope.$apply();
+   		})
 	};
 };

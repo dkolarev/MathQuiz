@@ -29,6 +29,7 @@ angular
 	.factory('gameService', gameService)
 	.factory('playerService', playerService)
 	.factory('modalService', modalService)
+	.factory('uploadFile', uploadFile)
 	.filter('timerFilter', timerFilter)
 	.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider){
 		$httpProvider.interceptors.push(function($window, $q, $rootScope) {

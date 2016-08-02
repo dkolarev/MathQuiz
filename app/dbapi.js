@@ -72,7 +72,7 @@ module.exports.api = function() {
 					"difficulty": question.difficulty,
 					"correctAnswer": question.correctAnswer,
 					"allAnswers": question.allAnswers,
-					"imageUrl": question.imageUrl,
+					"image": question.image,
 					"created": question.created,
 					"lastModified": question.lastModified
 				});
@@ -101,7 +101,7 @@ module.exports.api = function() {
 			"difficulty": question.difficulty,
 			"correctAnswer": question.correctAnswer,
 			"allAnswers": question.allAnswers,
-			"imageUrl": question.imageUrl,
+			"image": question.image,
 			"lastModified": question.lastModified
 		}});
 	};
