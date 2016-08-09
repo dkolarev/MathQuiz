@@ -12,11 +12,16 @@ function playerService ($resource) {
 
 	var sendRating = function(rating) {
 		return $resource('/game/sendrating').save(rating);
-	}
+	};
+
+	var getWinnerData = function() {
+		return $resource('/game/winnerdata').get();
+	};
 
 	return {
 		saveTeam: saveTeam,
 		sendAnswer: sendAnswer,
-		sendRating: sendRating
+		sendRating: sendRating,
+		getWinnerData: getWinnerData
 	}
 };

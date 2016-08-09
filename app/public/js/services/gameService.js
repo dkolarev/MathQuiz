@@ -17,6 +17,13 @@ function gameService ($window, $resource) {
 		$window.localStorage.gameId = gameId;
 	};
 
+	var deleteGameId = function() {
+		if ($window.localStorage.gameId) {
+			delete $window.localStorage.gameId;
+		}
+		return;	
+	};
+
 	/**
 	*	Vraca gameId iz localStorage-a.
 	*/
@@ -27,6 +34,7 @@ function gameService ($window, $resource) {
 	return {
 		verifyGameId: verifyGameId,
 		saveGameId: saveGameId,
-		getGameId: getGameId
+		getGameId: getGameId,
+		deleteGameId: deleteGameId
 	}
 };

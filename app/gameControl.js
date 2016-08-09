@@ -100,6 +100,12 @@ var checkAnsweredCounter = function(gameId) {
 	}
 };
 
+var extractWinner = function(scoreboard) {
+	return scoreboard.reduce(function(prev, current) {
+    			return (prev.pointsSum > current.pointsSum) ? prev : current
+			});
+};
+
 var emitCorrectAnswer = function(gameSocket, answer) {
 	gameSocket.emit('correctAnswer', {
 		correctAnswer: answer
@@ -155,5 +161,16 @@ module.exports = {
 	iterateAnsweredCounter: function(gameId) {
 		activeGamesCollection.iterateAnswersRecieved(gameId);
 		checkAnsweredCounter(gameId);
+	},
+
+	getWinnerData: function(gameId) {
+		var quiz = activeGamesCollection.getQuiz(gameId);
+		var scoreboard = extractScoreboardData(quiz.teams);
+		var winner = extractWinner(scoreboard);
+
+		return {
+			"scoreboard": scoreboard,
+			"winner": winner
+		};
 	}
 };

@@ -24,12 +24,9 @@
 			<div class="panel panel-default" style="max-width: 700px; margin-left: auto; margin-right: auto; background-color: #e6b800">
 				<div class="panel-body" style="color: #262626; text-align: center">
 					<i class="fa fa-trophy" style="font-size: 100px"></i><span style="font-size: 70px"> Winner</span>
-					<div style="font-size: 40px">TEAM1</div>
+					<div style="font-size: 40px">{{winner.teamName}}</div>
 					<ul class="list-unstyled">
-						<li>member1</li>
-						<li>member2</li>
-						<li>member3</li>
-						<li>member4</li>
+						<li ng-repeat="player in winner.teamPlayers">{{player.name}}</li>
 					</ul>
 				</div>
 			</div>

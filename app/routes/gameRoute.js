@@ -77,4 +77,15 @@ router.post('/sendrating', function(req, res) {
 	res.end();
 });
 
+router.get('/winnerdata', function(req, res) {
+	var gameId = req.query.gameId || req.headers['gameid'];
+
+	var data = gameControl.getWinnerData(gameId);
+
+	res.send({
+		"scoreboard": data.scoreboard,
+		"winner": data.winner
+	});
+});
+
 module.exports = router;

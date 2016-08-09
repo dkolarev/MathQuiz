@@ -19,6 +19,7 @@ angular
 	.controller('questionsController', questionsController)
 	.controller('quizzesController', quizzesController)
 	.controller('editQuizController', editQuizController)
+	.controller('gameEndController', gameEndController)
 	.directive('checkUsername', checkUsername)
 	.directive('checkPassword', checkPassword)
 	.directive('checkEmail', checkEmail)
@@ -197,7 +198,12 @@ angular
 				neeGameId: false,
 				url: '/quizend',
 				templateUrl: 'templates/player/gameEndScreen.html',
-				controller: 'playerController'
+				controller: 'gameEndController',
+				resolve: {
+					data: function(playerService) {
+						return playerService.getWinnerData().$promise;
+					}
+				}
 			});
 
 		$urlRouterProvider.otherwise('/index');

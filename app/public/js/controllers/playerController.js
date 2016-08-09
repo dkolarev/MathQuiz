@@ -20,8 +20,6 @@ function playerController($scope,
 
 	$scope.showAlert = false;
 
-	$scope.rated = false;
-
 	var gameId = gameService.getGameId();
 	var socketNamespace = '/' + gameId;
 	var socket = io(socketNamespace);
@@ -34,6 +32,9 @@ function playerController($scope,
 		} else if (data.status == 'end') {
 			$scope.modalInstance.close('close');
 			$state.go('quizend');
+			$scope.winner = $rootScope.scoreboard.reduce(function(prev, current) {
+    							return (prev.pointsSum > current.pointsSum) ? prev : current
+							});
 		}
 	});
 
@@ -108,22 +109,5 @@ function playerController($scope,
 		}, function(response) {
 			console.log(response);
 		});
-	};
-
-	$scope.rateFunction = function(rating) {
-		if (!$scope.rated) {
-			/*
-			playerService.sendRating({rating: rating}).$promise.then(function(response) {
-				console.log(response);
-				$scope.rated = true;
-			}, function(response) {
-				console.log(response);
-		});*/
-		$scope.rated = true;
-		}
-	};
-
-	$scope.onClickBackToMainPage = function() {
-		$state.go('main.index');
 	};
 };
