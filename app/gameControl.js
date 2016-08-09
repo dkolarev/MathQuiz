@@ -4,6 +4,7 @@ var activeGamesCollection = require('./activeGamesCollection');
 
 var iterateQuizQuestions = function(gameSocket, quiz) {
 	if(quiz.currentQuestionPointer == quiz.questions.length) {
+		emitGameEnd(gameSocket);
 		return;
 	}
 
@@ -105,13 +106,19 @@ var emitCorrectAnswer = function(gameSocket, answer) {
 	});
 };
 
+var emitGameEnd = function(gameSocket) {
+	gameSocket.emit('gameStatus', {
+		status: 'end'
+	});
+};
+
 var questionTransition = function(gameSocket, quiz) {
 	var question = quiz.questions[quiz.currentQuestionPointer];
 	emitCorrectAnswer(gameSocket, question.correctAnswer);
 
 	setTimeout(function() {
 		activeGamesCollection.iterateCurrentQuestion(quiz.gameId);
-		quiz.currentQuestionPointer++;
+		//quiz.currentQuestionPointer++;
 		iterateQuizQuestions(gameSocket, quiz);
 
 		clearTimeout(this);

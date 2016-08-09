@@ -31,6 +31,9 @@ function playerController($scope,
 		if (data.status == 'start') {
 			$rootScope.team = $scope.team;
 			$state.go('quizgame');
+		} else if (data.status == 'end') {
+			$scope.modalInstance.close('close');
+			$state.go('quizend');
 		}
 	});
 
