@@ -1,11 +1,9 @@
 //gameEndController.js
 
-function gameEndController($scope, data, gameService) {
+function gameEndController($scope, data, gameService, playerService) {
 
 	$scope.scoreboard = data.scoreboard;
-
 	$scope.winner = data.winner;
-
 	$scope.rated = false;
 
 	var gameId = gameService.getGameId();
@@ -18,15 +16,13 @@ function gameEndController($scope, data, gameService) {
 	};
 
 	$scope.rateFunction = function(rating) {
-		if (!$scope.rated) {
-			/*
+		if (!$scope.rated) {	
 			playerService.sendRating({rating: rating}).$promise.then(function(response) {
 				console.log(response);
-				$scope.rated = true;
 			}, function(response) {
 				console.log(response);
-			});*/
-			$scope.rated = true;
+			});
 		}
+		$scope.rated = true;
 	};
 }

@@ -143,6 +143,7 @@ module.exports.api = function() {
 					"lastModified": quiz.lastModified,
 					"rating": 0,
 					"ratingCount": 0,
+					"played": 0,
 					"questions": quiz.questions
 				});
 	};
@@ -188,17 +189,16 @@ module.exports.api = function() {
 	};
 
 	var updateQuizRating = function(quizId, rating) {
-		quizzesCollection.findOne({"_id": new ObjectId (quizId)});
+		quizzesCollection.findOne({"_id": new ObjectId (quizId)}).then(function(quiz) {
+			var newRatingCount = quiz.ratingCount + 1;
 
-		var newRatingCount = quiz.ratingCount + 1;
+			var newRating = ratingCalculator.calculateRating(quiz.rating, quiz.ratingCount, rating);
 
-		var newRating = ratingCalculator.calculateRating(quiz.rating, quiz.ratingCount, rating);
-
-		quizzesCollection.updateOne({"_id": new ObjectId(quizId)}, {$set: {
+			quizzesCollection.updateOne({"_id": new ObjectId(quizId)}, {$set: {
 			"ratingCount": newRatingCount,
 			"rating": newRating
-		}});
-
+			}});
+		});
 	};
 
 	return {

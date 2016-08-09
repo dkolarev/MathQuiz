@@ -40,7 +40,7 @@ router.use(function(req, res, next) {
 
 
 /**
-*	Igrac salje svoj team sa podacima (ime, clanovi)
+*	Igrac salje svoj tim sa podacima (ime, clanovi)
 *	i registrira se za igru.
 */
 router.post('/saveteam', function(req, res) {
@@ -73,6 +73,9 @@ router.post('/sendanswer', function(req, res) {
 
 router.post('/sendrating', function(req, res) {
 	var data = req.body;
+	var gameId = req.query.gameId || req.headers['gameid'];
+
+	gameControl.rateQuiz(gameId, data.rating);
 
 	res.end();
 });

@@ -1,6 +1,7 @@
 //gameControl.js
 
 var activeGamesCollection = require('./activeGamesCollection');
+var dbapi = require('./dbapi').api();
 
 var iterateQuizQuestions = function(gameSocket, quiz) {
 	if(quiz.currentQuestionPointer == quiz.questions.length) {
@@ -172,5 +173,11 @@ module.exports = {
 			"scoreboard": scoreboard,
 			"winner": winner
 		};
+	},
+
+	rateQuiz: function(gameId, rating) {
+		var quiz = activeGamesCollection.getQuiz(gameId);
+
+		dbapi.updateQuizRating(quiz._id, rating);
 	}
 };

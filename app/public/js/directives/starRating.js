@@ -26,7 +26,6 @@ function starRating () {
  				scope.toggle = function(index) {
             if (scope.readOnly || scope.rated) return;
 
-            console.log(starSize);
   					scope.ratingValue = index + 1;
   					scope.onRatingSelected({
    						rating : index + 1
