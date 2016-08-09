@@ -1,4 +1,10 @@
-function playerController($scope, $rootScope, $state, playerService, gameService, modalService) {
+function playerController($scope, 
+						$rootScope, 
+						$state, 
+						playerService, 
+						gameService, 
+						modalService,
+						correctAnswerService) {
 
 	$scope.config = {
     	theme: 'minimal-dark',
@@ -36,6 +42,9 @@ function playerController($scope, $rootScope, $state, playerService, gameService
 		$rootScope.currentQuestion = data.question;
 		$rootScope.timer = data.time;
 		$scope.answerSended = false;
+
+		correctAnswerService.resetButtonsColors();
+
 		$rootScope.$apply();
 	});
 
@@ -82,7 +91,7 @@ function playerController($scope, $rootScope, $state, playerService, gameService
 		});
 	};
 
-	$scope.onClickSendAnswer = function(answer, questionId) {
+	$scope.onClickSendAnswer = function(answer, questionId, buttonId) {
 		var data = {
 			answer: answer,
 			questionId: questionId,
@@ -91,7 +100,8 @@ function playerController($scope, $rootScope, $state, playerService, gameService
 
 		playerService.sendAnswer(data).$promise.then(function(response) {
 			$scope.answerSended = true;
-			console.log(response.correct);
+
+			correctAnswerService.setCorrectColor(response.correct, buttonId);
 		}, function(response) {
 			console.log(response);
 		});

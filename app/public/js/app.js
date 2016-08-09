@@ -34,6 +34,7 @@ angular
 	.factory('uploadFile', uploadFile)
 	.factory('quizDataRepository', quizDataRepository)
 	.factory('questionDataRepository', questionDataRepository)
+	.factory('correctAnswerService', correctAnswerService)
 	.filter('timerFilter', timerFilter)
 	.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider){
 		$httpProvider.interceptors.push(function($window, $q, $rootScope) {

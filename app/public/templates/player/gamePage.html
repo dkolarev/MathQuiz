@@ -33,24 +33,24 @@
 	<div style="margin-top: 25px">
             		<ul class="list-unstyled">
 						<li class="col-sm-6">
-						<button type="button" class="btn btn-default answerButton col-xs-12" ng-disabled="answerSended" ng-click="onClickSendAnswer(currentQuestion.questionAllAnswers.answer1,
-						currentQuestion.questionId)">
+						<button type="button" id="button1" class="btn btn-default answerButton col-xs-12" ng-disabled="answerSended" ng-click="onClickSendAnswer(currentQuestion.questionAllAnswers.answer1,
+						currentQuestion.questionId, 'button1')">
 						<strong>A: </strong>{{currentQuestion.questionAllAnswers.answer1}}</button></li> 
 						<li class="col-sm-6">
-						<button type="button" class="btn btn-default answerButton col-xs-12" ng-disabled="answerSended" ng-click="onClickSendAnswer(
+						<button type="button" id="button2" class="btn btn-default answerButton col-xs-12" ng-disabled="answerSended" ng-click="onClickSendAnswer(
 						currentQuestion.questionAllAnswers.answer2,
-						currentQuestion.questionId)">
+						currentQuestion.questionId, 'button2')">
 						<strong>B: </strong>{{currentQuestion.questionAllAnswers.answer2}}</button></li> 
 						<li class="col-sm-6">
-						<button type="button" class="btn btn-default answerButton col-xs-12" ng-disabled="answerSended" ng-click="onClickSendAnswer(
+						<button type="button" id="button3" class="btn btn-default answerButton col-xs-12" ng-disabled="answerSended" ng-click="onClickSendAnswer(
 						currentQuestion.questionAllAnswers.answer3,
-						currentQuestion.questionId)">
+						currentQuestion.questionId, 'button3')">
 						<strong>C: </strong>{{currentQuestion.questionAllAnswers.answer3}}</button></li> 
 						<li class="col-sm-6">
-						<button type="button" class="btn btn-default answerButton col-xs-12" ng-disabled="answerSended" ng-click="onClickSendAnswer(
+						<button type="button" id="button4" class="btn btn-default answerButton col-xs-12" ng-disabled="answerSended" ng-click="onClickSendAnswer(
 						currentQuestion.questionAllAnswers.answer4,
-						currentQuestion.questionId)">
-						<strong>D: </strong>{{currentQuestion.questionAllAnswers.answer4}}</button></li> 
+						currentQuestion.questionId, 'button4')">
+						<strong>D: </strong>{{currentQuestion.questionAllAnswers.answer4}}</button></li>
             		</ul>
             	</div>
     </div>

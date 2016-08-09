@@ -1,6 +1,6 @@
 //profileQuizController.js
 
-function profileQuizController($scope, $state, $location, data, modalService) {
+function profileQuizController($scope, $state, $location, data, modalService, quizDataRepository) {
 
 	$scope.profileQuiz = data.quiz;
 	$scope.profileQuizQuestions = data.quiz.questions;
@@ -35,7 +35,7 @@ function profileQuizController($scope, $state, $location, data, modalService) {
 	};
 
 	$scope.onClickStartQuiz = function(quizId) {
-		usersData.startQuiz(quizId).$promise.then(function(response) {
+		quizDataRepository.startQuiz(quizId).$promise.then(function(response) {
 			$scope.gameId = response.gameId;
 		}, function(response) {
 			console.log(response);
@@ -43,7 +43,7 @@ function profileQuizController($scope, $state, $location, data, modalService) {
 	};
 
 	$scope.onClickPlay = function(gameId) {
-		usersData.playQuiz(gameId).$promise.then(function(response) {
+		quizDataRepository.playQuiz(gameId).$promise.then(function(response) {
 			console.log(response);	
 		}, function(response) {
 			console.log(response);
