@@ -1,17 +1,17 @@
-///usersData.js
+//quizDataRepository.js
 
-function usersData($resource) {
+function quizDataRepository($resource) {
 	return {
-		saveQuestion: function(question) {
-			return $resource('/api/savequestion').save(question);
+		getQuizById: function(quizId) {
+			return $resource('/api/quiz/:quizId', {quizId: '@quizId'}).get({quizId: quizId});
 		},
 
-		getQuestions: function() {
-			return $resource('/api/questions').get();
+		getQuizWithQuestions: function(quizId) {
+			return $resource('/api/fullquiz/:quizId', {quizId: '@quizId'}).get({quizId: quizId});
 		},
 
-		deleteQuestion: function(questionId) {
-			return $resource('/api/deletequestion/:questionId', {questionId: '@questionId'}).get({questionId: questionId});
+		getQuizzes: function() {
+			return $resource('/api/quizzes').get();
 		},
 
 		saveQuiz: function(quiz) {
@@ -30,4 +30,4 @@ function usersData($resource) {
 			return $resource('/api/playquiz/:gameId', {gameId: '@gameId'}).get({gameId: gameId});
 		}
 	};
-};
+}

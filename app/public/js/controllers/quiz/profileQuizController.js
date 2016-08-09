@@ -1,6 +1,6 @@
 //profileQuizController.js
 
-function profileQuizController($scope, $location, data, modalService) {
+function profileQuizController($scope, $state, $location, data, modalService) {
 
 	$scope.profileQuiz = data.quiz;
 	$scope.profileQuizQuestions = data.quiz.questions;
@@ -26,7 +26,7 @@ function profileQuizController($scope, $location, data, modalService) {
 	};
 
 	$scope.onClickEdit = function(quizId) {
-		$location.url('/user/quizzes/newquiz/' + quizId);
+		$location.url('/user/quiz/editquiz/' + quizId);
 	};
 
 	$scope.onClickDelete = function(quizId) {

@@ -50,6 +50,14 @@ router.get('/getdata', function (req, res) {
 	});
 });
 
+router.get('/questions', function(req, res) {
+	dbapi.queryQuestions().then(function (questions) {
+		res.setHeader('Content-Type', 'application/json');
+		res.send({
+			"questionsList": questions
+		});
+	});
+});
 
 
 /**
@@ -83,6 +91,16 @@ router.post('/savequestion', function(req, res) {
 	res.end();
 });
 
+router.get('/question/:questionId', function(req, res) {
+	var questionId = req.params.questionId;
+	dbapi.getQuestionById(questionId).then(function(question) {		
+		res.setHeader('Content-Type', 'application/json');
+		res.send({
+			"question": question
+		});
+	});
+});
+
 
 /**
 *	Ruta za brisanje pitanja u bazi.
@@ -99,6 +117,53 @@ router.get('/deletequestion/:questionId', function(req, res) {
 	res.end();
 });
 
+router.get('/quizzes', function(req, res) {
+	dbapi.queryQuizzes().then(function (quizzes) {
+		res.setHeader('Content-Type', 'application/json');
+		res.send({
+			"quizzesList": quizzes
+		});
+	});
+});
+
+router.get('/quiz/:quizId', function(req, res) {
+	var quizId = req.params.questionId;
+	dbapi.queryQuestions().then(function(questions) {
+		dbapi.getQuiz(quizId).then(function(quiz) {
+			res.setHeader('Content-Type', 'application/json');
+			res.send({
+				"quiz": quiz,
+				"questions": questions
+			});
+		});
+	});
+});
+
+router.get('/fullquiz/:quizId', function(req, res) {
+	var quizId = req.params.quizId;
+	var questions = [];
+	dbapi.getQuiz(quizId).then(function(quiz) {
+		//izvuci svaki zadatak iz baze
+		for (var questionId of quiz.questions) {
+			dbapi.getQuestionById(questionId).then(function(question) {
+				questions.push(question);
+
+				/**
+				*	ako si izvukao sve zadatke (zadnja iteracija),
+				*	umjesto liste id-eva u quiz.questions stavi
+				*	stvarnu listu zadataka.
+				*/
+				if(questions.length == quiz.questions.length) {
+					quiz.questions = questions;
+					res.setHeader('Content-Type', 'application/json');
+					res.send({
+						"quiz": quiz
+					});
+				}
+			});
+		}
+	});
+});	
 
 /**
 *	Ruta za spremanje kviza. Ako kviz sadrzi id

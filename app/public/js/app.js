@@ -16,6 +16,9 @@ angular
 	.controller('newQuizController', newQuizController)
 	.controller('profileQuizController', profileQuizController)
 	.controller('playerController', playerController)
+	.controller('questionsController', questionsController)
+	.controller('quizzesController', quizzesController)
+	.controller('editQuizController', editQuizController)
 	.directive('checkUsername', checkUsername)
 	.directive('checkPassword', checkPassword)
 	.directive('checkEmail', checkEmail)
@@ -24,12 +27,13 @@ angular
 	.directive('dynamicBind', dynamicBind)
 	.directive('starRating', starRating)
 	.directive('fileModel', fileModel)
-	.factory('usersData', usersData)
 	.factory('authService', authService)
 	.factory('gameService', gameService)
 	.factory('playerService', playerService)
 	.factory('modalService', modalService)
 	.factory('uploadFile', uploadFile)
+	.factory('quizDataRepository', quizDataRepository)
+	.factory('questionDataRepository', questionDataRepository)
 	.filter('timerFilter', timerFilter)
 	.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider){
 		$httpProvider.interceptors.push(function($window, $q, $rootScope) {
@@ -110,30 +114,68 @@ angular
 			.state('user.quizzes', {
 				needLogin: true,
 				url: '/quizzes',
-				templateUrl: 'templates/user/userQuizzes.html'
+				templateUrl: 'templates/quiz/userQuizzes.html',
+				controller: 'quizzesController',
+				resolve: {
+					data: function(quizDataRepository) {
+						return quizDataRepository.getQuizzes().$promise;
+					}
+				}
 			})
 			.state('user.quizprofile', {
 				needLogin: true,
 				url: '/quizzes/quizprofile/:quizId',
-				templateUrl : 'templates/user/userQuizProfile.html',
-				controller: 'profileQuizController'
+				templateUrl : 'templates/quiz/userQuizProfile.html',
+				controller: 'profileQuizController',
+				resolve: {
+					data: function($stateParams, quizDataRepository) {
+						return quizDataRepository.getQuizWithQuestions($stateParams.quizId).$promise;
+					}
+				}
 			})
 			.state('user.newquiz', {
 				needLogin: true,
-				url: '/quizzes/newquiz/:quizId',
-				templateUrl: 'templates/user/userNewQuiz.html',
-				controller: 'newQuizController'
+				url: '/quizzes/newquiz',
+				templateUrl: 'templates/quiz/userNewQuiz.html',
+				controller: 'newQuizController',
+				resolve: {
+					data: function($stateParams, questionDataRepository) {
+						return questionDataRepository.getQuestions().$promise;
+					}
+				}
+			})
+			.state('user.editquiz', {
+				needLogin: true,
+				url: '/quiz/editquiz/:quizId',
+				templateUrl: 'templates/quiz/editQuiz.html',
+				controller: 'editQuizController',
+				resolve: {
+					data: function($stateParams, quizDataRepository) {
+						return quizDataRepository.getQuizById($stateParams.quizId).$promise;
+					}
+				}
 			})
 			.state('user.questions', {
 				needLogin: true,
 				url: '/questions',
-				templateUrl: 'templates/user/userQuestions.html'
+				templateUrl: 'templates/question/userQuestions.html',
+				controller: 'questionsController',
+				resolve: {
+					data: function(questionDataRepository) {
+						return questionDataRepository.getQuestions().$promise;
+					}
+				}
 			})
 			.state('user.newquestion', {
 				needLogin: true,
 				url: '/questions/newquestion/:questionId',
-				templateUrl: 'templates/user/userNewQuestion.html',
-				controller: 'newQuestionController'
+				templateUrl: 'templates/question/userNewQuestion.html',
+				controller: 'newQuestionController',
+				resolve: {
+					data: function($stateParams, questionDataRepository) {
+						return questionDataRepository.getQuestionById($stateParams.questionId).$promise;
+					}
+				}
 			})
 			.state('createteam', {
 				needLogin: false,

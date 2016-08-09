@@ -1,0 +1,47 @@
+<div class="row" style="height:100%">
+<div ng-scrollbars ng-scrollbars-config="config" class="col-sm-3 col-md-3 col-lg-2" style="background-color:#00a8e6; color: white; padding:15px 0px; height: 100%">
+<ul class="list-unstyled">
+	<li ng-repeat="question in questionsList track by trackByItem(question)" class="questionsList">
+		<label>
+			<input type="checkbox" checklist-model="newQuiz.questions" checklist-value="question._id">
+		</label> {{question.title}}
+		<i class="fa fa-info-circle" style="float: right; font-size: 15px; margin-right: 10px" ng-click="onClickQuestionInfo(question)"></i>
+	</li>
+</ul>
+</div>
+
+<div class="col-sm-8 col-sm-offset-1" style="padding-top: 50px">
+	<p style="font-size:35px; margin: 10px 0px">New Quiz</p>
+		<form class="form" role="form" name="newQuizForm">
+		<div class="row">
+			<div class="form-group col-sm-5 col-md-4">
+				<label>Quiz Title:</label>
+				<input type="text" name="quiznName" class="form-control" style="background-color: #333333; color:white" ng-model="newQuiz.title" required placeholder="Enter quiz name">
+			</div>
+		</div>
+			<div class="row">
+				<div class="form-group col-sm-6 col-md-5">
+					<label>Quiz Description:</label>
+					<textarea type="text" name="newQuizDescription" class="form-control" style="background-color: #333333; color:white" rows="2" ng-model="newQuiz.description" required placeholder="Enter quiz description"></textarea>
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-sm-6 col-md-5">
+					<label>Field:</label>
+					<input type="text" name="quizField" class="form-control" style="background-color: #333333; color:white" ng-model="newQuiz.field" required placeholder="Enter quiz field">
+				</div>
+			</div>
+			<div class="row" style="margin-bottom: 40px">
+				<div class="col-sm-5">
+					<strong>Questions selected: </strong> {{newQuiz.questions.length || 0}}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-5">
+					<button type="button" class="btn btn-default" ng-click="onClickSave(newQuiz)">Save</button>
+					<button type="button" class="btn btn-danger" ui-sref="user.quizzes">Cancel</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

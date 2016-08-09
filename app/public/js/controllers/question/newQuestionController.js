@@ -1,23 +1,9 @@
 //newQuestionController.js
 
-function newQuestionController($scope, $state, usersData, uploadFile) {
+function newQuestionController($scope, $state, questionDataRepository, uploadFile, data) {
 
-	$scope.newQuestion = {};
+	$scope.newQuestion = data.question;
 
-	/*
-	*	Ako je kao URL parametar predan id zadatka
-	*	provjeri jel postoji u listi sa zadatcima i postavi
-	*	ga kao varijablu newQuestion na scope. Time se omogucava
-	*	modifikacija vec postojeceg zadatka.
-	*/
-	(function() {
-		for (var q of $scope.questionsList) {
-			if ($state.params.questionId == q._id) {
-				$scope.newQuestion = q;
-				break;
-			}
-		}
-	})();
 
 	$scope.onClickText = function() {
 		if(!$scope.newQuestion.description) {
@@ -145,7 +131,7 @@ function newQuestionController($scope, $state, usersData, uploadFile) {
 			if(!question.createdBy)
 				question.createdBy = $scope.user.username;
 
-			usersData.saveQuestion(question).$promise.then(function (response) {
+			questionDataRepository.saveQuestion(question).$promise.then(function (response) {
 				$state.go('user.questions');
 			}, function (response) {
 				console.log(response);

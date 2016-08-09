@@ -5,7 +5,7 @@ function modalService($uibModal) {
 		questionInfoModal: function(question) {
 			return $uibModal.open({
 					animation: true,
-					templateUrl: 'templates/user/questionInfoModal.html',
+					templateUrl: 'templates/question/questionInfoModal.html',
 					size: 'lg',
 					resolve: {
 					question: function() {
@@ -19,7 +19,7 @@ function modalService($uibModal) {
 		deleteQuestionModal: function(question) {
 			return $uibModal.open({
 					animation: true,
-					templateUrl: 'templates/user/deleteQuestionModal.html',
+					templateUrl: 'templates/question/deleteQuestionModal.html',
 					size: 'sm',
 					resolve: {
 						question: function() {
