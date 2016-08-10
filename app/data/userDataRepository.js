@@ -1,7 +1,5 @@
 //userDataRepository.js
 
-var ObjectId = require('mongodb').ObjectID;
-
 var usersCollection = db.collection('users');
 
 module.exports = {
