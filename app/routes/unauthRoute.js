@@ -1,7 +1,7 @@
 //unauthRoute.js
 
 var express = require('express');
-var dbapi = require('../dbapi').api();
+var userDataRepository = require('../data/userDataRepository');
 var crypt = require('../bcryptConfig');
 var jwt = require('jsonwebtoken');
 
@@ -19,7 +19,7 @@ var secret = '1234';
 router.get('/username/:username', function(req, res) {
 	var username = req.params.username;
 	var response;
-	dbapi.getUserByUsername(username).then(function(doc) {
+	userDataRepository.getUserByUsername(username).then(function(doc) {
 		if(doc) 
 			response = 'collision';
 		else
@@ -40,7 +40,7 @@ router.get('/username/:username', function(req, res) {
 router.get('/email/:email', function(req, res) {
 	var email = req.params.email;
 	var response;
-	dbapi.getUserByEmail(email).count().then(function(count) {
+	userDataRepository.getUserByEmail(email).count().then(function(count) {
 		if(count > 0)
 			response = 'collision';
 		else
@@ -62,7 +62,7 @@ router.post('/signin', function(req, res) {
 	var user = req.body;
 	var cryptedPassword = crypt.generateHash(user.password); //hashiraj lozinku
 	//spremi korisnika u bazu sa hashiranom lozinkom
-	dbapi.insertUser(user, cryptedPassword);
+	userDataRepository.insertUser(user, cryptedPassword);
 
 	//korisnicke informacije za slanje zajedno sa tokenom
 	var userInformations = {
@@ -90,7 +90,7 @@ router.post('/signin', function(req, res) {
 router.post('/login', function(req, res) {
 	var user = req.body;
 	res.setHeader('Content-Type', 'application/json');
-	dbapi.getUserByUsername(user.username).then(function(doc) {
+	userDataRepository.getUserByUsername(user.username).then(function(doc) {
 		if(!doc) {
 			//Ako se uneseno korisnicko ime ne podudara ni s jednim u bazi
 			res.send({"success": false, "message": "User not found"});
