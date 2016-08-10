@@ -58,7 +58,6 @@ module.exports = {
 	*	sacuvao referencijalni integritet.
 	*/
 	deleteQuestion: function(questionId) {
-		deleteQuestionCascade(questionId);
 		questionsCollection.deleteOne({"_id": new ObjectId (questionId)});
 	}
 };
