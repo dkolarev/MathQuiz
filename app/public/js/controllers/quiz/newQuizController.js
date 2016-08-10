@@ -1,6 +1,6 @@
 //newQuizController.js
 
-function newQuizController ($scope, $state, modalService, quizDataRepository, data) {
+function newQuizController ($scope, $state, modalService, quizData, data) {
 
 	$scope.newQuiz = {};
 	$scope.questionsList = data.questionsList;
@@ -59,7 +59,7 @@ function newQuizController ($scope, $state, modalService, quizDataRepository, da
 		if(quiz.questions.length > 0 && $scope.newQuizForm.$valid) {
 			if(!quiz.createdBy)
 				quiz.createdBy = $scope.user.username;
-			quizDataRepository.saveQuiz(quiz).$promise.then(function(response) {
+			quizData.saveQuiz(quiz).$promise.then(function(response) {
 				$state.go('user.quizzes');
 			}, function(response) {
 				console.log(response);

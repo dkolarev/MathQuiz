@@ -33,8 +33,8 @@ angular
 	.factory('playerService', playerService)
 	.factory('modalService', modalService)
 	.factory('uploadFile', uploadFile)
-	.factory('quizDataRepository', quizDataRepository)
-	.factory('questionDataRepository', questionDataRepository)
+	.factory('quizData', quizData)
+	.factory('questionData', questionData)
 	.factory('correctAnswerService', correctAnswerService)
 	.filter('timerFilter', timerFilter)
 	.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider){
@@ -119,8 +119,8 @@ angular
 				templateUrl: 'templates/quiz/userQuizzes.html',
 				controller: 'quizzesController',
 				resolve: {
-					data: function(quizDataRepository) {
-						return quizDataRepository.getQuizzes().$promise;
+					data: function(quizData) {
+						return quizData.getQuizzes().$promise;
 					}
 				}
 			})
@@ -130,8 +130,8 @@ angular
 				templateUrl : 'templates/quiz/userQuizProfile.html',
 				controller: 'profileQuizController',
 				resolve: {
-					data: function($stateParams, quizDataRepository) {
-						return quizDataRepository.getQuizWithQuestions($stateParams.quizId).$promise;
+					data: function($stateParams, quizData) {
+						return quizData.getQuizWithQuestions($stateParams.quizId).$promise;
 					}
 				}
 			})
@@ -141,8 +141,8 @@ angular
 				templateUrl: 'templates/quiz/userNewQuiz.html',
 				controller: 'newQuizController',
 				resolve: {
-					data: function($stateParams, questionDataRepository) {
-						return questionDataRepository.getQuestions().$promise;
+					data: function($stateParams, questionData) {
+						return questionData.getQuestions().$promise;
 					}
 				}
 			})
@@ -152,8 +152,8 @@ angular
 				templateUrl: 'templates/quiz/editQuiz.html',
 				controller: 'editQuizController',
 				resolve: {
-					data: function($stateParams, quizDataRepository) {
-						return quizDataRepository.getQuizById($stateParams.quizId).$promise;
+					data: function($stateParams, quizData) {
+						return quizData.getQuizById($stateParams.quizId).$promise;
 					}
 				}
 			})
@@ -163,8 +163,8 @@ angular
 				templateUrl: 'templates/question/userQuestions.html',
 				controller: 'questionsController',
 				resolve: {
-					data: function(questionDataRepository) {
-						return questionDataRepository.getQuestions().$promise;
+					data: function(questionData) {
+						return questionData.getQuestions().$promise;
 					}
 				}
 			})
@@ -174,8 +174,8 @@ angular
 				templateUrl: 'templates/question/userNewQuestion.html',
 				controller: 'newQuestionController',
 				resolve: {
-					data: function($stateParams, questionDataRepository) {
-						return questionDataRepository.getQuestionById($stateParams.questionId).$promise;
+					data: function($stateParams, questionData) {
+						return questionData.getQuestionById($stateParams.questionId).$promise;
 					}
 				}
 			})

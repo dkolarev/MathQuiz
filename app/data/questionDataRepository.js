@@ -2,8 +2,6 @@
 
 var ObjectId = require('mongodb').ObjectID;
 
-var questionsCollection = db.collection('questions');
-
 module.exports = {
 	/**
 	*	Funkcija ubacuje novo pitanje u bazu podataka

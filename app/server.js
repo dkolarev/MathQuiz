@@ -9,6 +9,7 @@ var questionRoute = require('./routes/questionRoute');
 var quizRoute = require('./routes/quizRoute');
 var apiRoute = require('./routes/apiRoute');
 var gameRoute = require('./routes/gameRoute');
+var dbapi = require('./dbapi');
 
 //database connection URL
 var dbUrl = 'mongodb://localhost:27017/mathquiz';
@@ -29,11 +30,7 @@ var server;	//server instance
 var db; //database instance
 var io;
 
-mongoClient.connect("dbUrl", function(err, database) {
-	if (err) throw err;
-
-	db = database;
-
+dbapi.connect(dbUrl, function() {
 	//pokreni aplikaciju
 	server = app.listen(port, function() {
 		console.log("DAV listening on port ", port);
@@ -41,7 +38,7 @@ mongoClient.connect("dbUrl", function(err, database) {
 
 	io = require('socket.io')(server);
 	app.set('socketio', io);
-});
+});	
 
 app.use('/auth', unauthRoute);
 //app.use('/api', apiRoute);

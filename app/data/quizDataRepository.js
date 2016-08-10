@@ -1,9 +1,7 @@
 //quizDataRepository.js
 
 var ObjectId = require('mongodb').ObjectID;
-var ratingCalculator = require('./ratingCalculator');
-
-var quizzesCollection = db.collection('quizzes');
+var ratingCalculator = require('../ratingCalculator');
 
 module.exports = {
 	/**

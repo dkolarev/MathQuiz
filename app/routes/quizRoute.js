@@ -2,8 +2,8 @@
 
 var express = require('express');
 var jwt = require('jsonwebtoken');
-var quizDataRepository = require('../data/quizDataRepository');
-var questionDataRepository = require('../data/questionDataRepository');
+var quizDataRepository = require('../dbapi').quizDataRepository;
+var questionDataRepository = require('../dbapi').questionDataRepository;
 var crypto = require('crypto');
 var activeGamesCollection = require('../activeGamesCollection');
 var gameControl = require('../gameControl');
@@ -69,7 +69,7 @@ router.get('/details/:quizId', function(req, res) {
 	var questions = [];
 	quizDataRepository.getQuiz(quizId).then(function(quiz) {
 		//izvuci svaki zadatak iz baze
-		questionDataRepository.questionListByIds(quiz.questions).toArray(function(doc) {
+		questionDataRepository.questionListByIds(quiz.questions).toArray(function(err, doc) {
 			quiz.questions = doc;
 
 			res.setHeader('Content-Type', 'application/json');
@@ -159,7 +159,7 @@ router.get('/start/:quizId', function(req, res) {
 		
 		var questions = [];	//pitanja
 		
-		questionDataRepository.questionListByIds(quiz.questions).toArray(function(doc) {
+		questionDataRepository.questionListByIds(quiz.questions).toArray(function(err, doc) {
 			quiz.questions = doc;
 
 			activeGamesCollection.activateQuiz(quiz);
@@ -178,3 +178,5 @@ router.get('/play/:gameId', function(req, res) {
 
 	res.end();
 });
+
+module.exports = router;

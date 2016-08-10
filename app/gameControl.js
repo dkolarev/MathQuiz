@@ -1,7 +1,7 @@
 //gameControl.js
 
 var activeGamesCollection = require('./activeGamesCollection');
-var dbapi = require('./dbapi').api();
+var dbapi = require('./dbapi').quizDataRepository;
 
 var iterateQuizQuestions = function(gameSocket, quiz) {
 	if(quiz.currentQuestionPointer == quiz.questions.length) {
