@@ -59,5 +59,11 @@ module.exports = {
 	*/
 	deleteQuestion: function(questionId) {
 		questionsCollection.deleteOne({"_id": new ObjectId (questionId)});
+	},
+
+	questionListByIds: function(questionIds) {
+		var ids = questionIds.map(function(id) { return ObjectId(id); });
+
+		return questionsCollection.find({"_id": {$in: ids}});
 	}
 };

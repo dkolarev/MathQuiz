@@ -99,3 +99,7 @@ router.get('/delete/:questionId', function(req, res) {
 	}
 	res.end();
 });
+
+
+
+module.exports = router;

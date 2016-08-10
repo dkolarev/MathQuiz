@@ -6,6 +6,7 @@ var path = require('path');
 var helmet = require('helmet');
 var unauthRoute = require('./routes/unauthRoute');
 var questionRoute = require('./routes/questionRoute');
+var quizRoute = require('./routes/quizRoute');
 var apiRoute = require('./routes/apiRoute');
 var gameRoute = require('./routes/gameRoute');
 
@@ -44,7 +45,8 @@ mongoClient.connect("dbUrl", function(err, database) {
 
 app.use('/auth', unauthRoute);
 //app.use('/api', apiRoute);
-app.use('/question', questionRoute);
+app.use('/api/question', questionRoute);
+app.use('/api/quiz', quizRoute);
 app.use('/game', gameRoute);
 
 app.use('/', function(req, res) {
