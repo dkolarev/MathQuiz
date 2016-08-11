@@ -5,26 +5,6 @@
 	</div>
 	<div class="row">
 	<div style="max-width: 80%; margin: 0px auto; padding-top:100px">
-		
-	<!--
-	<div class="panel panel-default" style="border-color: #80d4ff" ng-repeat="question in questionsList track by trackByItem(question)">
-		<div class="panel-body" style="padding: 12px 15px 0px 15px; background-color: #4dc3ff">
-		<ul class="list-unstyled list-inline" style="color: black">
-			<li style="padding-right: 0px"><a ng-href="#deleteQuestion" data-toggle="modal" ng-click="onClickDeleteQuestion(question)">
-			<span class="glyphicon glyphicon-remove" style="color: #cc0000; font-size: 16px"></span>
-			</a>
-			</li>
-			<li><strong>Title: </strong><a href="#" ng-click="onClickQuestionInfo(question)" style="text-decoration: none; color:black">{{question.title}}</a><li>
-			<li style="float: right"><a ng-href="/user/questions/newquestion/{{question._id}}"><i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 20px"></i></a></li>
-			<li style="float:right"><strong>Modified:</strong> {{question.lastModified | date:'dd/MM/yyyy hh:mm'}}</li>
-		</div>
-		<div class="panel-footer" style="background-color: #d9d9d9">
-		<ul class="list-unstyled list-inline" style="color: #243942">
-			<li><strong>created by:</strong> {{question.createdBy}}</li>
-			<li><strong>difficulty:</strong> {{question.difficulty}}</li>
-		</ul>
-		</div>
-	</div>-->
 	<table class="table table-hover questionTable">
 		<thead>
 			<tr style="background-color: #b3ffff">
@@ -36,7 +16,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="question in questionsList track by trackByItem(question)">
+			<tr ng-repeat="question in questionsList | paginationFilter:(currentPage - 1) * pageSize | limitTo: pageSize track by trackByItem(question)">
 				<td style="color: #0099e6"><a id="questionTitle" ng-href="#" ng-click="onClickQuestionInfo(question)" style="margin-left: 15px">{{question.title}}</a></td>
 				<td>{{question.difficulty}}</td>
 				<td>{{question.lastModified | date: 'dd/MM/yyyy hh:mm'}}</td>
@@ -45,10 +25,10 @@
 			</tr>
 		</tbody>
 	</table>
-
-
-
 	</div>
+	<div class="text-center">
+	 	<ul uib-pagination total-items="questionsList.length" ng-model="currentPage" max-size="5" class="pagination-md" boundary-links="true" items-per-page="pageSize"></ul>
+	 </div>
 	<div>
 
 	

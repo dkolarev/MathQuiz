@@ -4,6 +4,10 @@ function questionsController($scope, data, modalService) {
 
 	$scope.questionsList = data.questionsList;
 
+	//pagination data
+	$scope.currentPage = 1;
+	$scope.pageSize = 10;
+
 	var socket = io();
 
 	$scope.trackByItem = function(item) {

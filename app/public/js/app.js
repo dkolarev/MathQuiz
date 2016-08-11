@@ -37,6 +37,7 @@ angular
 	.factory('questionData', questionData)
 	.factory('correctAnswerService', correctAnswerService)
 	.filter('timerFilter', timerFilter)
+	.filter('paginationFilter', paginationFilter)
 	.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider){
 		$httpProvider.interceptors.push(function($window, $q, $rootScope) {
 			return {
