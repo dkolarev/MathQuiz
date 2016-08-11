@@ -17,9 +17,16 @@
 			<label class="radio-inline">
 				<input type="radio" ng-model="newQuestion.difficulty" ng-required="!newQuestion.difficulty" value="hard" name="diffRadio">Hard
 			</label>
-			<div class="col-xs-6 col-sm-5 col-md-4 col-lg-3" style="padding-left: 0px">
-				<input type="text" name="time" class="form-control" style="background-color: #333333; color:white" ng-model="newQuestion.time" required ng-pattern="/^[1-9][0-9]*$/" placeholder="Time (min)">
 			</div>
+			<div class="row" style="padding-left: 15px; padding-right: 15px">
+				<div class="form-group col-sm-6" style="padding-left: 0px">
+				<label for="time">Time (min):</label>
+				<input type="text" name="time" class="form-control" style="background-color: #333333; color:white" ng-model="newQuestion.time" required ng-pattern="/^[1-9][0-9]*$/" placeholder="Time (min)">
+				</div>
+				<div class="form-group col-sm-6">
+					<label for="field">Field:</label>
+					<input type="text" name="field" class="form-control" style="background-color: #333333; color: white" ng-model="newQuestion.field" required placeholder="Field">	
+				</div>
 			</div>
 			</div>
 			<div class="row" style="padding-left: 15px; padding-top: 15px">

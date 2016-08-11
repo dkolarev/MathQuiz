@@ -78,6 +78,7 @@ module.exports.questionDataRepository = {
 					"createdBy": question.createdBy,
 					"difficulty": question.difficulty,
 					"correctAnswer": question.correctAnswer,
+					"field": question.field,
 					"allAnswers": question.allAnswers,
 					"image": question.image,
 					"created": question.created,
@@ -107,6 +108,7 @@ module.exports.questionDataRepository = {
 			"time": question.time,
 			"difficulty": question.difficulty,
 			"correctAnswer": question.correctAnswer,
+			"field": question.field,
 			"allAnswers": question.allAnswers,
 			"image": question.image,
 			"lastModified": question.lastModified

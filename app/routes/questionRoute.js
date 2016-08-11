@@ -3,6 +3,7 @@
 var express = require('express');
 var jwt = require('jsonwebtoken');
 var questionDataRepository = require('../dbapi').questionDataRepository;
+var quizDataRepository = require('../dbapi').quizDataRepository;
 
 var router = express.Router();
 
@@ -93,9 +94,12 @@ router.get('/delete/:questionId', function(req, res) {
 	var questionId = req.params.questionId;
 	var socketio = req.app.get('socketio');
 	if(questionId) {
-		questionDataRepository.deleteQuestion(questionId);
-		socketio.emit('deleteQuestion', {
+		questionDataRepository.deleteQuestion(questionId).then(function() {
+			quizDataRepository.deleteQuestionCascade(questionId);
+
+			socketio.emit('deleteQuestion', {
 			"questionId": questionId
+		});
 		});
 	}
 	res.end();
