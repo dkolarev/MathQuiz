@@ -41,7 +41,6 @@ dbapi.connect(dbUrl, function() {
 });	
 
 app.use('/auth', unauthRoute);
-//app.use('/api', apiRoute);
 app.use('/api/question', questionRoute);
 app.use('/api/quiz', quizRoute);
 app.use('/game', gameRoute);
