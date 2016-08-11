@@ -4,6 +4,10 @@ function quizzesController($scope, data) {
 
 	$scope.quizzesList = data.quizzesList;
 
+	//pagination data
+	$scope.currentPage = 1;
+	$scope.pageSize = 4;
+
 	var socket = io();
 
 	/**
