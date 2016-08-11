@@ -7,8 +7,8 @@ var helmet = require('helmet');
 var unauthRoute = require('./routes/unauthRoute');
 var questionRoute = require('./routes/questionRoute');
 var quizRoute = require('./routes/quizRoute');
-var apiRoute = require('./routes/apiRoute');
 var gameRoute = require('./routes/gameRoute');
+var secureRoute = require('./routes/secureRoute');
 var dbapi = require('./dbapi');
 
 //database connection URL
@@ -27,8 +27,7 @@ app.use(helmet());
 app.disable('x-powered-by');
 
 var server;	//server instance
-var db; //database instance
-var io;
+var io; //socket instance
 
 dbapi.connect(dbUrl, function() {
 	//pokreni aplikaciju
@@ -41,6 +40,7 @@ dbapi.connect(dbUrl, function() {
 });	
 
 app.use('/auth', unauthRoute);
+app.use('/api', secureRoute);
 app.use('/api/question', questionRoute);
 app.use('/api/quiz', quizRoute);
 app.use('/game', gameRoute);

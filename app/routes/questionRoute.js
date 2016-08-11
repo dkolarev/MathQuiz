@@ -10,6 +10,7 @@ var secret = '1234';
 
 var socket;
 
+
 router.use(function(req, res, next) {
 	var token = req.query.token || req.headers['x-auth-token'];
 	if (token) {
