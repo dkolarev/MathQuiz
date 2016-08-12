@@ -8,6 +8,9 @@ function questionsController($scope, data, modalService) {
 	$scope.currentPage = 1;
 	$scope.pageSize = 10;
 
+	$scope.currentSort = '';
+	$scope.reverseSort = false;
+
 	var socket = io();
 
 	$scope.trackByItem = function(item) {
@@ -56,6 +59,32 @@ function questionsController($scope, data, modalService) {
 			}
 		}
 	});
+
+	$scope.onClickDateSort = function(currentSort, reverseSort) {
+		if(currentSort == 'lastModified') {
+			if (reverseSort) {
+				$scope.reverseSort = false;
+			} else {
+				$scope.reverseSort = true;
+			}
+		} else {
+			$scope.currentSort = 'lastModified';
+			$scope.reverseSort = false;
+		}
+	};
+
+	$scope.onClickNameSort = function(currentSort, reverseSort) {
+		if (currentSort == 'title') {
+			if (reverseSort) {
+				$scope.reverseSort = false;
+			} else {
+				$scope.reverseSort = true;
+			}
+		} else {
+			$scope.currentSort = 'title';
+			$scope.reverseSort = false;
+		}
+	};
 
 	/**
 	*	Kada korisnik zeli obrisati zadatak, otvori se 

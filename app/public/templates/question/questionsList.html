@@ -8,15 +8,15 @@
 	<table class="table table-hover questionTable">
 		<thead>
 			<tr style="background-color: #b3ffff">
-				<th><span style="margin-left: 15px">Title</span></th>
+				<th><span style="margin-left: 15px"><a href="" ng-click="onClickNameSort(currentSort, reverseSort)" style="text-decoration: none">Title</a></span></th>
 				<th><span>Difficulty</span></th>
-				<th><span>Last Modified</span></th>
+				<th><span><a href="" ng-click="onClickDateSort(currentSort, reverseSort)" style="text-decoration: none">Last Modified</a></span></th>
 				<th><span>Edit</span></th>
 				<th><span>Delete</span></th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="question in questionsList | paginationFilter:(currentPage - 1) * pageSize | limitTo: pageSize track by trackByItem(question)">
+			<tr ng-repeat="question in questionsList | orderBy: currentSort : reverseSort | paginationFilter:(currentPage - 1) * pageSize | limitTo: pageSize track by trackByItem(question)">
 				<td style="color: #0099e6"><a id="questionTitle" ng-href="#" ng-click="onClickQuestionInfo(question)" style="margin-left: 15px">{{question.title}}</a></td>
 				<td>{{question.difficulty}}</td>
 				<td>{{question.lastModified | date: 'dd/MM/yyyy hh:mm'}}</td>
