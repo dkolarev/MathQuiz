@@ -10,6 +10,17 @@ function newQuizController ($scope, $state, modalService, quizData, data) {
     	axis: 'y'
   	};
 
+  	$scope.selectList = ["calculus", 
+						 "algebra", 
+						 "number theory", 
+						 "numeric mathematic",
+						 "analitic geometry",
+						 "elementary geometry",
+						 "elementary mathematics",
+						 "computer science",
+						 "propability",
+						 "statistic"];
+
   	var socket = io();
 
   	socket.on('newQuestion', function (data) {

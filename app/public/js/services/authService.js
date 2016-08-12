@@ -52,7 +52,7 @@ function authService($window, $resource) {
 	*	Provjerava je li token valjan. 
 	*/
 	var verifyToken = function() {
-		return $resource('/api').get();
+		return $resource('/api/validate').get();
 	};
 
 	var saveToken = function(token, callb) {

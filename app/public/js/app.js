@@ -117,7 +117,7 @@ angular
 			.state('user.quizzes', {
 				needLogin: true,
 				url: '/quizzes',
-				templateUrl: 'templates/quiz/userQuizzes.html',
+				templateUrl: 'templates/quiz/quizzesList.html',
 				controller: 'quizzesController',
 				resolve: {
 					data: function(quizData) {
@@ -128,7 +128,7 @@ angular
 			.state('user.quizprofile', {
 				needLogin: true,
 				url: '/quizzes/quizprofile/:quizId',
-				templateUrl : 'templates/quiz/userQuizProfile.html',
+				templateUrl : 'templates/quiz/quizProfile.html',
 				controller: 'profileQuizController',
 				resolve: {
 					data: function($stateParams, quizData) {
@@ -139,7 +139,7 @@ angular
 			.state('user.newquiz', {
 				needLogin: true,
 				url: '/quizzes/newquiz',
-				templateUrl: 'templates/quiz/userNewQuiz.html',
+				templateUrl: 'templates/quiz/newQuiz.html',
 				controller: 'newQuizController',
 				resolve: {
 					data: function($stateParams, questionData) {
@@ -161,7 +161,7 @@ angular
 			.state('user.questions', {
 				needLogin: true,
 				url: '/questions',
-				templateUrl: 'templates/question/userQuestions.html',
+				templateUrl: 'templates/question/questionsList.html',
 				controller: 'questionsController',
 				resolve: {
 					data: function(questionData) {
@@ -172,7 +172,7 @@ angular
 			.state('user.newquestion', {
 				needLogin: true,
 				url: '/questions/newquestion/:questionId',
-				templateUrl: 'templates/question/userNewQuestion.html',
+				templateUrl: 'templates/question/newQuestion.html',
 				controller: 'newQuestionController',
 				resolve: {
 					data: function($stateParams, questionData) {

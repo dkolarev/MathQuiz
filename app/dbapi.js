@@ -102,16 +102,16 @@ module.exports.questionDataRepository = {
 	*	Funkcija azurira vec postojeci zadatak u bazi podataka.
 	*/
 	updateQuestion: function(question) {
-		questionsCollection.updateOne({"_id": new ObjectId (question._id)}, {$set: {
-			"title": question.title,
-			"description": question.description,
-			"time": question.time,
-			"difficulty": question.difficulty,
-			"correctAnswer": question.correctAnswer,
-			"field": question.field,
-			"allAnswers": question.allAnswers,
-			"image": question.image,
-			"lastModified": question.lastModified
+		return questionsCollection.updateOne({"_id": new ObjectId (question._id)}, {$set: {
+				"title": question.title,
+				"description": question.description,
+				"time": question.time,
+				"difficulty": question.difficulty,
+				"correctAnswer": question.correctAnswer,
+				"field": question.field,
+				"allAnswers": question.allAnswers,
+				"image": question.image,
+				"lastModified": question.lastModified
 		}});
 	},
 
@@ -121,7 +121,7 @@ module.exports.questionDataRepository = {
 	*	sacuvao referencijalni integritet.
 	*/
 	deleteQuestion: function(questionId) {
-		questionsCollection.deleteOne({"_id": new ObjectId (questionId)});
+		return questionsCollection.deleteOne({"_id": new ObjectId (questionId)});
 	},
 
 	questionListByIds: function(questionIds) {

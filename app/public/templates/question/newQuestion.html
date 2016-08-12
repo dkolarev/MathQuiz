@@ -24,8 +24,10 @@
 				<input type="text" name="time" class="form-control" style="background-color: #333333; color:white" ng-model="newQuestion.time" required ng-pattern="/^[1-9][0-9]*$/" placeholder="Time (min)">
 				</div>
 				<div class="form-group col-sm-6">
-					<label for="field">Field:</label>
-					<input type="text" name="field" class="form-control" style="background-color: #333333; color: white" ng-model="newQuestion.field" required placeholder="Field">	
+					 <label for="sel1">Field:</label>
+      				<select class="form-control" id="sel1" ng-model="newQuestion.field" required style="background-color: #333333; color:white">
+        				<option ng-repeat="field in selectList">{{field}}</option>
+      				</select>
 				</div>
 			</div>
 			</div>

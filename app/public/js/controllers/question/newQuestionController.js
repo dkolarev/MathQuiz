@@ -4,6 +4,17 @@ function newQuestionController($scope, $state, questionData, uploadFile, data) {
 
 	$scope.newQuestion = data.question;
 
+	$scope.selectList = ["calculus", 
+						 "algebra", 
+						 "number theory", 
+						 "numeric mathematic",
+						 "analitic geometry",
+						 "elementary geometry",
+						 "elementary mathematics",
+						 "computer science",
+						 "propability",
+						 "statistic"];
+
 
 	$scope.onClickText = function() {
 		if(!$scope.newQuestion.description) {
