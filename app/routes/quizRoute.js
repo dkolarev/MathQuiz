@@ -91,19 +91,23 @@ router.post('/save', function(req, res) {
 	if(quiz._id) {
 		quiz.lastModified = currentTime;
 
-		quizDataRepository.updateQuiz(quiz);
+		quizDataRepository.updateQuiz(quiz, function(err, doc) {
+			socketio.emit('updateQuiz', doc);
 
-		socketio.emit('updateQuiz', quiz);
+			res.end();
+		});
+
+	
 	} else {
 		quiz.created = currentTime;
 		quiz.lastModified = currentTime;
 
 		quizDataRepository.insertQuiz(quiz).then(function(doc) {
 			socketio.emit('newQuiz', doc.ops[0]);
+
+			res.end();
 		});
 	}
-
-	res.end();
 });
 
 /**

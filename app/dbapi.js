@@ -100,7 +100,7 @@ module.exports.questionDataRepository = {
 	/*
 	*	Funkcija azurira vec postojeci zadatak u bazi podataka.
 	*/
-	updateQuestion: function(question) {
+	updateQuestion: function(question, callb) {
 		return questionsCollection.updateOne({"_id": new ObjectId (question._id)}, {$set: {
 				"title": question.title,
 				"description": question.description,
@@ -111,7 +111,7 @@ module.exports.questionDataRepository = {
 				"allAnswers": question.allAnswers,
 				"image": question.image,
 				"lastModified": question.lastModified
-		}});
+		}}, callb);
 	},
 
 	/**
@@ -159,14 +159,14 @@ module.exports.quizDataRepository = {
 		return quizzesCollection.find().toArray();
 	},
 
-	updateQuiz: function(quiz) {
+	updateQuiz: function(quiz, callb) {
 		quizzesCollection.updateOne({"_id": new ObjectId(quiz._id)}, {$set: {
 			"title": quiz.title,
 			"description": quiz.description,
 			"field": quiz.field,
 			"lastModified": quiz.lastModified,
 			"questions": quiz.questions
-		}});	
+		}}, callb);	
 	},
 
 	/**

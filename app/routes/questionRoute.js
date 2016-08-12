@@ -57,10 +57,9 @@ router.post('/save', function(req, res) {
 	//ako pitanje ima atribut id onda radi update
 	if(question._id) {
 		question.lastModified = currentTime;
-		
-		questionDataRepository.updateQuestion(question).then(function(doc) {
-			socketio.emit('updateQuestion', doc.ops[0]);
-
+		questionDataRepository.updateQuestion(question, function(err, doc) {
+			socketio.emit('updateQuestion', doc);
+			
 			res.end();
 		});
 	} else {
