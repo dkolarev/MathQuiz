@@ -21,7 +21,7 @@
 			<div class="row" style="padding-left: 15px; padding-right: 15px">
 				<div class="form-group col-sm-6" style="padding-left: 0px">
 				<label for="time">Time (min):</label>
-				<input type="text" name="time" class="form-control" style="background-color: #333333; color:white" ng-model="newQuestion.time" required ng-pattern="/^[1-9][0-9]*$/" placeholder="Time (min)">
+				<input type="number" min="1" name="time" class="form-control" style="background-color: #333333; color:white" ng-model="newQuestion.time" required ng-pattern="/^[1-9][0-9]*$/" placeholder="Time (min)">
 				</div>
 				<div class="form-group col-sm-6">
 					 <label for="sel1">Field:</label>

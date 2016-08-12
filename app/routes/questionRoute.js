@@ -58,19 +58,21 @@ router.post('/save', function(req, res) {
 	if(question._id) {
 		question.lastModified = currentTime;
 		
-		questionDataRepository.updateQuestion(question);
+		questionDataRepository.updateQuestion(question).then(function(doc) {
+			socketio.emit('updateQuestion', doc.ops[0]);
 
-		socketio.emit('updateQuestion', question);
+			res.end();
+		});
 	} else {
 		question.created = currentTime;
 		question.lastModified = currentTime;
 		
 		questionDataRepository.insertQuestion(question).then(function(doc) {
 			socketio.emit('newQuestion', doc.ops[0]);
+
+			res.end();
 		});
 	}
-
-	res.end();
 });
 
 /**
