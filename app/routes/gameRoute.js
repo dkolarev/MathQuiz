@@ -71,7 +71,7 @@ router.post('/sendanswer', function(req, res) {
 	gameControl.iterateAnsweredCounter(gameId);
 });
 
-router.post('/sendrating', function(req, res) {
+router.post('/rating', function(req, res) {
 	var data = req.body;
 	var gameId = req.query.gameId || req.headers['gameid'];
 

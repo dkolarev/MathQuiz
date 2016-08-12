@@ -171,7 +171,11 @@ router.get('/start/:quizId', function(req, res) {
 router.get('/play/:gameId', function(req, res) {
 	var gameId = req.params.gameId;
 	var socketio = req.app.get('socketio');
+	
 	gameControl.play(gameId, socketio);
+
+	var quiz = activeGamesCollection.getQuiz(gameId);
+	quizDataRepository.updateQuizPlayedCounter(quiz._id);
 
 	res.end();
 });

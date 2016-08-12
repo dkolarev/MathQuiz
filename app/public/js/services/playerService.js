@@ -11,7 +11,7 @@ function playerService ($resource) {
 	};
 
 	var sendRating = function(rating) {
-		return $resource('/game/sendrating').save(rating);
+		return $resource('/game/rating').save(rating);
 	};
 
 	var getWinnerData = function() {

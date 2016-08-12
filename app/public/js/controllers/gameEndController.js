@@ -1,6 +1,6 @@
 //gameEndController.js
 
-function gameEndController($scope, data, gameService, playerService) {
+function gameEndController($scope, $state, data, gameService, playerService) {
 
 	$scope.scoreboard = data.scoreboard;
 	$scope.winner = data.winner;

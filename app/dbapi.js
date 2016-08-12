@@ -3,7 +3,6 @@
 var mongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var ObjectId = require('mongodb').ObjectID;
-var ratingCalculator = require('./ratingCalculator');
 
 var db;
 var usersCollection;
@@ -174,8 +173,8 @@ module.exports.quizDataRepository = {
 	*	Funkcija kvizu s id-om quizId postavlja novu listu s kvizovima. 
 	*/
 	updateQuizQuestions: function(quizId, questions) {
-		quizzesCollection.updateOne({"_id": new ObjectId(quizId)}, {$set: {
-			"questions": questions
+		return quizzesCollection.updateOne({"_id": new ObjectId(quizId)}, {$set: {
+				"questions": questions
 		}});
 	},
 
@@ -183,7 +182,7 @@ module.exports.quizDataRepository = {
 	*	Funkcija brise kviz iz kolekcije 'quizzes'
 	*/
 	deleteQuiz: function(quizId) {
-		quizzesCollection.deleteOne({"_id": new ObjectId (quizId)});
+		return quizzesCollection.deleteOne({"_id": new ObjectId (quizId)});
 	},
 
 	/**
@@ -193,17 +192,11 @@ module.exports.quizDataRepository = {
 		return quizzesCollection.findOne({"_id": new ObjectId (quizId)});
 	},
 
-	updateQuizRating: function(quizId, rating) {
-		quizzesCollection.findOne({"_id": new ObjectId (quizId)}).then(function(quiz) {
-			var newRatingCount = quiz.ratingCount + 1;
-
-			var newRating = ratingCalculator.calculateRating(quiz.rating, quiz.ratingCount, rating);
-
-			quizzesCollection.updateOne({"_id": new ObjectId(quizId)}, {$set: {
-			"ratingCount": newRatingCount,
-			"rating": newRating
-			}});
-		});
+	updateQuizRating: function(quizId, newRatingCount, newRating) {
+		return quizzesCollection.updateOne({"_id": new ObjectId(quizId)}, {$set: {
+				"ratingCount": newRatingCount,
+				"rating": newRating
+		}});
 	},
 
 	/**
@@ -218,5 +211,11 @@ module.exports.quizDataRepository = {
 				updateQuizQuestions(quiz._id, newQuestionsList);
 			}
 		});
+	},
+
+	updateQuizPlayedCounter: function(quizId) {
+		return quizzesCollection.updateOne({"_id": new ObjectId(quizId)}, { $inc: {
+					"played": 1
+		}});
 	}
 };

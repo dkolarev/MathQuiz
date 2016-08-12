@@ -1,7 +1,5 @@
 //activeGamesCollection.js
 
-var dbapi = require('./dbapi').quizDataRepository;
-
 /**
 *	ActiveQuizzes sadrzi aktivan kviz. Kviz je modeliran
 *	na sljedecin nacin:
