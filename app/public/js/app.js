@@ -18,7 +18,6 @@ angular
 	.controller('playerController', playerController)
 	.controller('questionsController', questionsController)
 	.controller('quizzesController', quizzesController)
-	.controller('editQuizController', editQuizController)
 	.controller('gameEndController', gameEndController)
 	.directive('checkUsername', checkUsername)
 	.directive('checkPassword', checkPassword)
@@ -138,22 +137,14 @@ angular
 			})
 			.state('user.newquiz', {
 				needLogin: true,
-				url: '/quizzes/newquiz',
+				url: '/quizzes/newquiz/:quizId',
 				templateUrl: 'templates/quiz/newQuiz.html',
 				controller: 'newQuizController',
 				resolve: {
-					data: function($stateParams, questionData) {
+					data: function(questionData) {
 						return questionData.getQuestions().$promise;
-					}
-				}
-			})
-			.state('user.editquiz', {
-				needLogin: true,
-				url: '/quiz/editquiz/:quizId',
-				templateUrl: 'templates/quiz/editQuiz.html',
-				controller: 'editQuizController',
-				resolve: {
-					data: function($stateParams, quizData) {
+					},
+					quiz: function($stateParams, quizData) {
 						return quizData.getQuizById($stateParams.quizId).$promise;
 					}
 				}

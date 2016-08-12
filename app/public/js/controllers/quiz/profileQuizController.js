@@ -24,7 +24,7 @@ function profileQuizController($scope, $state, $location, data, modalService, qu
 	};
 
 	$scope.onClickEdit = function(quizId) {
-		$location.url('/user/quiz/editquiz/' + quizId);
+		$location.url('/user/quizzes/newquiz/' + quizId);
 	};
 
 	$scope.onClickDelete = function(quizId) {

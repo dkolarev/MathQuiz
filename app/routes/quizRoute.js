@@ -49,17 +49,14 @@ router.get('/all', function(req, res) {
 });
 
 /**
-*	Salje klijentu kviz na temelju id-a. POPRAVITI
+*	Salje klijentu kviz na temelju id-a.
 */
 router.get('/:quizId', function(req, res) {
-	var quizId = req.params.questionId;
-	quizDataRepository.queryQuestions().then(function(questions) {
-		dbapi.getQuiz(quizId).then(function(quiz) {
-			res.setHeader('Content-Type', 'application/json');
-			res.send({
-				"quiz": quiz,
-				"questions": questions
-			});
+	var quizId = req.params.quizId;
+	quizDataRepository.getQuiz(quizId).then(function(quiz) {
+		res.setHeader('Content-Type', 'application/json');
+		res.send({
+			"quiz": quiz
 		});
 	});
 });

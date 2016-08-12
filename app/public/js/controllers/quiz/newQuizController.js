@@ -1,8 +1,8 @@
 //newQuizController.js
 
-function newQuizController ($scope, $state, modalService, quizData, data) {
+function newQuizController ($scope, $state, modalService, quizData, data, quiz) {
 
-	$scope.newQuiz = {};
+	$scope.newQuiz = quiz.quiz;
 	$scope.questionsList = data.questionsList;
 	
   	$scope.config = {
