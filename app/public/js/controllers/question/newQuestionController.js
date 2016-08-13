@@ -143,7 +143,9 @@ function newQuestionController($scope, $state, questionData, uploadFile, data) {
 				question.createdBy = $scope.user.username;
 
 			questionData.saveQuestion(question).$promise.then(function (response) {
-				$state.go('user.questions');
+				if(response.valid) {
+					$state.go('user.questions');
+				}
 			}, function (response) {
 				console.log(response);
 			});

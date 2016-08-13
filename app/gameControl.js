@@ -1,7 +1,7 @@
 //gameControl.js
 
 var activeGamesCollection = require('./activeGamesCollection');
-var quizDataRepository = require('./dbapi').quizDataRepository;
+var quizDataRepository = require('./data/dbapi').quizDataRepository;
 var ratingCalculator = require('./ratingCalculator');
 
 var iterateQuizQuestions = function(gameSocket, quiz) {

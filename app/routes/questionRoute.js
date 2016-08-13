@@ -2,8 +2,9 @@
 
 var express = require('express');
 var jwt = require('jsonwebtoken');
-var questionDataRepository = require('../dbapi').questionDataRepository;
-var quizDataRepository = require('../dbapi').quizDataRepository;
+var questionDataRepository = require('../data/dbapi').questionDataRepository;
+var quizDataRepository = require('../data/dbapi').quizDataRepository;
+var questionDataValidator = require('../data/questionDataValidator');
 
 var router = express.Router();
 
@@ -56,21 +57,33 @@ router.post('/save', function(req, res) {
 
 	//ako pitanje ima atribut id onda radi update
 	if(question._id) {
-		question.lastModified = currentTime;
-		questionDataRepository.updateQuestion(question, function(err, doc) {
-			socketio.emit('updateQuestion', doc);
-			
-			res.end();
-		});
-	} else {
-		question.created = currentTime;
-		question.lastModified = currentTime;
-		
-		questionDataRepository.insertQuestion(question).then(function(doc) {
-			socketio.emit('newQuestion', doc.ops[0]);
+		var valid = questionDataValidator.validateQuestion(question);
 
-			res.end();
-		});
+		if (valid) {
+			question.lastModified = currentTime;
+			questionDataRepository.updateQuestion(question, function(err, doc) {
+				socketio.emit('updateQuestion', doc);
+				
+				res.send({"valid": true});
+			});
+		} else {
+			res.send({"valid": false})
+		}
+	} else {
+		var valid = questionDataValidator.validateQuestion(question);
+
+		if (valid) {		
+			question.created = currentTime;
+			question.lastModified = currentTime;
+		
+			questionDataRepository.insertQuestion(question).then(function(doc) {
+				socketio.emit('newQuestion', doc.ops[0]);
+
+				res.send({"valid": true});
+			});
+		} else {
+			res.send({"valid": false});
+		}
 	}
 });
 

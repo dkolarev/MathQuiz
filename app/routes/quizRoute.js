@@ -2,8 +2,8 @@
 
 var express = require('express');
 var jwt = require('jsonwebtoken');
-var quizDataRepository = require('../dbapi').quizDataRepository;
-var questionDataRepository = require('../dbapi').questionDataRepository;
+var quizDataRepository = require('../data/dbapi').quizDataRepository;
+var questionDataRepository = require('../data/dbapi').questionDataRepository;
 var crypto = require('crypto');
 var activeGamesCollection = require('../activeGamesCollection');
 var gameControl = require('../gameControl');
