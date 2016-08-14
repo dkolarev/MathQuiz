@@ -8,7 +8,8 @@ var unauthRoute = require('./routes/unauthRoute');
 var questionRoute = require('./routes/questionRoute');
 var quizRoute = require('./routes/quizRoute');
 var gameRoute = require('./routes/gameRoute');
-var secureRoute = require('./routes/secureRoute');
+var validateRoute = require('./routes/validateRoute');
+var userRoute = require('./routes/userRoute');
 var dbapi = require('./data/dbapi');
 
 //database connection URL
@@ -40,9 +41,10 @@ dbapi.connect(dbUrl, function() {
 });	
 
 app.use('/auth', unauthRoute);
-app.use('/api', secureRoute);
+app.use('/api', validateRoute);
 app.use('/api/question', questionRoute);
 app.use('/api/quiz', quizRoute);
+app.use('/api/user', userRoute);
 app.use('/game', gameRoute);
 
 app.use('/', function(req, res) {

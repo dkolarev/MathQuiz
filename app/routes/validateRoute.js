@@ -1,4 +1,4 @@
-//secureRoute.js
+//validateRoute.js
 
 var express = require('express');
 var jwt = require('jsonwebtoken');
