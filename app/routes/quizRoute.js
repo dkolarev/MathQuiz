@@ -4,6 +4,7 @@ var express = require('express');
 var jwt = require('jsonwebtoken');
 var quizDataRepository = require('../data/dbapi').quizDataRepository;
 var questionDataRepository = require('../data/dbapi').questionDataRepository;
+var quizDataValidator = require('../data/quizDataValidator');
 var crypto = require('crypto');
 var activeGamesCollection = require('../activeGamesCollection');
 var gameControl = require('../gameControl');
@@ -89,24 +90,43 @@ router.post('/save', function(req, res) {
 	var currentTime = new Date().toISOString();
 
 	if(quiz._id) {
-		quiz.lastModified = currentTime;
+		var valid = quizDataValidator.validateQuiz(quiz);
 
-		quizDataRepository.updateQuiz(quiz, function(err, doc) {
-			socketio.emit('updateQuiz', doc);
+		if(valid) {
+			quiz.lastModified = currentTime;
 
-			res.end();
-		});
+			quizDataRepository.updateQuiz(quiz, function(err, doc) {
+				socketio.emit('updateQuiz', doc);
 
+				res.send({
+					success: true
+				});
+			});
+		} else {
+			res.send({
+				success: false
+			});
+		}
 	
 	} else {
-		quiz.created = currentTime;
-		quiz.lastModified = currentTime;
+		var valid = quizDataValidator.validateQuiz(quiz);
 
-		quizDataRepository.insertQuiz(quiz).then(function(doc) {
-			socketio.emit('newQuiz', doc.ops[0]);
+		if(valid) {
+			quiz.created = currentTime;
+			quiz.lastModified = currentTime;
 
-			res.end();
-		});
+			quizDataRepository.insertQuiz(quiz).then(function(doc) {
+				socketio.emit('newQuiz', doc.ops[0]);
+
+				res.send({
+					success: true
+				});
+			});
+		} else {
+			res.send({
+				success: false
+			});
+		}
 	}
 });
 

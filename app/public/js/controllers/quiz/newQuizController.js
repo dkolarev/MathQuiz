@@ -71,7 +71,11 @@ function newQuizController ($scope, $state, modalService, quizData, data, quiz) 
 			if(!quiz.createdBy)
 				quiz.createdBy = $scope.user.username;
 			quizData.saveQuiz(quiz).$promise.then(function(response) {
-				$state.go('user.quizzes');
+				if (response.success) {
+					$state.go('user.quizzes');
+				} else {
+					console.log(response);
+				}
 			}, function(response) {
 				console.log(response);
 			});
