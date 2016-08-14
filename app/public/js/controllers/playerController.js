@@ -87,9 +87,14 @@ function playerController($scope,
 
 	$scope.onClickReady = function(team) {
 		playerService.saveTeam(team).$promise.then(function(response) {
-			$scope.team.teamId = response.teamId;
-			$scope.teamSended = true;
-			$scope.showAlert = true;
+			if(response.success) {
+				$scope.team.teamId = response.teamId;
+				$scope.teamSended = true;
+				$scope.showAlert = true;
+			} else {
+				console.log(response);
+			}
+			
 		}, function(response) {
 			console.log(response);
 		});

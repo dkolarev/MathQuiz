@@ -6,7 +6,7 @@ var quizDataRepository = require('../data/dbapi').quizDataRepository;
 var questionDataRepository = require('../data/dbapi').questionDataRepository;
 var quizDataValidator = require('../data/quizDataValidator');
 var crypto = require('crypto');
-var activeGamesCollection = require('../activeGamesCollection');
+var activeGamesCollection = require('../data/activeGamesCollection');
 var gameControl = require('../gameControl');
 
 var router = express.Router();
