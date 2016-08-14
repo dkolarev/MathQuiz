@@ -2,6 +2,7 @@
 
 var express = require('express');
 var userDataRepository = require('../data/dbapi').userDataRepository;
+var userDataValidator = require('../data/userDataValidator');
 var crypt = require('../bcryptConfig');
 var jwt = require('jsonwebtoken');
 
@@ -60,25 +61,34 @@ router.get('/email/:email', function(req, res) {
 */
 router.post('/signin', function(req, res) {
 	var user = req.body;
-	var cryptedPassword = crypt.generateHash(user.password); //hashiraj lozinku
-	//spremi korisnika u bazu sa hashiranom lozinkom
-	userDataRepository.insertUser(user, cryptedPassword);
 
-	//korisnicke informacije za slanje zajedno sa tokenom
-	var userInformations = {
-		"username": user.username,
-		"email": user.email
-	};
+	var valid = userDataValidator.validateUser(user);
 
-	//generiraj token
-	var token = jwt.sign(userInformations, secret, {
-		expiresIn: '60m'
-	});
+	if (valid) {
+		var cryptedPassword = crypt.generateHash(user.password); //hashiraj lozinku
+		//spremi korisnika u bazu sa hashiranom lozinkom
+		userDataRepository.insertUser(user, cryptedPassword);
 
-	res.status(200).json({
-		success: true,
-		token: token
-	});
+		//korisnicke informacije za slanje zajedno sa tokenom
+		var userInformations = {
+			"username": user.username,
+			"email": user.email
+		};
+
+		//generiraj token
+		var token = jwt.sign(userInformations, secret, {
+			expiresIn: '60m'
+		});
+
+		res.status(200).json({
+			success: true,
+			token: token
+		});
+	} else {
+		res.status(200).json({
+			success: false
+		});
+	}
 });
 
 

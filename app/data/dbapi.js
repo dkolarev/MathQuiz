@@ -55,8 +55,7 @@ module.exports.userDataRepository = {
 			"username": user.username,
 			"password": cryptedPassword,
 			"email": user.email,
-			"joined": new Date().toISOString(),
-			"quizList": []
+			"joined": new Date().toISOString()
 		});	
 	}
 };

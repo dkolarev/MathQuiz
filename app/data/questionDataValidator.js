@@ -73,9 +73,7 @@ var validateImage = function(image) {
 
 	var index = image.indexOf(":") + 1;
 	var index_2 = index + 5;
-
 	var sliced = image.slice(index, index_2);
-	console.log(sliced);
 
 	return sliced === "image";
 

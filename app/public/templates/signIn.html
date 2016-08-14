@@ -7,7 +7,7 @@
 			<form class="form" role="form" name="signInForm">
 				<div class="form-group">
 					<label>Username</label>
-					<input type="text" name="username" class="form-control" ng-model="user.username" ng-model-options="{updateOn: 'blur'}" required ng-pattern="/^[0-9]*[A-Za-z][A-Za-z0-9]*/" ng-minlength="2" check-username="user.username" placeholder="Enter username">
+					<input type="text" name="username" class="form-control" ng-model="user.username" ng-model-options="{updateOn: 'blur'}" required ng-pattern="/^[0-9]*[A-Za-z][A-Za-z0-9]*$/" ng-minlength="2" check-username="user.username" placeholder="Enter username">
 
 					<div ng-messages="signInForm.username.$error" ng-show="signInForm.username.$touched" role="alert">
                       <div ng-show="signInForm.username.$error.unique" class="errorMessage">Username already exists.</div>

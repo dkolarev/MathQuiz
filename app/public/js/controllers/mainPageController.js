@@ -12,10 +12,12 @@ function mainPageController($scope, $state, $window, authService, gameService) {
 		if(signInForm.$valid){
 			authService.signIn(user).$promise.then(
 				function(response) {
-					console.log("Succesfully sign in as + " + user.username);
-					authService.saveToken(response.token, function() {
-						$state.go('user.home');
-					});
+					if (response.success) {
+						console.log("Succesfully sign in as + " + user.username);
+						authService.saveToken(response.token, function() {
+							$state.go('user.home');
+						});
+					}
 				}, function(response) {
 					console.log(response);
 				}
