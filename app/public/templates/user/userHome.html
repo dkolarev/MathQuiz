@@ -5,93 +5,15 @@
 		<div ng-show="dashboard.length == 0">
 			<h3>No active games.</h3>
 		</div>
-		<div style="background-color: #00e6e6; color: #404040; border-radius: 2px; height: 150px; padding: 15px; margin-bottom: 15px">
-			<div style="font-size: 19px; color: #662200"><strong>gameId: </strong>{{game.gameId}} gameId</div>
-			<div><strong>quiz title: </strong>{{game.title}} title</div>
-			<div class="progress" style="margin-top: 15px">
-  				<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
- 				 aria-valuemin="0" aria-valuemax="100" style="width:40%">
-    			40% Complete
-  				</div>
-			</div>
+
+		<div class="text-center">
+	 		<ul uib-pagination total-items="totalCount" ng-model="currentPage" max-size="5" class="pagination-sm" boundary-links="true" items-per-page="pageItems" ng-change="onPageChange(pageItems, currentPage)"></ul>
 		</div>
 
-		<div style="background-color: #00e6e6; color: #404040; border-radius: 2px; height: 150px; padding: 15px; margin-bottom: 15px">
-			<div style="font-size: 19px; color: #662200"><strong>gameId: </strong>{{game.gameId}} gameId</div>
-			<div><strong>quiz title: </strong>{{game.title}} title</div>
-			<div class="progress" style="margin-top: 15px">
-  				<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
- 				 aria-valuemin="0" aria-valuemax="100" style="width:40%">
-    			40% Complete
-  				</div>
-			</div>
+		<div ng-repeat="game in dashboard | paginationFilter:(currentPage - 1) * pageItems | limitTo: pageItems" style="background-color: #00e6e6; color: #404040; border-radius: 2px; height: 120px; padding: 15px; margin-bottom: 15px">
+			<div style="font-size: 19px; color: #662200"><strong>gameId: </strong>{{game.gameId}}</div>
+			<div><strong>quiz title: </strong>{{game.title}}</div>
+			<uib-progressbar max="game.questionsNumber" value="game.currentQuestionPointer" type="success" style="margin-top: 15px"><span style="color: #404040; white-space:nowrap;">{{game.currentQuestionPointer}} / {{game.questionsNumber}}</span></uib-progressbar>
 		</div>
-
-		<div style="background-color: #00e6e6; color: #404040; border-radius: 2px; height: 150px; padding: 15px; margin-bottom: 15px">
-			<div style="font-size: 19px; color: #662200"><strong>gameId: </strong>{{game.gameId}} gameId</div>
-			<div><strong>quiz title: </strong>{{game.title}} title</div>
-			<div class="progress" style="margin-top: 15px">
-  				<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
- 				 aria-valuemin="0" aria-valuemax="100" style="width:40%">
-    			40% Complete
-  				</div>
-			</div>
-		</div>
-
-		<div style="background-color: #00e6e6; color: #404040; border-radius: 2px; height: 150px; padding: 15px; margin-bottom: 15px">
-			<div style="font-size: 19px; color: #662200"><strong>gameId: </strong>{{game.gameId}} gameId</div>
-			<div><strong>quiz title: </strong>{{game.title}} title</div>
-			<div class="progress" style="margin-top: 15px">
-  				<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
- 				 aria-valuemin="0" aria-valuemax="100" style="width:40%">
-    			40% Complete
-  				</div>
-			</div>
-		</div>
-
-		<div style="background-color: #00e6e6; color: #404040; border-radius: 2px; height: 150px; padding: 15px; margin-bottom: 15px">
-			<div style="font-size: 19px; color: #662200"><strong>gameId: </strong>{{game.gameId}} gameId</div>
-			<div><strong>quiz title: </strong>{{game.title}} title</div>
-			<div class="progress" style="margin-top: 15px">
-  				<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
- 				 aria-valuemin="0" aria-valuemax="100" style="width:40%">
-    			40% Complete
-  				</div>
-			</div>
-		</div>
-
-		<div style="background-color: #00e6e6; color: #404040; border-radius: 2px; height: 150px; padding: 15px; margin-bottom: 15px">
-			<div style="font-size: 19px; color: #662200"><strong>gameId: </strong>{{game.gameId}} gameId</div>
-			<div><strong>quiz title: </strong>{{game.title}} title</div>
-			<div class="progress" style="margin-top: 15px">
-  				<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
- 				 aria-valuemin="0" aria-valuemax="100" style="width:40%">
-    			40% Complete
-  				</div>
-			</div>
-		</div>
-
-		<div style="background-color: #00e6e6; color: #404040; border-radius: 2px; height: 150px; padding: 15px; margin-bottom: 15px">
-			<div style="font-size: 19px; color: #662200"><strong>gameId: </strong>{{game.gameId}} gameId</div>
-			<div><strong>quiz title: </strong>{{game.title}} title</div>
-			<div class="progress" style="margin-top: 15px">
-  				<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
- 				 aria-valuemin="0" aria-valuemax="100" style="width:40%">
-    			40% Complete
-  				</div>
-			</div>
-		</div>
-
-		<div style="background-color: #00e6e6; color: #404040; border-radius: 2px; height: 150px; padding: 15px; margin-bottom: 15px">
-			<div style="font-size: 19px; color: #662200"><strong>gameId: </strong>{{game.gameId}} gameId</div>
-			<div><strong>quiz title: </strong>{{game.title}} title</div>
-			<div class="progress" style="margin-top: 15px">
-  				<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
- 				 aria-valuemin="0" aria-valuemax="100" style="width:40%">
-    			40% Complete
-  				</div>
-			</div>
-		</div>
-		
 	</div>
 </div>
