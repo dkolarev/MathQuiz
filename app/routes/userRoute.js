@@ -35,6 +35,7 @@ router.use(function(req, res, next) {
 router.get('/:username', function(req, res) {
 	var username = req.params.username;
 	userDataRepository.getUserByUsername(username).then(function(user) {
+		res.setHeader('Content-Type', 'application/json');
 		res.send({
 			"user": {
 				"_id": user.id,

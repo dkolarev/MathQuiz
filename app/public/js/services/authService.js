@@ -61,11 +61,6 @@ function authService($window, $resource) {
 		callb();
 	};
 
-	/*
-	var getUser = function() {
-		return getTokenClaim($window.localStorage.token);
-	};*/
-
 	var storeUser = function(username) {
 		$localStorage.user = {
 			username: username,

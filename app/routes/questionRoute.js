@@ -34,12 +34,32 @@ router.use(function(req, res, next) {
 	}
 });
 
+
 router.get('/all', function(req, res) {
-	questionDataRepository.queryQuestions().then(function (questions) {
+	questionDataRepository.queryQuestions().toArray().then(function (questions) {
 		res.setHeader('Content-Type', 'application/json');
 		res.send({
 			"questionsList": questions
 		});
+	});
+});
+
+router.get('/list/:itemsPerPage/:pageNumber', function(req, res) {
+	var itemsPerPage = parseInt(req.params.itemsPerPage) || 10;
+	var pageNumber = parseInt(req.params.pageNumber) || 1;
+
+
+	questionDataRepository.queryQuestions().count(function(err, count) {
+		questionDataRepository.queryQuestions()
+			.limit(itemsPerPage)
+			.skip((pageNumber - 1) * itemsPerPage)
+			.toArray(function(err, questions) {
+				res.setHeader('Content-Type', 'application/json');
+				res.send({
+					"questionsList": questions,
+					"totalItems": count
+				});
+			});
 	});
 });
 

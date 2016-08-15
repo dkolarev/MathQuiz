@@ -1,3 +1,9 @@
 <h1>Profile</h1>
-<p>{{user.username}}</p>
-<p>{{user.email}}</p>
+<div class="row" style="background-color: #99ffff; max-width: 780px; min-height: 200px; border-radius: 5px; padding: 15px; margin-left: 15px; margin-top: 15px">
+	<div class="col-sm-4"><img ng-src="{{gravatarUrl}}"></div>
+	<div class="col-sm-8">
+		<div style="font-size: 42px; color: #004d99">{{user.username}}</div>
+		<div style="color: #333333"><strong>Email: </strong>{{user.email}}</div>
+		<div style="color: #333333"><strong>Joined: </strong>{{user.joined | date: 'dd/MM/yyyy'}}</div>
+	</div>		
+</div>

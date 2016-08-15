@@ -1,15 +1,19 @@
 //questionsController.js
 
-function questionsController($scope, data, modalService) {
+function questionsController($scope, data, modalService, questionData) {
 
+	
 	$scope.questionsList = data.questionsList;
+	$scope.totalCount = data.totalItems;
 
 	//pagination data
 	$scope.currentPage = 1;
-	$scope.pageSize = 10;
+	$scope.pageItems = 10;
+	
 
 	$scope.currentSort = '';
 	$scope.reverseSort = false;
+
 
 	var socket = io();
 
@@ -84,6 +88,15 @@ function questionsController($scope, data, modalService) {
 			$scope.currentSort = 'title';
 			$scope.reverseSort = false;
 		}
+	};
+
+	$scope.onPageChange = function(pageItems, currentPage) {
+		questionData.getQuestionsList(pageItems, currentPage).$promise.then(function(response) {
+			$scope.questionsList = response.questionsList;
+			$scope.totalCount = response.totalItems;
+		}, function(response) {
+			console.log(response);
+		});
 	};
 
 	/**

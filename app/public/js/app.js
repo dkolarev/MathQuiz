@@ -7,7 +7,8 @@ angular
 		'ngResource', 
 		'ui.bootstrap', 
 		'checklist-model',
-		'ngScrollbars'])
+		'ngScrollbars',
+		'angularUtils.directives.dirPagination'])
 	.controller('mainPageController', mainPageController)
 	.controller('userController', userController)
 	.controller('newQuestionController', newQuestionController)
@@ -19,6 +20,7 @@ angular
 	.controller('questionsController', questionsController)
 	.controller('quizzesController', quizzesController)
 	.controller('gameEndController', gameEndController)
+	.controller('userProfileController', userProfileController)
 	.directive('checkUsername', checkUsername)
 	.directive('checkPassword', checkPassword)
 	.directive('checkEmail', checkEmail)
@@ -35,6 +37,8 @@ angular
 	.factory('quizData', quizData)
 	.factory('questionData', questionData)
 	.factory('correctAnswerService', correctAnswerService)
+	.factory('userData', userData)
+	.factory('gravatarUrlBuilder', gravatarUrlBuilder)
 	.filter('timerFilter', timerFilter)
 	.filter('paginationFilter', paginationFilter)
 	.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider){
@@ -96,12 +100,7 @@ angular
 				needLogin: true,
 				url: '/user',
 				templateUrl: 'templates/user/user.html',
-				controller: 'userController',
-				resolve: {
-					data: function($resource) {
-						return $resource('/api/getdata').get().$promise;
-					}
-				}
+				controller: 'userController'
 			})
 			.state('user.home', {
 				needLogin: true,
@@ -110,8 +109,14 @@ angular
 			})
 			.state('user.profile', {
 				needLogin: true,
-				url: '/profile',
-				templateUrl: 'templates/user/userProfile.html'
+				url: '/profile/:username',
+				templateUrl: 'templates/user/userProfile.html',
+				controller: 'userProfileController',
+				resolve: {
+					data: function($stateParams, userData) {
+						return userData.getUserByUsername($stateParams.username).$promise;
+					} 
+				}
 			})
 			.state('user.quizzes', {
 				needLogin: true,
@@ -156,7 +161,7 @@ angular
 				controller: 'questionsController',
 				resolve: {
 					data: function(questionData) {
-						return questionData.getQuestions().$promise;
+						return questionData.getQuestionsList().$promise;
 					}
 				}
 			})

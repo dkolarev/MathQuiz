@@ -89,7 +89,7 @@ module.exports.questionDataRepository = {
 	*	'questions' u bazi.
 	*/
 	queryQuestions: function() {
-		return questionsCollection.find().toArray();
+		return questionsCollection.find();
 	},
 
 	getQuestionById: function(questionId) {

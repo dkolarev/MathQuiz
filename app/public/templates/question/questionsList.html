@@ -17,7 +17,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="question in questionsList | orderBy: currentSort : reverseSort | paginationFilter:(currentPage - 1) * pageSize | limitTo: pageSize track by trackByItem(question)">
+			<tr ng-repeat="question in questionsList | orderBy: currentSort : reverseSort | limitTo: pageItems track by trackByItem(question)">
 				<td style="color: #0099e6"><a id="questionTitle" ng-href="#" ng-click="onClickQuestionInfo(question)" style="margin-left: 15px">{{question.title}}</a></td>
 				<td>{{question.difficulty}}</td>
 				<td>{{question.field}}</td>
@@ -29,8 +29,9 @@
 	</table>
 	</div>
 	<div class="text-center">
-	 	<ul uib-pagination total-items="questionsList.length" ng-model="currentPage" max-size="5" class="pagination-md" boundary-links="true" items-per-page="pageSize"></ul>
-	 </div>
+	 	<ul uib-pagination total-items="totalCount" ng-model="currentPage" max-size="5" class="pagination-md" boundary-links="true" items-per-page="pageItems" ng-change="onPageChange(pageItems, currentPage)"></ul>
+	</div>
+
 	<div>
 
 	
