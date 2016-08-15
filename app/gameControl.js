@@ -2,10 +2,14 @@
 
 var activeGamesCollection = require('./data/activeGamesCollection');
 var quizDataRepository = require('./data/dbapi').quizDataRepository;
+var gameMapper = require('./mappers/gameMapper');
 var ratingCalculator = require('./ratingCalculator');
+
+var socketio; //socket
 
 var iterateQuizQuestions = function(gameSocket, quiz) {
 	if(quiz.currentQuestionPointer == quiz.questions.length) {
+		emitDashboardData(socketio, quiz);
 		emitGameEnd(gameSocket);
 		return;
 	}
@@ -15,6 +19,8 @@ var iterateQuizQuestions = function(gameSocket, quiz) {
 	question = quiz.questions[quiz.currentQuestionPointer];
 	question.time = question.time; //pretvori min u sec
 	emitQuestion(gameSocket, question);
+
+	emitDashboardData(socketio, quiz);
 
 	var timer = emitTimer(gameSocket, question.time, quiz);
 	activeGamesCollection.setTimer(timer, quiz.gameId);
@@ -35,6 +41,14 @@ var emitQuestion = function(gameSocket, question) {
 			questionAllAnswers: question.allAnswers
 		},
 		time: question.time
+	});
+};
+
+var emitDashboardData = function(socketio, game) {
+	var dashboardItem = gameMapper.gameToDashboardItem(game);
+	
+	socketio.emit('dashboardUpdate', {
+		item: dashboardItem
 	});
 };
 
@@ -136,6 +150,10 @@ var questionTransition = function(gameSocket, quiz) {
 
 
 module.exports = {
+	setSocket: function(io) {
+		socketio = io;
+	},
+
 	play: function(gameId, socketio) {
 		var quiz = activeGamesCollection.getQuiz(gameId);
 		if (quiz == null) {

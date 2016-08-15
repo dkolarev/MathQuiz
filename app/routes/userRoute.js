@@ -4,6 +4,7 @@ var express = require('express');
 var jwt = require('jsonwebtoken');
 var userDataRepository = require('../data/dbapi').userDataRepository;
 var activeGamesCollection = require('../data/activeGamesCollection');
+var gameMapper = require('../mappers/gameMapper');
 
 var router = express.Router();
 
@@ -37,16 +38,7 @@ router.use(function(req, res, next) {
 router.get('/game', function(req, res) {
 	var activeGames = activeGamesCollection.getAllGames();
 
-	var dashboard = [];
-
-	for (var game of activeGames) {
-		dashboard.push({
-			"gameId": game.gameId,
-			"title": game.title,
-			"questionsNumber": game.questions.lenght,
-			"currentQuestionPointer": game.currentQuestionPointer
-		});
-	}
+	var dashboard = gameMapper.gameListToDashboard(activeGames);
 
 	res.setHeader('Content-Type', 'application/json');
 	res.send({

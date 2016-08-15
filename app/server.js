@@ -11,6 +11,7 @@ var gameRoute = require('./routes/gameRoute');
 var validateRoute = require('./routes/validateRoute');
 var userRoute = require('./routes/userRoute');
 var dbapi = require('./data/dbapi');
+var gameControl = require('./gameControl');
 
 //database connection URL
 var dbUrl = 'mongodb://localhost:27017/mathquiz';
@@ -38,6 +39,7 @@ dbapi.connect(dbUrl, function() {
 
 	io = require('socket.io')(server);
 	app.set('socketio', io);
+	gameControl.setSocket(io);
 });	
 
 app.use('/auth', unauthRoute);
