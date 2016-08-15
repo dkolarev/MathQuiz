@@ -21,6 +21,7 @@ angular
 	.controller('quizzesController', quizzesController)
 	.controller('gameEndController', gameEndController)
 	.controller('userProfileController', userProfileController)
+	.controller('userHomeController', userHomeController)
 	.directive('checkUsername', checkUsername)
 	.directive('checkPassword', checkPassword)
 	.directive('checkEmail', checkEmail)
@@ -105,7 +106,13 @@ angular
 			.state('user.home', {
 				needLogin: true,
 				url: '/home',
-				templateUrl: 'templates/user/userHome.html'
+				templateUrl: 'templates/user/userHome.html',
+				controller: 'userHomeController',
+				resolve: {
+					data: function(userData) {
+						return userData.getActiveGames().$promise;
+					}
+				}
 			})
 			.state('user.profile', {
 				needLogin: true,

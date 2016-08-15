@@ -3,6 +3,7 @@
 var express = require('express');
 var jwt = require('jsonwebtoken');
 var userDataRepository = require('../data/dbapi').userDataRepository;
+var activeGamesCollection = require('../data/activeGamesCollection');
 
 var router = express.Router();
 
@@ -32,6 +33,17 @@ router.use(function(req, res, next) {
 	}
 });
 
+
+router.get('/game', function(req, res) {
+	var activeGames = activeGamesCollection.getAllGames();
+
+	console.log(activeGames);
+
+	res.send({
+		"games": activeGames
+	});
+});
+
 router.get('/:username', function(req, res) {
 	var username = req.params.username;
 	userDataRepository.getUserByUsername(username).then(function(user) {
@@ -46,5 +58,6 @@ router.get('/:username', function(req, res) {
 		});
 	});
 });
+
 
 module.exports = router;

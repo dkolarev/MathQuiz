@@ -1,1 +1,12 @@
 <h1>HOME</h1>
+<div class="row">
+	<div class="col-sm-6"></div>
+	<div class="col-sm-6">
+		<div ng-show="activeGames.length == 0">
+			<h3>No active games.</h3>
+		</div>
+		<div ng-repeat="game in activeGames" style="background-color: #00e6e6; border-radius: 2px">
+			<div>{{game.gameId}}</div>
+		</div>
+	</div>
+</div>

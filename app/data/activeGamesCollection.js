@@ -100,6 +100,10 @@ module.exports =  {
 		return null;	// ako smo dosli ovako daleko kviz nije pronadjen
 	},
 
+	getAllGames: function() {
+		return ActiveQuizzes;
+	},
+
 	insertTeam: function(team, gameId, callb) {
 		var teamId;
 		for (var quiz of ActiveQuizzes) {
