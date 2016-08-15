@@ -1,7 +1,7 @@
 //userHomeController.js
 
 function userHomeController ($scope, data) {
-	$scope.activeGames = data.games;
+	$scope.dashboard = data.dashboard;
 
 	var socket = io();
 }

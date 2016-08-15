@@ -37,10 +37,20 @@ router.use(function(req, res, next) {
 router.get('/game', function(req, res) {
 	var activeGames = activeGamesCollection.getAllGames();
 
-	console.log(activeGames);
+	var dashboard = [];
 
+	for (var game of activeGames) {
+		dashboard.push({
+			"gameId": game.gameId,
+			"title": game.title,
+			"questionsNumber": game.questions.lenght,
+			"currentQuestionPointer": game.currentQuestionPointer
+		});
+	}
+
+	res.setHeader('Content-Type', 'application/json');
 	res.send({
-		"games": activeGames
+		"dashboard": dashboard
 	});
 });
 
