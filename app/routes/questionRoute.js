@@ -45,9 +45,8 @@ router.get('/all', function(req, res) {
 });
 
 router.get('/list/:itemsPerPage/:pageNumber', function(req, res) {
-	var itemsPerPage = parseInt(req.params.itemsPerPage) || 10;
-	var pageNumber = parseInt(req.params.pageNumber) || 1;
-
+	var itemsPerPage = parseInt(req.params.itemsPerPage);
+	var pageNumber = parseInt(req.params.pageNumber);
 
 	questionDataRepository.queryQuestions().count(function(err, count) {
 		questionDataRepository.queryQuestions()

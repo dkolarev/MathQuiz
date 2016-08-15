@@ -21,14 +21,6 @@ function questionsController($scope, data, modalService, questionData) {
 		return item._id + item.lastModified;
 	};
 
-	/**
-	*	Primi od servera novo pitanje i stavi ga
-	*	u listu.
-	*/
-	socket.on('newQuestion', function (data) {
-		$scope.questionsList.push(data);
-		$scope.$apply();
-	});
 
 	/**
 	*	Ukoliko je netko od korisnika napravio promjene

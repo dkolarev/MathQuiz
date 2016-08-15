@@ -155,7 +155,7 @@ module.exports.quizDataRepository = {
 	*	Funkcija vraca listu svih pitanja u kolekciji 'quizzes'
 	*/
 	queryQuizzes: function() {
-		return quizzesCollection.find().toArray();
+		return quizzesCollection.find();
 	},
 
 	updateQuiz: function(quiz, callb) {

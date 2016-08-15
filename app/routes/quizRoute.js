@@ -41,13 +41,31 @@ router.use(function(req, res, next) {
 *	Salje klijentu listu svih kvizova u bazi.
 */
 router.get('/all', function(req, res) {
-	quizDataRepository.queryQuizzes().then(function (quizzes) {
+	quizDataRepository.queryQuizzes().toArray().then(function (quizzes) {
 		res.setHeader('Content-Type', 'application/json');
 		res.send({
 			"quizzesList": quizzes
 		});
 	});
 });
+
+router.get('/list/:itemsPerPage/:pageNumber', function(req, res) {
+	var itemsPerPage = parseInt(req.params.itemsPerPage);
+	var pageNumber = parseInt(req.params.pageNumber);
+
+	quizDataRepository.queryQuizzes().count(function(err, count) {
+		quizDataRepository.queryQuizzes()
+			.limit(itemsPerPage)
+			.skip((pageNumber - 1) * itemsPerPage)
+			.toArray(function(err, quizzes) {
+				res.setHeader('Content-Type', 'application/json');
+				res.send({
+					"quizzesList": quizzes,
+					"totalItems": count
+				});
+			});
+	});
+});	
 
 /**
 *	Salje klijentu kviz na temelju id-a.

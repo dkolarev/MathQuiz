@@ -7,7 +7,7 @@
 	</div>
 	<div class="col-xs-12">
 		<ul class="list-unstyled">
-		<li ng-repeat="quiz in quizzesList | paginationFilter:(currentPage - 1) * pageSize | limitTo:pageSize" class="col-sm-6">
+		<li ng-repeat="quiz in quizzesList | limitTo: pageItems" class="col-sm-6">
 			<a href="/user/quizzes/quizprofile/{{quiz._id}}" class="quizzesList">
 			<div class="well hoverwell" style="background-color: #004d99">
 				<div class="row">
@@ -32,7 +32,7 @@
 	</div>
 
 	<div class="text-center">
-		<ul uib-pagination total-items="quizzesList.length" ng-model="currentPage" max-size="5" class="pagination-md" boundary-links="true" items-per-page="pageSize"></ul>
+		<ul uib-pagination total-items="totalCount" ng-model="currentPage" max-size="5" class="pagination-md" boundary-links="true" items-per-page="pageItems" ng-change="onPageChange(pageItems, currentPage)"></ul>
 	</div>
 
 

@@ -125,7 +125,7 @@ angular
 				controller: 'quizzesController',
 				resolve: {
 					data: function(quizData) {
-						return quizData.getQuizzes().$promise;
+						return quizData.getQuizzesList().$promise;
 					}
 				}
 			})
