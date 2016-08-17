@@ -115,4 +115,8 @@ function playerController($scope,
 			console.log(response);
 		});
 	};
+
+	$scope.$on('destroy', function() {
+		socket.removeAllListeners();
+	});
 };

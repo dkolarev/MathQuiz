@@ -147,6 +147,9 @@ var questionTransition = function(gameSocket, quiz) {
 	}, 5000);
 };
 
+var setPlayStatus = function(quiz) {
+	quiz.gameStatus = 'play';
+};
 
 
 module.exports = {
@@ -163,6 +166,7 @@ module.exports = {
 			emitGameStart(quiz.gameSocket);
 			iterateQuizQuestions(quiz.gameSocket, quiz);
 			emitScoreboard(quiz.gameSocket, quiz.teams);
+			setPlayStatus(quiz);
 		}
 	},
 

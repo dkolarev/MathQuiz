@@ -105,4 +105,8 @@ function questionsController($scope, data, modalService, questionData) {
 	$scope.onClickQuestionInfo = function(question) {
 		var modalInstance = modalService.questionInfoModal(question);
 	};
+
+	$scope.$on('destroy', function() {
+		socket.removeAllListeners();
+	});
 }

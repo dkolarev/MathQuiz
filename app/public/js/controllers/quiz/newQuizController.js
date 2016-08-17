@@ -86,4 +86,7 @@ function newQuizController ($scope, $state, modalService, quizData, data, quiz) 
 		var modalInstance =	modalService.questionInfoModal(question);
 	};
 
+	$scope.$on('destroy', function() {
+		socket.removeAllListeners();
+	});
 };

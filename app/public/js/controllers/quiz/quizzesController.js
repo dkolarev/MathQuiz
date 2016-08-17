@@ -34,4 +34,8 @@ function quizzesController($scope, data, quizData) {
 			console.log(response);
 		});
 	};
+
+	$scope.$on('destroy', function() {
+		socket.removeAllListeners();
+	});
 }

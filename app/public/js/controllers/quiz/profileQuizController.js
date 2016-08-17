@@ -34,7 +34,7 @@ function profileQuizController($scope, $state, $location, data, modalService, qu
 
 	$scope.onClickStartQuiz = function(quizId) {
 		var user = authService.getUser();
-		quizData.startQuiz(quizId, user).$promise.then(function(response) {
+		quizData.startQuiz(quizId, user.username).$promise.then(function(response) {
 			$scope.gameId = response.gameId;
 		}, function(response) {
 			console.log(response);

@@ -25,4 +25,8 @@ function gameEndController($scope, $state, data, gameService, playerService) {
 		}
 		$scope.rated = true;
 	};
+
+	$scope.$on('destroy', function() {
+		socket.removeAllListeners();
+	});
 }
