@@ -174,8 +174,9 @@ router.get('/delete/:quizId', function(req, res) {
 *	identificirana sa hash kodom koji je jedinstven za svaku
 *	igru i koristi se za pristup igraca svakom kvizu.
 */
-router.get('/start/:quizId', function(req, res) {
+router.get('/start/:quizId/:user', function(req, res) {
 	var quizId = req.params.quizId;
+	var user = req.params.user;
 	quizDataRepository.getQuiz(quizId).then(function(quiz) {
 		/**
 		*	Kreiraj jedinstveni nasumicni id aktivnog kviza
@@ -195,6 +196,9 @@ router.get('/start/:quizId', function(req, res) {
 		//postavi indeks aktivnog pitanja na prvo pitanje
 		quiz.currentQuestionPointer = 0;
 		quiz.answersRecieved = 0;
+		quiz.gameStatus = 'waiting';
+		quiz.started = new Date().toISOString();
+		quiz.startedBy = user;
 		
 		var questions = [];	//pitanja
 		

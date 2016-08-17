@@ -13,6 +13,9 @@
 			gameSocket: socket namespace za komunikaciju s igracima
 			currentQuestionPointer: broj koji pokazuje koje je trenutno
 									pitanje aktivno
+			gameStatus: trenutni status igre
+			startedBy: ime igraca koji je pokrenio igru
+			started: datum kada je igra pokrenuta
 			teams: {
 				teamId: identifikacijski kljuc za
 						svaki tim koji sudjeluje u igri

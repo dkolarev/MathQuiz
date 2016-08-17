@@ -6,7 +6,10 @@ var gameToDashboardItem = function(game) {
 		"gameId": game.gameId,
 		"title": game.title,
 		"questionsNumber": questionsNumber,
-		"currentQuestionPointer": game.currentQuestionPointer
+		"currentQuestionPointer": game.currentQuestionPointer,
+		"started": game.started,
+		"startedBy": game.startedBy,
+		"gameStatus": game.gameStatus
 	};
 }
 
