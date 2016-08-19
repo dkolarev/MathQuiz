@@ -13,6 +13,7 @@ var userRoute = require('./routes/userRoute');
 var dbapi = require('./data/dbapi');
 var gameControl = require('./gameControl');
 var config = require('./config/config');
+var db = require('./config/db');
 
 //database connection URL
 var dbUrl = config.db;
@@ -31,6 +32,18 @@ app.disable('x-powered-by');
 var server;	//server instance
 var io; //socket instance
 
+db.connect(config, function() {
+	server = app.listen(config.port, function() {
+		console.log("DAV listening on port", config.port);
+	});
+
+	io = require('socket.io')(server);
+	app.set('socketio', io);
+	gameControl.setSocket(io);
+});
+
+
+/*
 dbapi.connect(dbUrl, function() {
 	//pokreni aplikaciju
 	server = app.listen(port, function() {
@@ -40,7 +53,7 @@ dbapi.connect(dbUrl, function() {
 	io = require('socket.io')(server);
 	app.set('socketio', io);
 	gameControl.setSocket(io);
-});	
+});	*/
 
 app.use('/auth', unauthRoute);
 app.use('/api', validateRoute);

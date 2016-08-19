@@ -1,8 +1,8 @@
 //unauthRoute.js
 
 var express = require('express');
-var userDataRepository = require('../data/dbapi').userDataRepository;
-var userDataValidator = require('../data/userDataValidator');
+var userDataRepository = require('../data/user/userDataRepository').dataRepository;
+var userDataValidator = require('../data/user/userDataValidator');
 var crypt = require('../bcryptConfig');
 var jwt = require('jsonwebtoken');
 

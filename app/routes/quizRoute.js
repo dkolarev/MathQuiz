@@ -2,9 +2,9 @@
 
 var express = require('express');
 var jwt = require('jsonwebtoken');
-var quizDataRepository = require('../data/dbapi').quizDataRepository;
-var questionDataRepository = require('../data/dbapi').questionDataRepository;
-var quizDataValidator = require('../data/quizDataValidator');
+var quizDataRepository = require('../data/quiz/quizDataRepository').dataRepository;
+var questionDataRepository = require('../data/question/questionDataRepository').dataRepository;
+var quizDataValidator = require('../data/quiz/quizDataValidator');
 var crypto = require('crypto');
 var activeGamesCollection = require('../data/activeGamesCollection');
 var gameControl = require('../gameControl');

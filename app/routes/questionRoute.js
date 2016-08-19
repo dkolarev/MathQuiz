@@ -2,9 +2,9 @@
 
 var express = require('express');
 var jwt = require('jsonwebtoken');
-var questionDataRepository = require('../data/dbapi').questionDataRepository;
-var quizDataRepository = require('../data/dbapi').quizDataRepository;
-var questionDataValidator = require('../data/questionDataValidator');
+var questionDataRepository = require('../data/question/questionDataRepository').dataRepository;
+var quizDataRepository = require('../data/quiz/quizDataRepository').dataRepository;
+var questionDataValidator = require('../data/question/questionDataValidator');
 
 var router = express.Router();
 

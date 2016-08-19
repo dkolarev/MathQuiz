@@ -2,7 +2,7 @@
 
 var express = require('express');
 var jwt = require('jsonwebtoken');
-var userDataRepository = require('../data/dbapi').userDataRepository;
+var userDataRepository = require('../data/user/userDataRepository').dataRepository;
 var activeGamesCollection = require('../data/activeGamesCollection');
 var gameMapper = require('../mappers/gameMapper');
 
