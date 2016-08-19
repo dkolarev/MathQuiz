@@ -6,7 +6,7 @@
 			<h3>No active games.</h3>
 		</div>
 
-		<div class="text-center">
+		<div class="text-center" ng-hide="dashboard.length == 0">
 	 		<ul uib-pagination total-items="totalCount" ng-model="currentPage" max-size="5" class="pagination-sm" boundary-links="true" items-per-page="pageItems" ng-change="onPageChange(pageItems, currentPage)"></ul>
 		</div>
 

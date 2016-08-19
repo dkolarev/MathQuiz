@@ -52,6 +52,11 @@ var emitDashboardData = function(socketio, game) {
 	});
 };
 
+var deleteGame = function(quiz) {
+	
+	activeGameCollection(quiz);
+};
+
 /**
 *	Funkcija kroz socket emitira preostalo
 *	vrijeme za odredeni zadatak. Ako je vrijeme

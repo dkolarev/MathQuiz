@@ -14,6 +14,18 @@ function questionsController($scope, data, modalService, questionData) {
 	$scope.currentSort = '';
 	$scope.reverseSort = false;
 
+	
+	$scope.selectList = ["calculus", 
+						 "algebra", 
+						 "number theory", 
+						 "numeric mathematic",
+						 "analitic geometry",
+						 "elementary geometry",
+						 "elementary mathematics",
+						 "computer science",
+						 "propability",
+						 "statistic"];
+
 
 	var socket = io();
 

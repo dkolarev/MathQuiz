@@ -234,6 +234,28 @@ module.exports =  {
 				break;
 			}
 		}
+	},
+
+	removeGame: function(quiz) {
+		var index = ActiveQuizzes.indexOf(quiz);
+		if (index >= 0) {
+			ActiveQuizzes.splice(index, 1);
+		}
+	},
+
+	removeInactiveGames: function() {
+		var currentTime = new Date();
+		var oneDay=1000*60*60*24;
+		
+		var lengthArray = ActiveQuizzes.length;
+		for (var i = lengthArray - 1; i >= 0; i--) {
+			var game = ActiveQuizzes[i];
+			var startedTime = new Date(game.started);
+			var difference = currentTime - startedTime;
+			if (difference >= oneDay) {
+				removeGame(game);
+			}
+		}
 	}
 };
 

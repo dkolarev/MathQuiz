@@ -62,6 +62,30 @@ router.get('/list/:itemsPerPage/:pageNumber', function(req, res) {
 	});
 });
 
+router.post('/list/filter', function(req, res) {
+	var itemsPerPage = parseInt(req.params.itemsPerPage);
+	var pageNumber = 1;
+
+	var difficultyFilter = req.body.difficulty;
+	var fieldFilter = req.body.field;
+
+	questionDataRepository.queryQuestions().count(function(err, count) {
+		questionDataRepository.queryQuestions()
+			.filter(difficultyFilter)
+			.filter(fieldFilter)
+			.sort()
+			.limit(itemsPerPage)
+			.skip((pageNumber - 1) * itemsPerPage)
+			.toArray(function(err, questions) {
+				res.setHeader('Content-Type', 'application/json');
+				res.send({
+					"questionsList": questions,
+					"totalItems": count
+				});
+			});
+	});
+});
+
 /**
 *	Ruta za spremanje pitanja. Ako pitanje vec
 *	sadrzi atribut id, koji mu dodjeljuje baza automatski,

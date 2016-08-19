@@ -12,12 +12,12 @@ var validateRoute = require('./routes/validateRoute');
 var userRoute = require('./routes/userRoute');
 var dbapi = require('./data/dbapi');
 var gameControl = require('./gameControl');
+var config = require('./config/config');
 
 //database connection URL
-var dbUrl = 'mongodb://localhost:27017/mathquiz';
-var mlab = 'mongodb://dkolarev:dkolarev2016@ds013024.mlab.com:13024/projects';
+var dbUrl = config.db;
 //server port
-var port = process.env.PORT || 3000;
+var port = config.port;
 
 var app = express();
 app.use(bodyParser.urlencoded({extended: true}));
