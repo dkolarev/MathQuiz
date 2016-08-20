@@ -6,6 +6,7 @@ var questionDataRepository = require('../data/question/questionDataRepository').
 var quizDataRepository = require('../data/quiz/quizDataRepository').dataRepository;
 var questionDataValidator = require('../data/question/questionDataValidator');
 var questionFilter = require('../filters/questionFilter');
+var paginationFilter = require('../filters/paginationFilter');
 
 var router = express.Router();
 
@@ -49,18 +50,16 @@ router.get('/list/:itemsPerPage/:pageNumber', function(req, res) {
 	var itemsPerPage = parseInt(req.params.itemsPerPage);
 	var pageNumber = parseInt(req.params.pageNumber);
 
-	questionDataRepository.getQuestionsMetadata().count(function(err, count) {
-		questionDataRepository.queryQuestions()
-			.limit(itemsPerPage)
-			.skip((pageNumber - 1) * itemsPerPage)
-			.toArray(function(err, questions) {
-				res.setHeader('Content-Type', 'application/json');
-				res.send({
-					"questionsList": questions,
-					"totalItems": count
-				});
+	questionDataRepository.getQuestionsMetadata()
+		.toArray(function(err, questions) {
+			var totalItems = questions.length;
+			var questionsList = paginationFilter(questions, itemsPerPage, pageNumber);
+			res.setHeader('Content-Type', 'application/json');
+			res.send({
+				"questionsList": questionsList,
+				"totalItems": totalItems
 			});
-	});
+		});
 });
 
 router.post('/list/filter', function(req, res) {
@@ -87,33 +86,21 @@ router.post('/list/filter', function(req, res) {
 			.sort(sort)
 			.toArray(function(err, questions) {
 				var totalItems = questions.length;
-				var questionsList = questions.slice((pageNumber - 1) * itemsPerPage, pageNumber * itemsPerPage);
+				var questionsList = paginationFilter(questions, itemsPerPage, pageNumber);
 				res.setHeader('Content-Type', 'application/json');
 				res.send({
 					"questionsList": questionsList,
 					"totalItems": totalItems
 				});
 			})
-	} else if(filter.difficultyFilter.length === 0) {
+	} else if(filter.difficultyFilter.length === 0 || filter.fieldFilter.length === 0) {
 		questionDataRepository.getQuestionsMetadata()
-			.filter({"field": {$in: filter.fieldFilter}})
+			.filter({$or: [{"field": {$in: filter.fieldFilter}}, 
+					{"difficulty": {$in: filter.difficultyFilter}}]})
 			.sort(sort)
 			.toArray(function(err, questions) {
 				var totalItems = questions.length;
-				var questionsList = questions.slice((pageNumber - 1) * itemsPerPage, pageNumber * itemsPerPage);
-				res.setHeader('Content-Type', 'application/json');
-				res.send({
-					"questionsList": questionsList,
-					"totalItems": totalItems
-				});
-			});
-	} else if(filter.fieldFilter.length === 0) {
-		questionDataRepository.getQuestionsMetadata()
-			.filter({"difficulty": {$in: filter.difficultyFilter}})
-			.sort(sort)
-			.toArray(function(err, questions) {
-				var totalItems = questions.length;
-				var questionsList = questions.slice((pageNumber - 1) * itemsPerPage, pageNumber * itemsPerPage);
+				var questionsList = paginationFilter(questions, itemsPerPage, pageNumber);
 				res.setHeader('Content-Type', 'application/json');
 				res.send({
 					"questionsList": questionsList,
@@ -126,7 +113,7 @@ router.post('/list/filter', function(req, res) {
 			.sort(sort)
 			.toArray(function(err, questions) {
 				var totalItems = questions.length;
-				var questionsList = questions.slice((pageNumber - 1) * itemsPerPage, pageNumber * itemsPerPage);
+				var questionsList = paginationFilter(questions, itemsPerPage, pageNumber);
 				res.setHeader('Content-Type', 'application/json');
 				res.send({
 					"questionsList": questionsList,

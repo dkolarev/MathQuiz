@@ -23,6 +23,11 @@ function quizData($resource) {
 						.get({itemsPerPage: itemsPerPage, pageNumber: pageNumber});
 		},
 
+		getFilteredList: function(filter) {
+			return $resource('/api/quiz/filter')
+				.save(filter);
+		}
+
 		saveQuiz: function(quiz) {
 			return $resource('/api/quiz/save')
 				.save(quiz);
