@@ -6,19 +6,12 @@ function questionsController($scope, data, modalService, questionData, enumData)
 	$scope.questionsList = data.questionsList;
 	$scope.totalCount = data.totalItems;
 
-	//pagination data
-	$scope.currentPage = 1;
-	$scope.pageItems = 10;
-	
-
-	$scope.currentSort = '';
-	$scope.reverseSort = false;
-
-	
 	$scope.fieldEnum = enumData.fieldEnum;
 	$scope.difficultyEnum = enumData.difficultyEnum;
 
 	$scope.filter = {
+		currentPage: 1,
+		pageItems: 10,
 		fieldFilter: [],
 		difficultyFilter: [],
 		sortFilter: 'title',
@@ -120,8 +113,8 @@ function questionsController($scope, data, modalService, questionData, enumData)
 		})
 	}
 
-	$scope.onPageChange = function(pageItems, currentPage) {
-		questionData.getQuestionsList(pageItems, currentPage).$promise.then(function(response) {
+	$scope.onPageChange = function(filter) {
+		questionData.getFilteredList(filter).$promise.then(function(response) {
 			$scope.questionsList = response.questionsList;
 			$scope.totalCount = response.totalItems;
 		}, function(response) {

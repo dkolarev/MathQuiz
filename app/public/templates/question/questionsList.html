@@ -65,7 +65,7 @@
 	</table>
 	</div>
 	<div class="text-center">
-	 	<ul uib-pagination total-items="totalCount" ng-model="currentPage" max-size="5" class="pagination-md" boundary-links="true" items-per-page="pageItems" ng-change="onPageChange(pageItems, currentPage)"></ul>
+	 	<ul uib-pagination total-items="totalCount" ng-model="filter.currentPage" max-size="5" class="pagination-md" boundary-links="true" items-per-page="filter.pageItems" ng-change="onPageChange(filter)"></ul>
 	</div>
 
 	<div>
