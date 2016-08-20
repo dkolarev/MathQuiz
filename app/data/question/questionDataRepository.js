@@ -12,19 +12,7 @@ module.exports.dataRepository = {
 	*	u kolekciju Questions.
 	*/	
 	insertQuestion: function(question) {
-		return questionsCollection.insertOne({
-					"title": question.title,
-					"description": question.description,
-					"time": question.time,
-					"createdBy": question.createdBy,
-					"difficulty": question.difficulty,
-					"correctAnswer": question.correctAnswer,
-					"field": question.field,
-					"allAnswers": question.allAnswers,
-					"image": question.image,
-					"created": question.created,
-					"lastModified": question.lastModified
-				});
+		return questionsCollection.insertOne(question);
 	},
 
 	/**

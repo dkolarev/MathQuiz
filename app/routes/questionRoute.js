@@ -2,6 +2,7 @@
 
 var express = require('express');
 var jwt = require('jsonwebtoken');
+var Question = require('../data/question/Question');
 var questionDataRepository = require('../data/question/questionDataRepository').dataRepository;
 var quizDataRepository = require('../data/quiz/quizDataRepository').dataRepository;
 var questionDataValidator = require('../data/question/questionDataValidator');
@@ -51,6 +52,7 @@ router.get('/list/:itemsPerPage/:pageNumber', function(req, res) {
 	var pageNumber = parseInt(req.params.pageNumber);
 
 	questionDataRepository.getQuestionsMetadata()
+		.sort({'title': 1})
 		.toArray(function(err, questions) {
 			var totalItems = questions.length;
 			var questionsList = paginationFilter(questions, itemsPerPage, pageNumber);
@@ -135,13 +137,15 @@ router.post('/save', function(req, res) {
 	var socketio = req.app.get('socketio');
 	var currentTime = new Date().toISOString();
 
+	var questionModel = new Question(question);
+
 	//ako pitanje ima atribut id onda radi update
-	if(question._id) {
-		var valid = questionDataValidator.validateQuestion(question);
+	if(questionModel._id) {
+		var valid = questionDataValidator.validateQuestion(questionModel);
 
 		if (valid) {
-			question.lastModified = currentTime;
-			questionDataRepository.updateQuestion(question, function(err, doc) {
+			questionModel.changeModifiedTime(currentTime);
+			questionDataRepository.updateQuestion(questionModel, function(err, doc) {
 				socketio.emit('updateQuestion', doc);
 				
 				res.send({"valid": true});
@@ -150,13 +154,13 @@ router.post('/save', function(req, res) {
 			res.send({"valid": false})
 		}
 	} else {
-		var valid = questionDataValidator.validateQuestion(question);
+		var valid = questionDataValidator.validateQuestion(questionModel);
 
 		if (valid) {		
-			question.created = currentTime;
-			question.lastModified = currentTime;
+			questionModel.changeCreatedTime(currentTime);
+			questionModel.changeModifiedTime(currentTime);
 		
-			questionDataRepository.insertQuestion(question).then(function(doc) {
+			questionDataRepository.insertQuestion(questionModel).then(function(doc) {
 				socketio.emit('newQuestion', doc.ops[0]);
 
 				res.send({"valid": true});
