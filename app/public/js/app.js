@@ -128,7 +128,7 @@ angular
 			})
 			.state('user.quizzes', {
 				needLogin: true,
-				url: '/quizzes',
+				url: '/quiz/list',
 				templateUrl: 'templates/quiz/quizzesList.html',
 				controller: 'quizzesController',
 				resolve: {
@@ -139,7 +139,7 @@ angular
 			})
 			.state('user.quizprofile', {
 				needLogin: true,
-				url: '/quizzes/quizprofile/:quizId',
+				url: '/quiz/quizprofile/:quizId',
 				templateUrl : 'templates/quiz/quizProfile.html',
 				controller: 'profileQuizController',
 				resolve: {
@@ -150,7 +150,7 @@ angular
 			})
 			.state('user.newquiz', {
 				needLogin: true,
-				url: '/quizzes/newquiz/:quizId',
+				url: '/quiz/newquiz/:quizId',
 				templateUrl: 'templates/quiz/newQuiz.html',
 				controller: 'newQuizController',
 				resolve: {

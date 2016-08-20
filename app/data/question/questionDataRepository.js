@@ -39,6 +39,15 @@ module.exports.dataRepository = {
 		return questionsCollection.findOne({'_id': new ObjectId(questionId)});
 	},
 
+	getQuestionsMetadata: function() {
+		return questionsCollection.find({}, {
+			'title': true,
+			'difficulty': true,
+			'field': true,
+			'time': true,
+			'lastModified': true});
+	},
+
 	/*
 	*	Funkcija azurira vec postojeci zadatak u bazi podataka.
 	*/

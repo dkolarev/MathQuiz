@@ -32,6 +32,16 @@ module.exports.dataRepository = {
 		return quizzesCollection.find();
 	},
 
+	getQuizListMetadata: function() {
+		return quizzesCollection.find({}, {
+			"title": true,
+			"field": true,
+			"lastModified": true,
+			"createdBy": true,
+			"rating": true
+		});
+	},
+
 	updateQuiz: function(quiz, callb) {
 		quizzesCollection.updateOne({"_id": new ObjectId(quiz._id)}, {$set: {
 			"title": quiz.title,

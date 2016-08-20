@@ -53,7 +53,7 @@ router.get('/list/:itemsPerPage/:pageNumber', function(req, res) {
 	var itemsPerPage = parseInt(req.params.itemsPerPage);
 	var pageNumber = parseInt(req.params.pageNumber);
 
-	quizDataRepository.queryQuizzes().count(function(err, count) {
+	quizDataRepository.getQuizListMetadata().count(function(err, count) {
 		quizDataRepository.queryQuizzes()
 			.limit(itemsPerPage)
 			.skip((pageNumber - 1) * itemsPerPage)

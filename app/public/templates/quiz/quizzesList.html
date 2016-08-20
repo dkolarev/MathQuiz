@@ -17,13 +17,24 @@
 					<span class="col-xs-12"><strong>Field: </strong>{{quiz.field}}</span>
 				</div>
 				<div class="row">
-					<span class="col-xs-12"><strong>Date created: </strong>{{quiz.created | date: 'dd/MM/yy hh:mm'}}</span>
+					<span class="col-xs-12"><strong>Last modified: </strong>{{quiz.lastModified | date: 'dd/MM/yy hh:mm'}}</span>
 				</div>
 				<div class="row">
 					<span class="col-xs-12"><strong>Created by: </strong>{{quiz.createdBy}}</span>
 				</div>
 				<div class="row">
 					<span class="col-xs-12"><strong>Number of questions: </strong>{{quiz.questions.length}}</span>
+				</div>
+				<div>
+					<div ng-init="rating = rating" ng-show="quiz.rating > 0"></div>
+            		<div class="star-rating" star-rating rating-value="quiz.rating" data-max="5" read-only="true"></div>
+        			<div ng-show="quiz.rating == 0">
+            			<span class="fa fa-star rating" style="font-size: 15px"></span>
+            			<span class="fa fa-star rating" style="font-size: 15px"></span>
+            			<span class="fa fa-star rating" style="font-size: 15px"></span>
+            			<span class="fa fa-star rating" style="font-size: 15px"></span>
+            			<span class="fa fa-star rating" style="font-size: 15px"></span>
+        			</div>
 				</div>
 			</div>
 			</a>

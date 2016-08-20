@@ -3,15 +3,17 @@
 	<div class="col-xs-12">
 		<button type="button" class="btn btn-default" ui-sref="user.newquestion"><span class="glyphicon glyphicon-file"></span> New question</button>
 	</div>
-	<div class="row" ng-show="questionsList.length == 0">
+	<div class="row text-center" ng-show="questionsList.length == 0" style="padding-top: 15px">
 		<h3>No stored questions.</h3>
 	</div>
-	<div class="col-xs-12" ng-hide="questionsList.length == 0" style="padding-top: 100px; padding-bottom: 60px">
+	<div class="col-xs-12" ng-hide="questionsList.length == 0" style="padding: 60px 0px 60px 10%">
 		<form class="form-inline" role="form">
 			<div class="form-group">
 				<div class="dropdown" style="color: black">
 					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Select field/s <span class="caret"></span></button>
 					<ul class="dropdown-menu">
+					<li><a ng-href="#" ng-click="onClickClearFieldFilter(filter)">Clear all</a></li>
+						<li class="divider" style="margin-top: 0px"></li>
 						<li ng-repeat="field in fieldEnum">
 							<div class="col-xs-12">
 								<label class="checkbox-inline">
@@ -26,6 +28,8 @@
 				<div class="dropdown" style="color: black">
 					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Select difficulty/ies <span class="caret"></span></button>
 					<ul class="dropdown-menu">
+						<li><a ng-href="#" ng-click="onClickClearDifficultyFilter(filter)">Clear all</a></li>
+						<li class="divider" style="margin-top: 0px"></li>
 						<li ng-repeat="difficulty in difficultyEnum">
 							<div class="col-xs-12">
 								<label class="checkbox-inline">
@@ -36,11 +40,10 @@
 					</ul>
 				</div>
 			</div>
-			<button type="button" class="btn btn-info" ng-click="onClickClear()">Clear</button>
 			<button type="button" class="btn btn-primary" ng-click="onClickFilter(filter)">Filter</button>
 		</form>
 	</div>
-	<div style="max-width: 80%; margin: 0px auto; padding-top: 15px">
+	<div style="max-width: 80%; margin: 0px auto; padding-top: 15px" ng-hide="questionsList.length == 0">
 	<table class="table table-hover questionTable">
 		<thead>
 			<tr style="background-color: #b3ffff">
@@ -54,7 +57,7 @@
 		</thead>
 		<tbody>
 			<tr ng-repeat="question in questionsList | limitTo: pageItems track by trackByItem(question)">
-				<td style="color: #0099e6"><a id="questionTitle" ng-href="#" ng-click="onClickQuestionInfo(question)" style="margin-left: 15px">{{question.title}}</a></td>
+				<td style="color: #0099e6"><a id="questionTitle" ng-href="#" ng-click="onClickQuestionInfo(question._id)" style="margin-left: 15px">{{question.title}}</a></td>
 				<td>{{question.difficulty}}</td>
 				<td>{{question.field}}</td>
 				<td>{{question.lastModified | date: 'dd/MM/yyyy hh:mm'}}</td>
@@ -64,14 +67,8 @@
 		</tbody>
 	</table>
 	</div>
-	<div class="text-center">
+	<div class="text-center" ng-hide="questionsList.length == 0">
 	 	<ul uib-pagination total-items="totalCount" ng-model="filter.currentPage" max-size="5" class="pagination-md" boundary-links="true" items-per-page="filter.pageItems" ng-change="onPageChange(filter)"></ul>
 	</div>
-
-	<div>
-
-	
-	
-
 
 </div>

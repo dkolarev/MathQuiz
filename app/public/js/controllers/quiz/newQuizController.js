@@ -2,7 +2,14 @@
 
 function newQuizController ($scope, $state, modalService, quizData, data, quiz) {
 
-	$scope.newQuiz = quiz.quiz;
+
+	if(quiz.quiz) {
+		$scope.newQuiz = quiz.quiz;
+	} else {
+		$scope.newQuiz = {};
+		$scope.newQuiz.questions = [];
+	}
+
 	$scope.questionsList = data.questionsList;
 	
   	$scope.config = {

@@ -133,8 +133,12 @@ function questionsController($scope, data, modalService, questionData, enumData)
 	/**
 	*	Otvara prozor sa informacijama o pitanju.
 	*/
-	$scope.onClickQuestionInfo = function(question) {
-		var modalInstance = modalService.questionInfoModal(question);
+	$scope.onClickQuestionInfo = function(questionId) {
+		questionData.getQuestionById(questionId).$promise.then(function(response) {
+			var modalInstance = modalService.questionInfoModal(response.question);
+		}, function(response) {
+			console.log(response);
+		})
 	};
 
 	$scope.onClickFilter = function(filter) {
@@ -146,9 +150,12 @@ function questionsController($scope, data, modalService, questionData, enumData)
 		});
 	};
 
-	$scope.onClickClear = function() {
-		$scope.filter.fieldFilter = [];
-		$scope.filter.difficultyFilter = [];
+	$scope.onClickClearFieldFilter = function(filter) {
+		filter.fieldFilter = [];
+	};
+
+	$scope.onClickClearDifficultyFilter = function(filter) {
+		filter.difficultyFilter = [];
 	};
 
 	$scope.$on('destroy', function() {
