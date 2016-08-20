@@ -40,6 +40,7 @@ angular
 	.factory('correctAnswerService', correctAnswerService)
 	.factory('userData', userData)
 	.factory('gravatarUrlBuilder', gravatarUrlBuilder)
+	.factory('enumData', enumData)
 	.filter('timerFilter', timerFilter)
 	.filter('paginationFilter', paginationFilter)
 	.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider){

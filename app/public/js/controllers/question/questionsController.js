@@ -1,6 +1,6 @@
 //questionsController.js
 
-function questionsController($scope, data, modalService, questionData) {
+function questionsController($scope, data, modalService, questionData, enumData) {
 
 	
 	$scope.questionsList = data.questionsList;
@@ -15,16 +15,15 @@ function questionsController($scope, data, modalService, questionData) {
 	$scope.reverseSort = false;
 
 	
-	$scope.selectList = ["calculus", 
-						 "algebra", 
-						 "number theory", 
-						 "numeric mathematic",
-						 "analitic geometry",
-						 "elementary geometry",
-						 "elementary mathematics",
-						 "computer science",
-						 "propability",
-						 "statistic"];
+	$scope.fieldEnum = enumData.fieldEnum;
+	$scope.difficultyEnum = enumData.difficultyEnum;
+
+	$scope.filter = {
+		fieldFilter: [],
+		difficultyFilter: [],
+		sortFilter: 'title',
+		sortOrder: 1
+	};
 
 
 	var socket = io();
@@ -81,18 +80,45 @@ function questionsController($scope, data, modalService, questionData) {
 		}
 	};
 
-	$scope.onClickNameSort = function(currentSort, reverseSort) {
-		if (currentSort == 'title') {
-			if (reverseSort) {
-				$scope.reverseSort = false;
+	$scope.onClickDateSort = function(filter) {
+		if(filter.sortFilter === 'lastModified') {
+			if(filter.sortOrder === 1) {
+				filter.sortOrder = -1;
 			} else {
-				$scope.reverseSort = true;
+				filter.sortOrder = 1;
 			}
 		} else {
-			$scope.currentSort = 'title';
-			$scope.reverseSort = false;
+			filter.sortFilter = 'lastModified';
+			filter.sortOrder = 1;
 		}
+
+		questionData.getFilteredList(filter).$promise.then(function(response) {
+			$scope.questionsList = response.questionsList;
+			$scope.totalCount = response.totalItems;
+		}, function(response) {
+			console.log(response);
+		});
 	};
+
+	$scope.onClickNameSort = function(filter) {
+		if(filter.sortFilter === 'title') {
+			if (filter.sortOrder === 1) {
+				filter.sortOrder = -1;
+			} else {
+				filter.sortOrder = 1;
+			}
+		} else {
+			filter.sortFilter = 'title';
+			filter.sortOrder = 1;
+		}
+
+		questionData.getFilteredList(filter).$promise.then(function(response) {
+			$scope.questionsList = response.questionsList;
+			$scope.totalCount = response.totalItems;
+		}, function(response) {
+			console.log(Response);
+		})
+	}
 
 	$scope.onPageChange = function(pageItems, currentPage) {
 		questionData.getQuestionsList(pageItems, currentPage).$promise.then(function(response) {
@@ -116,6 +142,20 @@ function questionsController($scope, data, modalService, questionData) {
 	*/
 	$scope.onClickQuestionInfo = function(question) {
 		var modalInstance = modalService.questionInfoModal(question);
+	};
+
+	$scope.onClickFilter = function(filter) {
+		questionData.getFilteredList(filter).$promise.then(function(response) {
+			$scope.questionsList = response.questionsList;
+			$scope.totalCount = response.totalItems;
+		}, function(response) {
+			console.log(response);
+		});
+	};
+
+	$scope.onClickClear = function() {
+		$scope.filter.fieldFilter = [];
+		$scope.filter.difficultyFilter = [];
 	};
 
 	$scope.$on('destroy', function() {

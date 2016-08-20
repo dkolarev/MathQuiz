@@ -10,7 +10,6 @@ var quizRoute = require('./routes/quizRoute');
 var gameRoute = require('./routes/gameRoute');
 var validateRoute = require('./routes/validateRoute');
 var userRoute = require('./routes/userRoute');
-var dbapi = require('./data/dbapi');
 var gameControl = require('./gameControl');
 var config = require('./config/config');
 var db = require('./config/db');
@@ -41,19 +40,6 @@ db.connect(config, function() {
 	app.set('socketio', io);
 	gameControl.setSocket(io);
 });
-
-
-/*
-dbapi.connect(dbUrl, function() {
-	//pokreni aplikaciju
-	server = app.listen(port, function() {
-		console.log("DAV listening on port ", port);
-	});
-
-	io = require('socket.io')(server);
-	app.set('socketio', io);
-	gameControl.setSocket(io);
-});	*/
 
 app.use('/auth', unauthRoute);
 app.use('/api', validateRoute);

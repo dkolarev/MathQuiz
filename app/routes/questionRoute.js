@@ -66,24 +66,76 @@ router.post('/list/filter', function(req, res) {
 	var itemsPerPage = parseInt(req.params.itemsPerPage);
 	var pageNumber = 1;
 
-	var difficultyFilter = req.body.difficulty;
-	var fieldFilter = req.body.field;
+	var difficultyFilter = req.body.difficultyFilter;
+	var fieldFilter = req.body.fieldFilter;
+	var sortFilter = String(req.body.sortFilter);
+	var sortOrder = parseInt(req.body.sortOrder);
 
-	questionDataRepository.queryQuestions().count(function(err, count) {
+	var sort = {};
+	Object.defineProperty(sort, sortFilter, {
+		value: sortOrder,
+		writable: true,
+		enumerable: true,
+		configurable: true
+	});
+
+
+	if(difficultyFilter.length === 0 && fieldFilter.length === 0) {
 		questionDataRepository.queryQuestions()
-			.filter(difficultyFilter)
-			.filter(fieldFilter)
-			.sort()
+			.sort(sort)
 			.limit(itemsPerPage)
 			.skip((pageNumber - 1) * itemsPerPage)
 			.toArray(function(err, questions) {
+				var totalItems = questions.length;
 				res.setHeader('Content-Type', 'application/json');
 				res.send({
 					"questionsList": questions,
-					"totalItems": count
+					"totalItems": totalItems
 				});
 			});
-	});
+	} else if(difficultyFilter.length === 0) {
+		questionDataRepository.queryQuestions()
+			.filter({"field": {$in: fieldFilter}})
+			.sort(sort)
+			.limit(itemsPerPage)
+			.skip((pageNumber - 1) * itemsPerPage)
+			.toArray(function(err, questions) {
+				var totalItems = questions.length;
+				res.setHeader('Content-Type', 'application/json');
+				res.send({
+					"questionsList": questions,
+					"totalItems": totalItems
+				});
+			});
+	} else if(fieldFilter.length === 0) {
+		questionDataRepository.queryQuestions()
+			.filter({"difficulty": {$in: difficultyFilter}})
+			.sort(sort)
+			.limit(itemsPerPage)
+			.skip((pageNumber - 1) * itemsPerPage)
+			.toArray(function(err, questions) {
+				var totalItems = questions.length;
+				res.setHeader('Content-Type', 'application/json');
+				res.send({
+					"questionsList": questions,
+					"totalItems": totalItems
+				});
+		});
+	} else {
+		questionDataRepository.queryQuestions()
+			.filter({"difficulty": {$in: difficultyFilter}, "field": {$in: fieldFilter}})
+			.sort(sort)
+			.limit(itemsPerPage)
+			.skip((pageNumber - 1) * itemsPerPage)
+			.toArray(function(err, questions) {
+				var totalItems = questions.length;
+				res.setHeader('Content-Type', 'application/json');
+				res.send({
+					"questionsList": questions,
+					"totalItems": totalItems
+				});
+		});	
+	}
 });
 
 /**

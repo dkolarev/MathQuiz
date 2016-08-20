@@ -18,6 +18,11 @@ function questionData($resource) {
 						.get({itemsPerPage: itemsPerPage, pageNumber: pageNumber});
 		},
 
+		getFilteredList: function(filter) {
+			return $resource('/api/question/list/filter')
+					.save(filter);
+		},
+
 		getQuestionById: function(questionId) {
 			return $resource('/api/question/:questionId', {questionId: '@questionId'})
 					.get({questionId: questionId});
