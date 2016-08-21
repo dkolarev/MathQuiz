@@ -2,6 +2,7 @@
 
 var express = require('express');
 var jwt = require('jsonwebtoken');
+var Quiz = require('../data/quiz/Quiz');
 var quizDataRepository = require('../data/quiz/quizDataRepository').dataRepository;
 var questionDataRepository = require('../data/question/questionDataRepository').dataRepository;
 var quizDataValidator = require('../data/quiz/quizDataValidator');
@@ -168,13 +169,15 @@ router.post('/save', function(req, res) {
 	var socketio = req.app.get('socketio');
 	var currentTime = new Date().toISOString();
 
-	if(quiz._id) {
-		var valid = quizDataValidator.validateQuiz(quiz);
+	var quizModel = new Quiz(quiz);
+
+	if(quizModel._id) {
+		var valid = quizDataValidator.validateQuiz(quizModel);
 
 		if(valid) {
-			quiz.lastModified = currentTime;
+			quizModel.changeModifiedTime(currentTime);
 
-			quizDataRepository.updateQuiz(quiz, function(err, doc) {
+			quizDataRepository.updateQuiz(quizModel, function(err, doc) {
 				socketio.emit('updateQuiz', doc);
 
 				res.send({
@@ -188,13 +191,13 @@ router.post('/save', function(req, res) {
 		}
 	
 	} else {
-		var valid = quizDataValidator.validateQuiz(quiz);
+		var valid = quizDataValidator.validateQuiz(quizModel);
 
 		if(valid) {
-			quiz.created = currentTime;
-			quiz.lastModified = currentTime;
+			quizModel.changeCreatedTime(currentTime);
+			quizModel.changeModifiedTime(currentTime);
 
-			quizDataRepository.insertQuiz(quiz).then(function(doc) {
+			quizDataRepository.insertQuiz(quizModel).then(function(doc) {
 				socketio.emit('newQuiz', doc.ops[0]);
 
 				res.send({

@@ -41,12 +41,12 @@ db.connect(config, function() {
 	gameControl.setSocket(io);
 });
 
-app.use('/auth', unauthRoute);
-app.use('/api', validateRoute);
+app.use('/api/auth', unauthRoute);
+app.use('/api/validate', validateRoute);
 app.use('/api/question', questionRoute);
 app.use('/api/quiz', quizRoute);
 app.use('/api/user', userRoute);
-app.use('/game', gameRoute);
+app.use('/api/game', gameRoute);
 
 app.use('/', function(req, res) {
 	res.sendFile(__dirname + '/public/index.html');

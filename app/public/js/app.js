@@ -46,7 +46,7 @@ angular
 	.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider){
 		$httpProvider.interceptors.push(function($window, $q, $rootScope) {
 			return {
-				//na svaki request prema serveru u header dodaj korisnikov token i gameId
+				//na svaki request prema serveru u header dodaj korisnikov token ili gameId
 				request: function(config) {
 					// token za autentifikaciju
 					var token = $window.localStorage.token;
@@ -65,9 +65,9 @@ angular
 				*	a ako vrati 403 digni 'forbidden' event.
 				*/
 				responseError: function(response) {
-					if (response.status == 401) {
+					if (response.status === 401) {
 						$rootScope.$emit('unauthorized');
-					} else if (response.status == 403) {
+					} else if (response.status === 403) {
 						$rootScope.$emit('forbidden');
 					}
 					return $q.reject(response);
@@ -222,7 +222,7 @@ angular
 			*	redirektaj na home stranicu ako pokusa
 			*	pristupiti pocetnoj stranici.
 			*/
-			if(toState.name == 'main.index') {
+			if(toState.name === 'main.index') {
 				if (authService.isAuthenticated()) {
 					event.preventDefault();
 					authService.verifyToken().$promise.then(function(response) {
@@ -239,14 +239,14 @@ angular
 			*/
 			if (toState.needLogin) {				
 				authService.verifyToken().$promise.then(function(response) {
-					if(toState.name == 'user') {
+					if(toState.name === 'user') {
 						event.preventDefault();
 						$state.go('user.home');
 					}
 				}, function(response) {
 					console.log(response);
 				});
-			} else if (toState.name == 'main') {
+			} else if (toState.name === 'main') {
 				event.preventDefault();
 				$state.go('main.index');
 			} 

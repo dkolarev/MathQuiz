@@ -3,11 +3,11 @@
 function authService($window, $resource) {
 
 	var signIn = function(user) {
-		return $resource('/auth/signin').save(user);
+		return $resource('/api/auth/signin').save(user);
 	};
 
 	var logIn = function(user) {
-		return $resource('/auth/login').save(user);
+		return $resource('/api/auth/login').save(user);
 	};
 
 	var logOut = function(callb) {

@@ -5,7 +5,7 @@
 *	već zauzet u bazi. Ako je, postavi 'signIn' formu na 'invalid'.
 */
 function checkEmail($resource) {
-	var resource = $resource('/auth/email/:email', {email: '@email'});
+	var resource = $resource('/api/auth/email/:email', {email: '@email'});
 	return {
 		restrict: 'A',
 		require: 'ngModel',

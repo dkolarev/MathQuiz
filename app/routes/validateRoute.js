@@ -7,7 +7,7 @@ var router = express.Router();
 
 var secret = '1234';
 
-router.get('/validate', function (req, res, next) {
+router.get('/', function (req, res, next) {
 	var token = req.query.token || req.headers['x-auth-token'];
 	if (token) {
 		jwt.verify(token, secret, function(err, decode) {
