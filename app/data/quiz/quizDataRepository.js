@@ -11,18 +11,7 @@ module.exports.dataRepository = {
 	*	Funkcija ubacuje novi kviz u bazu.
 	*/
 	insertQuiz: function(quiz) {
-		return quizzesCollection.insertOne({
-					"title": quiz.title,
-					"description": quiz.description,
-					"field": quiz.field,
-					"createdBy": quiz.createdBy,
-					"created": quiz.created,
-					"lastModified": quiz.lastModified,
-					"rating": 0,
-					"ratingCount": 0,
-					"played": 0,
-					"questions": quiz.questions
-				});
+		return quizzesCollection.insertOne(quiz);
 	},
 
 	/**

@@ -7,9 +7,9 @@ var Quiz = function(quiz) {
 	this.createdBy = quiz.createdBy;
 	this.created = quiz.created;
 	this.lastModified = quiz.lastModified;
-	this.rating = quiz.rating;
-	this.ratingCount = quiz.ratingCount;
-	this.played = quiz.played;
+	this.rating = quiz.rating || 0;
+	this.ratingCount = quiz.ratingCount || 0;
+	this.played = quiz.played || 0;
 	this.questions = quiz.questions;
 };
 

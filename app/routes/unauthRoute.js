@@ -1,6 +1,7 @@
 //unauthRoute.js
 
 var express = require('express');
+var User = require('../data/user/User');
 var userDataRepository = require('../data/user/userDataRepository').dataRepository;
 var userDataValidator = require('../data/user/userDataValidator');
 var crypt = require('../bcryptConfig');
@@ -61,18 +62,21 @@ router.get('/email/:email', function(req, res) {
 */
 router.post('/signin', function(req, res) {
 	var user = req.body;
+	var currentTime = new Date().toISOString();
 
-	var valid = userDataValidator.validateUser(user);
+	var userModel = new User(user);
+
+	var valid = userDataValidator.validateUser(userModel);
 
 	if (valid) {
-		var cryptedPassword = crypt.generateHash(user.password); //hashiraj lozinku
+		userModel.setJoinedTime(currentTime);
+		userModel.password = crypt.generateHash(userModel.password); //hashiraj lozinku
 		//spremi korisnika u bazu sa hashiranom lozinkom
-		userDataRepository.insertUser(user, cryptedPassword);
+		userDataRepository.insertUser(userModel);
 
 		//korisnicke informacije za slanje zajedno sa tokenom
 		var userInformations = {
-			"username": user.username,
-			"email": user.email
+			"username": userModel.username
 		};
 
 		//generiraj token

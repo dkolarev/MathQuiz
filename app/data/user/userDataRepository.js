@@ -29,12 +29,7 @@ module.exports.dataRepository = {
 	*	je korisnik uspjesno ispunio 'signIn'
 	*	formu.
 	*/
-	insertUser: function(user, cryptedPassword) {
-		usersCollection.insert({
-			"username": user.username,
-			"password": cryptedPassword,
-			"email": user.email,
-			"joined": new Date().toISOString()
-		});	
+	insertUser: function(user) {
+		usersCollection.insert(user);	
 	}
 };
