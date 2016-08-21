@@ -27,9 +27,8 @@ function profileQuizController($scope, $state, $location, data, modalService, qu
 		$location.url('/user/quiz/newquiz/' + quizId);
 	};
 
-	$scope.onClickDelete = function(quizId) {
-		usersData.deleteQuiz(quizId);
-		$state.go('user.quizzes');
+	$scope.onClickDelete = function(quiz) {
+		var modalInstance = modalService.deleteQuizModal(quiz);
 	};
 
 	$scope.onClickStartQuiz = function(quizId) {

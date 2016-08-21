@@ -1,15 +1,12 @@
 //questionFilter.js
 
-var questionDataRepository = require('../data/question/questionDataRepository').dataRepository;
-
-module.exports.filterFieldAndDiff = function(filter) {
-		var sort = {};
-		Object.defineProperty(sort, filter.sortFilter, {
-			value: filter.sortOrder,
-			writable: true,
-			enumerable: true,
-			configurable: true
-		});
-
-	return	sort(sort);
-}
+module.exports.filter = function(fieldFilter, difficultyFilter) {
+	if(fieldFilter.length === 0 && difficultyFilter.length === 0) {
+		return {};
+	} else if (fieldFilter.length === 0 || difficultyFilter.length === 0) {
+		return {$or: [{"field": {$in: fieldFilter}}, 
+					{"difficulty": {$in: difficultyFilter}}]};
+	} else {
+		return {"difficulty": {$in: difficultyFilter}, "field": {$in: fieldFilter}};
+	}
+};

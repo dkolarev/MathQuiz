@@ -22,6 +22,7 @@ angular
 	.controller('gameEndController', gameEndController)
 	.controller('userProfileController', userProfileController)
 	.controller('userHomeController', userHomeController)
+	.controller('deleteQuizModalController', deleteQuizModalController)
 	.directive('checkUsername', checkUsername)
 	.directive('checkPassword', checkPassword)
 	.directive('checkEmail', checkEmail)

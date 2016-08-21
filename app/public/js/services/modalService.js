@@ -30,6 +30,20 @@ function modalService($uibModal, questionResource) {
 			});
 		},
 
+		deleteQuizModal: function(quiz) {
+			return $uibModal.open({
+					animation: true,
+					templateUrl: 'templates/quiz/deleteQuizModal.html',
+					size: 'sm',
+					resolve: {
+						quiz: function() {
+							return quiz;
+						}
+					},
+					controller: 'deleteQuizModalController'
+			});
+		},
+
 		correctAnswerModal: function(correctAnswer) {
 			return $uibModal.open({
 					animation: true,

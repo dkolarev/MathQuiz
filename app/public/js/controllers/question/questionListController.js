@@ -5,6 +5,7 @@ function questionListController($scope, data, modalService, questionResource, en
 	
 	$scope.questionsList = data.questionsList;
 	$scope.totalCount = data.totalItems;
+	$scope.fixedAmount = data.totalItems;
 
 	$scope.fieldEnum = enumData.fieldEnum;
 	$scope.difficultyEnum = enumData.difficultyEnum;

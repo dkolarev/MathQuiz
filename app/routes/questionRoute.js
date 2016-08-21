@@ -68,7 +68,7 @@ router.post('/list/filter', function(req, res) {
 	var itemsPerPage = req.body.pageItems;
 	var pageNumber = req.body.currentPage;
 
-	var filter = {
+	var filterData = {
 		difficultyFilter: req.body.difficultyFilter,
 		fieldFilter: req.body.fieldFilter,
 		sortFilter: req.body.sortFilter,
@@ -76,53 +76,27 @@ router.post('/list/filter', function(req, res) {
 	};
 
 	var sort = {};
-		Object.defineProperty(sort, filter.sortFilter, {
-			value: filter.sortOrder,
+		Object.defineProperty(sort, filterData.sortFilter, {
+			value: filterData.sortOrder,
 			writable: true,
 			enumerable: true,
 			configurable: true
 		});
 
-	if(filter.difficultyFilter.length === 0 && filter.fieldFilter.length === 0) {
-		questionDataRepository.getQuestionsMetadata()
-			.sort(sort)
-			.toArray(function(err, questions) {
-				var totalItems = questions.length;
-				var questionsList = paginationFilter(questions, itemsPerPage, pageNumber);
-				res.setHeader('Content-Type', 'application/json');
-				res.send({
-					"questionsList": questionsList,
-					"totalItems": totalItems
-				});
-			})
-	} else if(filter.difficultyFilter.length === 0 || filter.fieldFilter.length === 0) {
-		questionDataRepository.getQuestionsMetadata()
-			.filter({$or: [{"field": {$in: filter.fieldFilter}}, 
-					{"difficulty": {$in: filter.difficultyFilter}}]})
-			.sort(sort)
-			.toArray(function(err, questions) {
-				var totalItems = questions.length;
-				var questionsList = paginationFilter(questions, itemsPerPage, pageNumber);
-				res.setHeader('Content-Type', 'application/json');
-				res.send({
-					"questionsList": questionsList,
-					"totalItems": totalItems
-				});
+	var filter = questionFilter.filter(filterData.fieldFilter, filterData.difficultyFilter);
+
+	questionDataRepository.getQuestionsMetadata()
+		.filter(filter)
+		.sort(sort)
+		.toArray(function(err, questions) {
+			var totalItems = questions.length;
+			var questionsList = paginationFilter(questions, itemsPerPage, pageNumber);
+			res.setHeader('Content-Type', 'application/json');
+			res.send({
+				"questionsList": questionsList,
+				"totalItems": totalItems
 			});
-	} else {
-		questionDataRepository.getQuestionsMetadata()
-			.filter({"difficulty": {$in: filter.difficultyFilter}, "field": {$in: filter.fieldFilter}})
-			.sort(sort)
-			.toArray(function(err, questions) {
-				var totalItems = questions.length;
-				var questionsList = paginationFilter(questions, itemsPerPage, pageNumber);
-				res.setHeader('Content-Type', 'application/json');
-				res.send({
-					"questionsList": questionsList,
-					"totalItems": totalItems
-				});
-			});	
-	}
+		})
 });
 
 /**
