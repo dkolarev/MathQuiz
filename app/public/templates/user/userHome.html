@@ -1,13 +1,13 @@
 <h1>HOME</h1>
-<div class="row">
+<div class="row" style="padding-right: 15px">
 	<div class="col-sm-6 col-md-8">
 	</div>
-	<div class="col-sm-6 col-md-4">
+	<div class="col-sm-6 col-md-4" style="border: 1px solid #99ffff; border-radius: 4px">
 		<div ng-show="dashboard.length === 0">
 			<h3>No active games.</h3>
 		</div>
 
-		<div class="text-center" ng-hide="dashboard.length == 0">
+		<div class="text-center" ng-hide="dashboard.length === 0">
 	 		<ul uib-pagination total-items="totalCount" ng-model="currentPage" max-size="5" class="pagination-sm" boundary-links="true" items-per-page="pageItems" ng-change="onPageChange(pageItems, currentPage)"></ul>
 		</div>
 

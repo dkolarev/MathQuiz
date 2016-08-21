@@ -5,6 +5,9 @@ function profileQuizController($scope, $state, $location, data, modalService, qu
 	$scope.profileQuiz = data.quiz;
 	$scope.profileQuizQuestions = data.quiz.questions;
 
+	$scope.currentPage = 1;
+	$scope.pageItems = 6;
+
 	$scope.onClickQuestionInfo = function(question) {
 		var modalInstance = $uibModal.open({
 			animation: true,
