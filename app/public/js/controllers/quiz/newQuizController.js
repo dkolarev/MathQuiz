@@ -1,7 +1,11 @@
 //newQuizController.js
 
-function newQuizController ($scope, $state, modalService, quizData, data, quiz) {
+function newQuizController ($scope, $state, modalService, questionResource, quizData, data, quiz, enumData) {
 
+	$scope.config = {
+    	theme: 'minimal-dark',
+    	axis: 'y'
+  	};
 
 	if(quiz.quiz) {
 		$scope.newQuiz = quiz.quiz;
@@ -11,22 +15,18 @@ function newQuizController ($scope, $state, modalService, quizData, data, quiz) 
 	}
 
 	$scope.questionsList = data.questionsList;
-	
-  	$scope.config = {
-    	theme: 'minimal-dark',
-    	axis: 'y'
-  	};
+	$scope.totalCount = data.totalItems;
+	$scope.filter = {
+			currentPage: 1,
+			pageItems: 10,
+			fieldFilter: [],
+			difficultyFilter: [],
+			sortFilter: 'title',
+			sortOrder: 1
+	};
 
-  	$scope.selectList = ["calculus", 
-						 "algebra", 
-						 "number theory", 
-						 "numeric mathematic",
-						 "analitic geometry",
-						 "elementary geometry",
-						 "elementary mathematics",
-						 "computer science",
-						 "propability",
-						 "statistic"];
+	$scope.fieldEnum = enumData.fieldEnum;
+	$scope.difficultyEnum = enumData.difficultyEnum;
 
   	var socket = io();
 
@@ -92,6 +92,31 @@ function newQuizController ($scope, $state, modalService, quizData, data, quiz) 
 	$scope.onClickQuestionInfo = function(question) {
 		var modalInstance =	modalService.questionInfoModal(question._id);
 	};
+
+	$scope.onPageChange = function(filter) {
+		questionResource.getFilteredList(filter).$promise.then(function(response) {
+			$scope.questionsList = response.questionsList;
+			$scope.totalItems = response.totalItems;
+		})
+	};
+
+	$scope.onClickFilter = function(filter) {
+		questionResource.getFilteredList(filter).$promise.then(function(response) {
+			$scope.questionsList = response.questionsList;
+			$scope.totalCount = response.totalItems;
+		}, function(response) {
+			console.log(response);
+		});
+	};
+
+	$scope.onClickClearFieldFilter = function(filter) {
+		filter.fieldFilter = [];
+	};
+
+	$scope.onClickClearDifficultyFilter = function(filter) {
+		filter.difficultyFilter = [];
+	};
+
 
 	$scope.$on('destroy', function() {
 		socket.removeAllListeners();

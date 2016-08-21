@@ -156,7 +156,7 @@ angular
 				controller: 'newQuizController',
 				resolve: {
 					data: function(questionResource) {
-						return questionResource.getQuestions().$promise;
+						return questionResource.getQuestionsList(10).$promise;
 					},
 					quiz: function($stateParams, quizData) {
 						return quizData.getQuizById($stateParams.quizId).$promise;
