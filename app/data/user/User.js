@@ -1,6 +1,7 @@
 //User.js
 
 var User = function(user) {
+	this._id = user._id;
 	this.username = user.username;
 	this.password = user.password;
 	this.email = user.email;

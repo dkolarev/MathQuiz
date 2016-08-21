@@ -1,8 +1,8 @@
 //questionInfoModalController.js
 
-function questionInfoModalController ($scope, $uibModalInstance, question, $location) {
+function questionInfoModalController ($scope, $uibModalInstance, data, $location) {
 
-	$scope.question = question;
+	$scope.question = data.question;
 
 	$scope.onClickClose = function() {
 		$uibModalInstance.dismiss('close');
@@ -10,6 +10,6 @@ function questionInfoModalController ($scope, $uibModalInstance, question, $loca
 
 	$scope.onClickEdit = function(questionId) {
 		$uibModalInstance.dismiss('edit');
-		$location.url('/user/questions/newquestion/' + questionId);
+		$location.url('/user/question/newquestion/' + questionId);
 	};
 };

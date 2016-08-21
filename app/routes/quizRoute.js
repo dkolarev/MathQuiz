@@ -10,6 +10,7 @@ var crypto = require('crypto');
 var activeGamesCollection = require('../data/activeGamesCollection');
 var gameControl = require('../gameControl');
 var paginationFilter = require('../filters/paginationFilter');
+var quizFilter = require('../filters/quizFilter');
 
 var router = express.Router();
 
@@ -58,7 +59,7 @@ router.get('/list/:itemsPerPage/:pageNumber', function(req, res) {
 	quizDataRepository.getQuizListMetadata()
 		.toArray(function(err, quizzes) {
 			var totalItems = quizzes.length;
-			var quizzesList = quizzes.slice((pageNumber - 1) * itemsPerPage, pageNumber * itemsPerPage);
+			var quizzesList = paginationFilter(quizzes, itemsPerPage, pageNumber);
 			res.setHeader('Content-Type', 'application/json');
 			res.send({
 				"quizzesList": quizzesList,
@@ -71,7 +72,7 @@ router.post('/list/filter', function(req, res) {
 	var itemsPerPage = req.body.pageItems;
 	var pageNumber = req.body.currentPage;
 
-	var filter = {
+	var filterData = {
 		fieldFilter: req.body.fieldFilter,
 		ratingFilter: req.body.ratingFilter,
 		sortFilter: req.body.sortFilter,
@@ -79,54 +80,27 @@ router.post('/list/filter', function(req, res) {
 	};
 
 	var sort = {};
-	Object.defineProperty(sort, filter.sortFilter, {
-		value: filter.sortOrder,
+	Object.defineProperty(sort, filterData.sortFilter, {
+		value: filterData.sortOrder,
 		writable: true,
 		enumerable: true,
 		configurable: true
 	});
 
-	if (filter.fieldFilter.length === 0 && filter.ratingFilter.length === 0) {
-		quizDataRepository.getQuizListMetadata()
-			.sort(sort)
-			toArray(function(err, quizzes) {
-				var totalItems = quizzes.length;
-				var quizzesList = paginationFilter(quizzes, itemsPerPage, pageNumber);
-				res.setHeader('Content-Type', 'application/json');
-				res.send({
-					"quizzesList": quizzesList,
-					"totalItems": totalItems
-				});
+	var filter = quizFilter.filter(filterData.fieldFilter, filterData.ratingFilter);
+
+	quizDataRepository.getQuizListMetadata()
+		.filter(filter)
+		.sort(sort)
+		.toArray(function(err, quizzes) {
+			var totalItems = quizzes.length;
+			var quizzesList = paginationFilter(quizzes, itemsPerPage, pageNumber);
+			res.setHeader('Content-Type', 'application/json');
+			res.send({
+				"quizzesList": quizzesList,
+				"totalItems": totalItems
 			});
-	} else if (filter.fieldFilter.length === 0 || filter.ratingFilter.length === 0) {
-		quizDataRepository.getQuizListMetadata()
-			.filter({$or: [ {"field": {$in: filter.fielFilter}},
-					{"difficulty": {$in: filter.difficultyFilter}}]})
-			.sort(sort)
-			.toArray(function(err, quizzes) {
-				var totalItems = quizzes.length;
-				var quizzesList = paginationFilter(quizzes, itemsPerPage, pageNumber)
-				res.setHeader('Content-Type', 'application/json')
-				res.send({
-					"quizzesList": quizzesList,
-					"totalItems": totalItems
-				});
-			})
-	} else {
-		quizDataRepository.getQuizListMetadata()
-			.filter({$or: [{"field": {$in: filter.fieldFilter}},
-					{"difficulty": {$in: filter.difficultyFilter}}]})
-			.sort(sort)
-			.toArray(function(err, quizzes) {
-				var totalItems = quizzes.length;
-				var quizzesList = paginationFilter(quizzes, itemsPerPage, pageNumber);
-				res.setHeader('Content-Type', 'application/json')
-				res.send({
-					"quizzesList": quizzesList,
-					"totalItems": totalItems
-				});
-			});
-	}
+		});
 });	
 
 /**

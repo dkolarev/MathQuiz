@@ -21,8 +21,13 @@ function enumData() {
 		"hard"
 	];
 
+	var ratingEnum = [
+		1,2,3,4,5
+	];
+
 	return {
 		fieldEnum: fieldEnum,
-		difficultyEnum: difficultyEnum
-	}
+		difficultyEnum: difficultyEnum,
+		ratingEnum: ratingEnum
+	};
 }

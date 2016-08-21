@@ -1,6 +1,6 @@
-//questionData.js
+//questionResource.js
 
-function questionData($resource) {
+function questionResource($resource) {
 	return {
 		saveQuestion: function(question) {
 			return $resource('/api/question/save')

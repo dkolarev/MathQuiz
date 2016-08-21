@@ -17,8 +17,8 @@ angular
 	.controller('newQuizController', newQuizController)
 	.controller('profileQuizController', profileQuizController)
 	.controller('playerController', playerController)
-	.controller('questionsController', questionsController)
-	.controller('quizzesController', quizzesController)
+	.controller('questionListController', questionListController)
+	.controller('quizListController', quizListController)
 	.controller('gameEndController', gameEndController)
 	.controller('userProfileController', userProfileController)
 	.controller('userHomeController', userHomeController)
@@ -36,7 +36,7 @@ angular
 	.factory('modalService', modalService)
 	.factory('uploadFile', uploadFile)
 	.factory('quizData', quizData)
-	.factory('questionData', questionData)
+	.factory('questionResource', questionResource)
 	.factory('correctAnswerService', correctAnswerService)
 	.factory('userData', userData)
 	.factory('gravatarUrlBuilder', gravatarUrlBuilder)
@@ -126,11 +126,11 @@ angular
 					} 
 				}
 			})
-			.state('user.quizzes', {
+			.state('user.quizlist', {
 				needLogin: true,
 				url: '/quiz/list',
-				templateUrl: 'templates/quiz/quizzesList.html',
-				controller: 'quizzesController',
+				templateUrl: 'templates/quiz/quizList.html',
+				controller: 'quizListController',
 				resolve: {
 					data: function(quizData) {
 						return quizData.getQuizzesList().$promise;
@@ -154,33 +154,33 @@ angular
 				templateUrl: 'templates/quiz/newQuiz.html',
 				controller: 'newQuizController',
 				resolve: {
-					data: function(questionData) {
-						return questionData.getQuestions().$promise;
+					data: function(questionResource) {
+						return questionResource.getQuestions().$promise;
 					},
 					quiz: function($stateParams, quizData) {
 						return quizData.getQuizById($stateParams.quizId).$promise;
 					}
 				}
 			})
-			.state('user.questions', {
+			.state('user.questionlist', {
 				needLogin: true,
-				url: '/questions',
+				url: '/question/list',
 				templateUrl: 'templates/question/questionsList.html',
-				controller: 'questionsController',
+				controller: 'questionListController',
 				resolve: {
-					data: function(questionData) {
-						return questionData.getQuestionsList().$promise;
+					data: function(questionResource) {
+						return questionResource.getQuestionsList().$promise;
 					}
 				}
 			})
 			.state('user.newquestion', {
 				needLogin: true,
-				url: '/questions/newquestion/:questionId',
+				url: '/question/newquestion/:questionId',
 				templateUrl: 'templates/question/newQuestion.html',
 				controller: 'newQuestionController',
 				resolve: {
-					data: function($stateParams, questionData) {
-						return questionData.getQuestionById($stateParams.questionId).$promise;
+					data: function($stateParams, questionResource) {
+						return questionResource.getQuestionById($stateParams.questionId).$promise;
 					}
 				}
 			})

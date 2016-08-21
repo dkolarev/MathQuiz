@@ -1,18 +1,18 @@
 //modalService.js
 
-function modalService($uibModal) {
+function modalService($uibModal, questionResource) {
 	return {
-		questionInfoModal: function(question) {
+		questionInfoModal: function(questionId) {
 			return $uibModal.open({
 					animation: true,
 					templateUrl: 'templates/question/questionInfoModal.html',
 					size: 'lg',
 					resolve: {
-					question: function() {
-						return question;
-					}
-				},
-				controller: 'questionInfoModalController'
+						data: function(questionResource) {
+							return questionResource.getQuestionById(questionId).$promise;
+						}
+					},
+					controller: 'questionInfoModalController'
 			});
 		},
 

@@ -1,0 +1,88 @@
+<div class="col-sm-12">
+<h1>Quizzes</h1>
+<div class="row" style="padding-top: 60px">
+	<div class="col-xs-12" ng-show="fixedAmount === 0">
+		<h3>No quizzes available.</h3>
+		<button type="button" class="btn btn-default" ui-sref="user.newquiz">Create new</button>
+	</div>
+	<div class="col-xs-12">
+		<form class="form-inline" role="form" style="margin-bottom: 15px">
+			<div class="form-group">
+				<div class="dropdown" style="color: black">
+					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Select field/s <span class="caret"></span></button>
+					<ul class="dropdown-menu">
+					<li><a ng-href="#" ng-click="onClickClearFieldFilter(filter)">Clear all</a></li>
+						<li class="divider" style="margin-top: 0px"></li>
+						<li ng-repeat="field in fieldEnum">
+							<div class="col-xs-12">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="selectField" checklist-model="filter.fieldFilter" checklist-value="field"> {{field}}
+								</label>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="dropdown" style="color: black">
+					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Select rating <span class="caret"></span></button>
+					<ul class="dropdown-menu">
+						<li><a ng-href="#" ng-click="onClickClearRatingFilter(filter)">Clear all</a></li>
+						<li class="divider" style="margin-top: 0px"></li>
+						<li ng-repeat="rating in ratingEnum">
+							<div class="col-xs-12">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="selectRating" checklist-model="filter.ratingFilter" checklist-value="rating">
+									<span uib-rating ng-model="rating" max="rating" read-only="true"></span>
+								</label>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<button type="button" class="btn btn-primary" ng-click="onClickFilter(filter)">Filter</button>
+		</form>
+
+
+
+
+		<ul class="list-unstyled">
+		<li ng-repeat="quiz in quizzesList | limitTo: pageItems" class="col-sm-6">
+			<a href="/user/quiz/quizprofile/{{quiz._id}}" class="quizzesList">
+			<div class="well hoverwell" style="background-color: #004d99">
+				<div class="row">
+					<span class="col-xs-12"><h3>{{quiz.title}}</h3></span>
+				</div>
+				<div class="row">
+					<span class="col-xs-12"><strong>Field: </strong>{{quiz.field}}</span>
+				</div>
+				<div class="row">
+					<span class="col-xs-12"><strong>Last modified: </strong>{{quiz.lastModified | date: 'dd/MM/yy hh:mm'}}</span>
+				</div>
+				<div class="row">
+					<span class="col-xs-12"><strong>Created by: </strong>{{quiz.createdBy}}</span>
+				</div>
+				<div>
+					<div ng-init="rating = rating" ng-show="quiz.rating > 0"></div>
+            		<div class="star-rating" star-rating rating-value="quiz.rating" data-max="5" read-only="true"></div>
+        			<div ng-show="quiz.rating == 0">
+            			<span class="fa fa-star rating" style="font-size: 15px"></span>
+            			<span class="fa fa-star rating" style="font-size: 15px"></span>
+            			<span class="fa fa-star rating" style="font-size: 15px"></span>
+            			<span class="fa fa-star rating" style="font-size: 15px"></span>
+            			<span class="fa fa-star rating" style="font-size: 15px"></span>
+        			</div>
+				</div>
+			</div>
+			</a>
+		</li>
+		</ul>
+	</div>
+
+	<div class="text-center">
+		<ul uib-pagination total-items="totalCount" ng-model="filter.currentPage" max-size="5" class="pagination-md" boundary-links="true" items-per-page="filter.pageItems" ng-change="onPageChange(filter)"></ul>
+	</div>
+
+
+</div>
+</div>

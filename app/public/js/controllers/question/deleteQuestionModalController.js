@@ -1,10 +1,10 @@
 //deleteQuestionModalController.js
 
-function deleteQuestionModalController ($scope, $uibModalInstance, question, questionData) {
+function deleteQuestionModalController ($scope, $uibModalInstance, question, questionResouce) {
 	$scope.question = question;
 
 	$scope.onClickYes = function(questionId) {
-		questionData.deleteQuestion(questionId);
+		questionResource.deleteQuestion(questionId);
 		$uibModalInstance.dismiss('ok');
 	};
 

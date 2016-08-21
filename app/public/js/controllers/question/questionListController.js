@@ -1,6 +1,6 @@
-//questionsController.js
+//questionListController.js
 
-function questionsController($scope, data, modalService, questionData, enumData) {
+function questionListController($scope, data, modalService, questionResource, enumData) {
 
 	
 	$scope.questionsList = data.questionsList;
@@ -61,7 +61,7 @@ function questionsController($scope, data, modalService, questionData, enumData)
 	});
 
 	$scope.onClickDateSort = function(currentSort, reverseSort) {
-		if(currentSort == 'lastModified') {
+		if(currentSort === 'lastModified') {
 			if (reverseSort) {
 				$scope.reverseSort = false;
 			} else {
@@ -85,7 +85,7 @@ function questionsController($scope, data, modalService, questionData, enumData)
 			filter.sortOrder = 1;
 		}
 
-		questionData.getFilteredList(filter).$promise.then(function(response) {
+		questionResource.getFilteredList(filter).$promise.then(function(response) {
 			$scope.questionsList = response.questionsList;
 			$scope.totalCount = response.totalItems;
 		}, function(response) {
@@ -105,7 +105,7 @@ function questionsController($scope, data, modalService, questionData, enumData)
 			filter.sortOrder = 1;
 		}
 
-		questionData.getFilteredList(filter).$promise.then(function(response) {
+		questionResource.getFilteredList(filter).$promise.then(function(response) {
 			$scope.questionsList = response.questionsList;
 			$scope.totalCount = response.totalItems;
 		}, function(response) {
@@ -114,7 +114,7 @@ function questionsController($scope, data, modalService, questionData, enumData)
 	}
 
 	$scope.onPageChange = function(filter) {
-		questionData.getFilteredList(filter).$promise.then(function(response) {
+		questionResource.getFilteredList(filter).$promise.then(function(response) {
 			$scope.questionsList = response.questionsList;
 			$scope.totalCount = response.totalItems;
 		}, function(response) {
@@ -134,15 +134,11 @@ function questionsController($scope, data, modalService, questionData, enumData)
 	*	Otvara prozor sa informacijama o pitanju.
 	*/
 	$scope.onClickQuestionInfo = function(questionId) {
-		questionData.getQuestionById(questionId).$promise.then(function(response) {
-			var modalInstance = modalService.questionInfoModal(response.question);
-		}, function(response) {
-			console.log(response);
-		})
+		var modalInstance = modalService.questionInfoModal(questionId);
 	};
 
 	$scope.onClickFilter = function(filter) {
-		questionData.getFilteredList(filter).$promise.then(function(response) {
+		questionResource.getFilteredList(filter).$promise.then(function(response) {
 			$scope.questionsList = response.questionsList;
 			$scope.totalCount = response.totalItems;
 		}, function(response) {

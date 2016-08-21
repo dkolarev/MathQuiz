@@ -79,7 +79,7 @@ function newQuizController ($scope, $state, modalService, quizData, data, quiz) 
 				quiz.createdBy = $scope.user.username;
 			quizData.saveQuiz(quiz).$promise.then(function(response) {
 				if (response.success) {
-					$state.go('user.quizzes');
+					$state.go('user.quizlist');
 				} else {
 					console.log(response);
 				}
@@ -90,7 +90,7 @@ function newQuizController ($scope, $state, modalService, quizData, data, quiz) 
 	};
 
 	$scope.onClickQuestionInfo = function(question) {
-		var modalInstance =	modalService.questionInfoModal(question);
+		var modalInstance =	modalService.questionInfoModal(question._id);
 	};
 
 	$scope.$on('destroy', function() {

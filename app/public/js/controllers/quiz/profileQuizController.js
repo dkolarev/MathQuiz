@@ -5,8 +5,6 @@ function profileQuizController($scope, $state, $location, data, modalService, qu
 	$scope.profileQuiz = data.quiz;
 	$scope.profileQuizQuestions = data.quiz.questions;
 
-	console.log(data.quiz);
-
 	$scope.onClickQuestionInfo = function(question) {
 		var modalInstance = $uibModal.open({
 			animation: true,
@@ -22,11 +20,11 @@ function profileQuizController($scope, $state, $location, data, modalService, qu
 	};
 
 	$scope.onClickBack = function() {
-		$state.go('user.quizzes');
+		$state.go('user.quizlist');
 	};
 
 	$scope.onClickEdit = function(quizId) {
-		$location.url('/user/quizzes/newquiz/' + quizId);
+		$location.url('/user/quiz/newquiz/' + quizId);
 	};
 
 	$scope.onClickDelete = function(quizId) {
@@ -52,6 +50,6 @@ function profileQuizController($scope, $state, $location, data, modalService, qu
 	};
 
 	$scope.onClickQuestionInfo = function(question) {
-		var modalInstance = modalService.questionInfoModal(question);
+		var modalInstance = modalService.questionInfoModal(question._id);
 	};
 };

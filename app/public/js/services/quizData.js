@@ -17,14 +17,14 @@ function quizData($resource) {
 				.get();
 		},
 
-		getQuizzesList: function(itemsPerPage = 10, pageNumber = 1) {
+		getQuizzesList: function(itemsPerPage = 4, pageNumber = 1) {
 			return $resource('/api/quiz/list/:itemsPerPage/:pageNumber', 
 					{itemsPerPage: '@itemsPerPage', pageNumber: '@pageNumber'})
 						.get({itemsPerPage: itemsPerPage, pageNumber: pageNumber});
 		},
 
 		getFilteredList: function(filter) {
-			return $resource('/api/quiz/filter')
+			return $resource('/api/quiz/list/filter')
 				.save(filter);
 		},
 

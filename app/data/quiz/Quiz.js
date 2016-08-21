@@ -1,6 +1,7 @@
 //Quiz.js
 
 var Quiz = function(quiz) {
+	this._id = quiz._id;
 	this.title = quiz.title;
 	this.description = quiz.description;
 	this.field = quiz.field;
