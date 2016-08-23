@@ -11,6 +11,7 @@ var activeGamesCollection = require('../data/activeGamesCollection');
 var gameControl = require('../gameControl');
 var paginationFilter = require('../filters/paginationFilter');
 var quizFilter = require('../filters/quizFilter');
+var gameMapper = require('../mappers/gameMapper');
 
 var router = express.Router();
 
@@ -234,7 +235,7 @@ router.get('/start/:quizId/:user', function(req, res) {
 		//postavi indeks aktivnog pitanja na prvo pitanje
 		quiz.currentQuestionPointer = 0;
 		quiz.answersRecieved = 0;
-		quiz.gameStatus = 'waiting';
+		quiz.gameStatus = 'waiting for players';
 		quiz.started = new Date().toISOString();
 		quiz.startedBy = user;
 		
@@ -244,6 +245,11 @@ router.get('/start/:quizId/:user', function(req, res) {
 			quiz.questions = doc;
 
 			activeGamesCollection.activateQuiz(quiz);
+
+			var dashboardItem = gameMapper.gameToDashboardItem(quiz);
+			socketio.emit('dashboardUpdate', {
+				item: dashboardItem
+			});
 
 			res.send({
 				"gameId": gameId

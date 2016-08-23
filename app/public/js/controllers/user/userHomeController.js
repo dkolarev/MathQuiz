@@ -29,12 +29,13 @@ function userHomeController ($scope, data, $interval) {
 				if (game.gameId === data.item.gameId) {
 					var index = $scope.dashboard.indexOf(game);
 					$scope.dashboard[index] = data.item;
+					$scope.totalCount = $scope.dashboard.length;
 					$scope.$apply();
-					console.log($scope.dashboard);
 					return;
 				}
 			}
 			$scope.dashboard.push(data.item);
+			$scope.totalCount = $scope.dashboard.length;
 		}
 		$scope.$apply();
 	});

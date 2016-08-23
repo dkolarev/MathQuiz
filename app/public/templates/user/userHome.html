@@ -2,7 +2,7 @@
 <div class="row" style="padding-right: 15px">
 	<div class="col-sm-6 col-md-8">
 	</div>
-	<div class="col-sm-6 col-md-4" style="border: 1px solid #99ffff; border-radius: 4px">
+	<div class="col-sm-6 col-md-4">
 		<div ng-show="dashboard.length === 0">
 			<h3>No active games.</h3>
 		</div>
@@ -11,8 +11,11 @@
 	 		<ul uib-pagination total-items="totalCount" ng-model="currentPage" max-size="5" class="pagination-sm" boundary-links="true" items-per-page="pageItems" ng-change="onPageChange(pageItems, currentPage)"></ul>
 		</div>
 
-		<div ng-repeat="game in dashboard | paginationFilter:(currentPage - 1) * pageItems | limitTo: pageItems track by game.gameId" style="background-color: #00e6e6; color: #404040; border-radius: 2px; height: 145px; padding: 15px; margin-bottom: 15px">
-			<div style="font-size: 19px; color: #662200"><strong>gameId: </strong>{{game.gameId}}</div>
+		<div ng-repeat="game in dashboard | paginationFilter:(currentPage - 1) * pageItems | limitTo: pageItems track by game.gameId" style="background-color: #004d99; color: white; border-radius: 2px; height: 150px; padding: 15px; margin-bottom: 15px; border: 1px solid white">
+			<div class="col-xs-12" style="padding-left: 0px">
+				<span style="font-size: 19px"><strong>gameId: </strong>{{game.gameId}}</span>
+				<button type="button" class="btn btn-info btn-xs" style="float: right">Watch</button>
+			</div>
 			<div><strong>status: </strong>{{game.gameStatus}}</div>
 			<div><strong>quiz title: </strong>{{game.title}}</div>
 			<div><strong>started by: </strong>{{game.startedBy}}</div>
