@@ -9,8 +9,7 @@ var socketio; //socket
 
 var iterateQuizQuestions = function(gameSocket, quiz) {
 	if(quiz.currentQuestionPointer == quiz.questions.length) {
-		emitDashboardData(socketio, quiz);
-		emitGameEnd(gameSocket);
+		endGame(gameSocket, quiz);
 		return;
 	}
 
@@ -99,6 +98,13 @@ var extractScoreboardData = function(teams) {
 	return scoreboard; 
 };
 
+var endGame = function(gameSocket, game) {
+	setEndStatus(game);
+	emitGameEnd(gameSocket);
+	emitDashboardData(socketio, game);
+	deleteGame(gameSocket, game);
+};
+
 
 /**
 *	Funkcija kroz socket salje igracima
@@ -139,6 +145,29 @@ var emitGameEnd = function(gameSocket) {
 	});
 };
 
+var emitRemoveDashboardElement = function(game) {
+	socketio.emit('removeDashboardElement', {
+		gameId: game.gameId
+	});
+};
+
+var emitGameStatus = function(gameSocket) {
+	gameSocket.emit('gameStatus', {
+		status: 'close'
+	});
+};
+
+var deleteGame = function(gameSocket, game) {
+	setTimeout(function(){
+		activeGamesCollection.removeGame(game);
+		
+		emitGameEnd(gameSocket);	//emit admit update
+		emitGameStatus(gameSocket);	//emit player update
+
+		activeGamesCollection.removeInactiveGames();
+	}, 5000);
+};
+
 var questionTransition = function(gameSocket, quiz) {
 	var question = quiz.questions[quiz.currentQuestionPointer];
 	emitCorrectAnswer(gameSocket, question.correctAnswer);
@@ -153,7 +182,11 @@ var questionTransition = function(gameSocket, quiz) {
 };
 
 var setPlayStatus = function(quiz) {
-	quiz.gameStatus = 'play';
+	quiz.gameStatus = 'playing';
+};
+
+var setEndStatus = function(quiz) {
+	quiz.gameStatus = 'ended';
 };
 
 

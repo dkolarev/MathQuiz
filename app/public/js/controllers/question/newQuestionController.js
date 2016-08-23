@@ -144,7 +144,7 @@ function newQuestionController($scope, $state, questionResource, uploadFile, dat
 
 			questionResource.saveQuestion(question).$promise.then(function (response) {
 				if(response.valid) {
-					$state.go('user.questions');
+					$state.go('user.questionlist');
 				}
 			}, function (response) {
 				console.log(response);

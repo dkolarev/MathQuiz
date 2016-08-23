@@ -40,8 +40,19 @@ function userHomeController ($scope, data, $interval) {
 		$scope.$apply();
 	});
 
+	socket.on('removeDashboardElement', function(data) {
+		for (game of $scope.dashboard) {
+				if (game.gameId === data.gameId) {
+					var index = $scope.dashboard.indexOf(game);
+					$scope.dashboard.splice(index, 1);
+					$scope.totalCount = $scope.dashboard.length;
+					$scope.$apply();
+				}
+		}
+	});
+
 	var dashboardTimer = $interval(function() {
-		if ($scope.currentPage > $scope.totalCount / $scope.pageItems) {
+		if ($scope.currentPage >= $scope.totalCount / $scope.pageItems) {
 			$scope.currentPage = 1;
 		} else {
 			$scope.currentPage++;

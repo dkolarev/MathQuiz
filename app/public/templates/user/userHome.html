@@ -11,15 +11,16 @@
 	 		<ul uib-pagination total-items="totalCount" ng-model="currentPage" max-size="5" class="pagination-sm" boundary-links="true" items-per-page="pageItems" ng-change="onPageChange(pageItems, currentPage)"></ul>
 		</div>
 
-		<div ng-repeat="game in dashboard | paginationFilter:(currentPage - 1) * pageItems | limitTo: pageItems track by game.gameId" style="background-color: #004d99; color: white; border-radius: 2px; height: 150px; padding: 15px; margin-bottom: 15px; border: 1px solid white">
+		<div ng-repeat="game in dashboard | paginationFilter:(currentPage - 1) * pageItems | limitTo: pageItems track by game.gameId" style="background-color: #5900b3; color: white; border-radius: 2px; height: 150px; padding: 15px; margin-bottom: 15px; border: 1px solid white">
 			<div class="col-xs-12" style="padding-left: 0px">
-				<span style="font-size: 19px"><strong>gameId: </strong>{{game.gameId}}</span>
+				<span ng-show="user.username === game.startedBy" style="font-size: 19px; color: #ffff00"><strong>gameId: </strong>{{game.gameId}}</span>
 				<button type="button" class="btn btn-info btn-xs" style="float: right">Watch</button>
+				<button ng-show="user.username === game.startedBy && game.gameStatus === 'waiting for players'" type="button" class="btn btn-success btn-xs" style="float: right; margin-right: 2px">Play</button>
 			</div>
 			<div><strong>status: </strong>{{game.gameStatus}}</div>
 			<div><strong>quiz title: </strong>{{game.title}}</div>
 			<div><strong>started by: </strong>{{game.startedBy}}</div>
-			<uib-progressbar max="game.questionsNumber" value="game.currentQuestionPointer" type="success" style="margin-top: 15px"><span style="color: #404040; white-space:nowrap;">{{game.currentQuestionPointer}} / {{game.questionsNumber}}</span></uib-progressbar>
+			<uib-progressbar max="game.questionsNumber" value="game.currentQuestion" type="success" style="margin-top: 15px"><span style="color: #404040; white-space:nowrap;">{{game.currentQuestion}} / {{game.questionsNumber}}</span></uib-progressbar>
 		</div>
 	</div>
 </div>

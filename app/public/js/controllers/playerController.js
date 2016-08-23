@@ -26,15 +26,17 @@ function playerController($scope,
 
 
 	socket.on('gameStatus', function(data) {
-		if (data.status == 'start') {
+		if (data.status === 'start') {
 			$rootScope.team = $scope.team;
 			$state.go('quizgame');
-		} else if (data.status == 'end') {
+		} else if (data.status === 'end') {
 			$scope.modalInstance.close('close');
 			$state.go('quizend');
 			$scope.winner = $rootScope.scoreboard.reduce(function(prev, current) {
     							return (prev.pointsSum > current.pointsSum) ? prev : current
 							});
+		} else if (data.status === 'close') {
+			$state.go('quizend');
 		}
 	});
 
