@@ -64,7 +64,7 @@ var deleteGame = function(quiz) {
 */
 var emitTimer = function(gameSocket, time, quiz) {
 	return setInterval(function() {
-			if (time == 0) {
+			if (time === 0) {
 				questionTransition(gameSocket, quiz);
 				clearInterval(this);
 			} else {

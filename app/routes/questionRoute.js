@@ -76,12 +76,12 @@ router.post('/list/filter', function(req, res) {
 	};
 
 	var sort = {};
-		Object.defineProperty(sort, filterData.sortFilter, {
-			value: filterData.sortOrder,
-			writable: true,
-			enumerable: true,
-			configurable: true
-		});
+	Object.defineProperty(sort, filterData.sortFilter, {
+		value: filterData.sortOrder,
+		writable: true,
+		enumerable: true,
+		configurable: true
+	});
 
 	var filter = questionFilter.filter(filterData.fieldFilter, filterData.difficultyFilter);
 
@@ -96,7 +96,7 @@ router.post('/list/filter', function(req, res) {
 				"questionsList": questionsList,
 				"totalItems": totalItems
 			});
-		})
+		});
 });
 
 /**
