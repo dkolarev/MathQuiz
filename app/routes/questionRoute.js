@@ -8,6 +8,7 @@ var quizDataRepository = require('../data/quiz/quizDataRepository').dataReposito
 var questionDataValidator = require('../data/question/questionDataValidator');
 var questionFilter = require('../filters/questionFilter');
 var paginationFilter = require('../filters/paginationFilter');
+var extractTokenClaim = require('../extractTokenClaim');
 
 var router = express.Router();
 
@@ -115,18 +116,26 @@ router.post('/save', function(req, res) {
 
 	//ako pitanje ima atribut id onda radi update
 	if(questionModel._id) {
-		var valid = questionDataValidator.validateQuestion(questionModel);
+		var token = req.query.token || req.headers['x-auth-token'];
+		var user = extractTokenClaim(token);
+		questionDataRepository.getQuestionById(question._id).then(function(dbQuestion) {
+			if(dbQuestion.createdBy === user.username) {
+				var valid = questionDataValidator.validateQuestion(questionModel);
 
-		if (valid) {
-			questionModel.changeModifiedTime(currentTime);
-			questionDataRepository.updateQuestion(questionModel, function(err, doc) {
-				socketio.emit('updateQuestion', doc);
+				if (valid) {
+					questionModel.changeModifiedTime(currentTime);
+					questionDataRepository.updateQuestion(questionModel, function(err, doc) {
+						socketio.emit('updateQuestion', doc);
 				
-				res.send({"valid": true});
-			});
-		} else {
-			res.send({"valid": false})
-		}
+						res.send({"valid": true});
+					});
+				} else {
+					res.send({"valid": false})
+				}
+			} else {
+				res.end();
+			}
+		});	
 	} else {
 		var valid = questionDataValidator.validateQuestion(questionModel);
 
@@ -165,16 +174,25 @@ router.get('/:questionId', function(req, res) {
 router.get('/delete/:questionId', function(req, res) {
 	var questionId = req.params.questionId;
 	var socketio = req.app.get('socketio');
-	if(questionId) {
-		questionDataRepository.deleteQuestion(questionId).then(function() {
-			quizDataRepository.deleteQuestionCascade(questionId);
 
-			socketio.emit('deleteQuestion', {
-			"questionId": questionId
-		});
-		});
-	}
-	res.end();
+	var token = req.query.token || req.headers['x-auth-token'];
+	var user = extractTokenClaim(token);
+
+	questionDataRepository.getQuestionById(questionId).then(function(question) {
+		if(question.createdBy === user.username) {
+			questionDataRepository.deleteQuestion(questionId).then(function() {
+				quizDataRepository.deleteQuestionCascade(questionId);
+
+				socketio.emit('deleteQuestion', {
+				"questionId": questionId
+				});
+
+				res.end();
+			});
+		} else {
+			res.end();
+		}
+	});
 });
 
 

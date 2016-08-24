@@ -41,7 +41,7 @@ function authService($window, $resource) {
 	*/
 	var getTokenClaim = function(token) {
 		var user;
-		if(typeof token != 'undefined') {
+		if(typeof token !== 'undefined') {
 			var encoded = token.split('.')[1];
 			user = JSON.parse(urlBase64Decode(encoded));
 		}

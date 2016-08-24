@@ -1,6 +1,6 @@
 //questionListController.js
 
-function questionListController($scope, data, modalService, questionResource, enumData) {
+function questionListController($scope, data, modalService, questionResource, enumData, authService) {
 
 	
 	$scope.questionsList = data.questionsList;
@@ -128,7 +128,10 @@ function questionListController($scope, data, modalService, questionResource, en
 	*	dijaloski okvir i zatrazi potvrda o brisanju.
 	*/
 	$scope.onClickDeleteQuestion = function(question) {
-		var modalInstance = modalService.deleteQuestionModal(question);
+		var user = authService.getUser();
+		if (user.username === question.createdBy) {
+			var modalInstance = modalService.deleteQuestionModal(question);
+		}
 	};
 
 	/**

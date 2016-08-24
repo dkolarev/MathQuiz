@@ -33,7 +33,8 @@ module.exports.dataRepository = {
 			'difficulty': true,
 			'field': true,
 			'time': true,
-			'lastModified': true});
+			'lastModified': true,
+			'createdBy': true});
 	},
 
 	/*
