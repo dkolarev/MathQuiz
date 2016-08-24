@@ -26,12 +26,18 @@ function profileQuizController($scope, $state, $location, data, modalService, qu
 		$state.go('user.quizlist');
 	};
 
-	$scope.onClickEdit = function(quizId) {
-		$location.url('/user/quiz/newquiz/' + quizId);
+	$scope.onClickEdit = function(quiz) {
+		var user = authService.getUser();
+		if (user.username === quiz.createdBy) {
+			$location.url('/user/quiz/newquiz/' + quiz._id);
+		}
 	};
 
 	$scope.onClickDelete = function(quiz) {
-		var modalInstance = modalService.deleteQuizModal(quiz);
+		var user = authService.getUser();
+		if (user.username === quiz.createdBy) {
+			var modalInstance = modalService.deleteQuizModal(quiz);
+		}
 	};
 
 	$scope.onClickStartQuiz = function(quizId) {

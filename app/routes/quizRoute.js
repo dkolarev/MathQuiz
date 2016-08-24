@@ -12,6 +12,7 @@ var gameControl = require('../gameControl');
 var paginationFilter = require('../filters/paginationFilter');
 var quizFilter = require('../filters/quizFilter');
 var gameMapper = require('../mappers/gameMapper');
+var extractTokenClaim = require('../extractTokenClaim');
 
 var router = express.Router();
 
@@ -150,14 +151,23 @@ router.post('/save', function(req, res) {
 		var valid = quizDataValidator.validateQuiz(quizModel);
 
 		if(valid) {
-			quizModel.changeModifiedTime(currentTime);
+			var token = req.query.token || req.headers['x-auth-token'];
+			var user = extractTokenClaim(token);
 
-			quizDataRepository.updateQuiz(quizModel, function(err, doc) {
-				socketio.emit('updateQuiz', doc);
+			quizDataRepository.getQuiz(quizModel._id).then(function(dbQuiz) {
+				if (dbQuiz.createdBy === user.username) {
+					quizModel.changeModifiedTime(currentTime);
 
-				res.send({
-					success: true
-				});
+					quizDataRepository.updateQuiz(quizModel, function(err, doc) {
+						socketio.emit('updateQuiz', doc);
+
+						res.send({
+							success: true
+						});
+					});
+				} else {
+					res.end();
+				}
 			});
 		} else {
 			res.send({
@@ -194,14 +204,23 @@ router.post('/save', function(req, res) {
 router.get('/delete/:quizId', function(req, res) {
 	var quizId = req.params.quizId;
 	var socketio = req.app.get('socketio');
-	if(quizId) {
-		quizDataRepository.deleteQuiz(quizId);
 
-		socketio.emit('deleteQuiz', {
-			"quizId": quizId
-		});
-	}
-	res.end();
+	var token = req.query.token || req.headers['x-auth-token'];
+	var user = extractTokenClaim(token);
+
+	quizDataRepository.getQuiz(quizId).then(function(quiz) {
+		if (quiz.createdBy === user.username) {
+			quizDataRepository.deleteQuiz(quizId);
+
+			socketio.emit('deleteQuiz', {
+				"quizId": quizId
+			});
+
+			res.end();
+		} else {
+			res.end();
+		}
+	});
 });
 
 /**
