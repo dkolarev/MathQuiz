@@ -1,8 +1,15 @@
 //questionListController.js
 
-function questionListController($scope, data, modalService, questionResource, enumData, authService) {
+function questionListController(
+	$scope, 
+	data, 
+	modalService, 
+	questionResource, 
+	enumData, 
+	authService,
+	questionFilterService
+) {
 
-	
 	$scope.questionsList = data.questionsList;
 	$scope.totalCount = data.totalItems;
 	$scope.fixedAmount = data.totalItems;
@@ -10,15 +17,7 @@ function questionListController($scope, data, modalService, questionResource, en
 	$scope.fieldEnum = enumData.fieldEnum;
 	$scope.difficultyEnum = enumData.difficultyEnum;
 
-	$scope.filter = {
-		currentPage: 1,
-		pageItems: 10,
-		fieldFilter: [],
-		difficultyFilter: [],
-		sortFilter: 'title',
-		sortOrder: 1
-	};
-
+	$scope.filter = questionFilterService.filter;
 
 	var socket = io();
 
@@ -63,30 +62,8 @@ function questionListController($scope, data, modalService, questionResource, en
 		}
 	});
 
-	$scope.onClickDateSort = function(currentSort, reverseSort) {
-		if(currentSort === 'lastModified') {
-			if (reverseSort) {
-				$scope.reverseSort = false;
-			} else {
-				$scope.reverseSort = true;
-			}
-		} else {
-			$scope.currentSort = 'lastModified';
-			$scope.reverseSort = false;
-		}
-	};
-
 	$scope.onClickDateSort = function(filter) {
-		if(filter.sortFilter === 'lastModified') {
-			if(filter.sortOrder === 1) {
-				filter.sortOrder = -1;
-			} else {
-				filter.sortOrder = 1;
-			}
-		} else {
-			filter.sortFilter = 'lastModified';
-			filter.sortOrder = 1;
-		}
+		filter = questionFilterService.dateSort(filter);
 
 		questionResource.getFilteredList(filter).$promise.then(function(response) {
 			$scope.questionsList = response.questionsList;
@@ -97,16 +74,7 @@ function questionListController($scope, data, modalService, questionResource, en
 	};
 
 	$scope.onClickNameSort = function(filter) {
-		if(filter.sortFilter === 'title') {
-			if (filter.sortOrder === 1) {
-				filter.sortOrder = -1;
-			} else {
-				filter.sortOrder = 1;
-			}
-		} else {
-			filter.sortFilter = 'title';
-			filter.sortOrder = 1;
-		}
+		filter = questionFilterService.nameSort(filter);
 
 		questionResource.getFilteredList(filter).$promise.then(function(response) {
 			$scope.questionsList = response.questionsList;
@@ -153,11 +121,11 @@ function questionListController($scope, data, modalService, questionResource, en
 	};
 
 	$scope.onClickClearFieldFilter = function(filter) {
-		filter.fieldFilter = [];
+		filter = questionFilterService.clearFieldFilter(filter);
 	};
 
 	$scope.onClickClearDifficultyFilter = function(filter) {
-		filter.difficultyFilter = [];
+		filter = questionFilterService.clearDifficultyFilter(filter);
 	};
 
 	$scope.$on('destroy', function() {
