@@ -1,9 +1,10 @@
 //gameControl.js
 
-var activeGamesCollection = require('./data/activeGamesCollection');
+var activeGamesCollection = require('./data/game/activeGamesCollection');
 var quizDataRepository = require('./data/quiz/quizDataRepository').dataRepository;
 var gameMapper = require('./mappers/gameMapper');
 var ratingCalculator = require('./ratingCalculator');
+var gameStatusEnum = require('./data/game/gameStatusEnum');
 
 var socketio; //socket
 
@@ -51,11 +52,6 @@ var emitDashboardData = function(socketio, game) {
 	});
 };
 
-var deleteGame = function(quiz) {
-	
-	activeGameCollection(quiz);
-};
-
 /**
 *	Funkcija kroz socket emitira preostalo
 *	vrijeme za odredeni zadatak. Ako je vrijeme
@@ -63,7 +59,7 @@ var deleteGame = function(quiz) {
 */
 var emitTimer = function(gameSocket, time, quiz) {
 	return setInterval(function() {
-			if (time === 0) {
+			if (time == 0) {
 				questionTransition(gameSocket, quiz);
 				clearInterval(this);
 			} else {
@@ -182,11 +178,11 @@ var questionTransition = function(gameSocket, quiz) {
 };
 
 var setPlayStatus = function(quiz) {
-	quiz.gameStatus = 'playing';
+	quiz.gameStatus = gameStatusEnum.activeStatus;
 };
 
 var setEndStatus = function(quiz) {
-	quiz.gameStatus = 'ended';
+	quiz.gameStatus = gameStatusEnum.endStatus;
 };
 
 

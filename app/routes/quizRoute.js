@@ -7,12 +7,13 @@ var quizDataRepository = require('../data/quiz/quizDataRepository').dataReposito
 var questionDataRepository = require('../data/question/questionDataRepository').dataRepository;
 var quizDataValidator = require('../data/quiz/quizDataValidator');
 var crypto = require('crypto');
-var activeGamesCollection = require('../data/activeGamesCollection');
+var activeGamesCollection = require('../data/game/activeGamesCollection');
 var gameControl = require('../gameControl');
 var paginationFilter = require('../filters/paginationFilter');
 var quizFilter = require('../filters/quizFilter');
 var gameMapper = require('../mappers/gameMapper');
 var extractTokenClaim = require('../extractTokenClaim');
+var gameStatusEnum = require('../data/game/gameStatusEnum');
 
 var router = express.Router();
 
@@ -254,7 +255,7 @@ router.get('/start/:quizId/:user', function(req, res) {
 		//postavi indeks aktivnog pitanja na prvo pitanje
 		quiz.currentQuestionPointer = 0;
 		quiz.answersRecieved = 0;
-		quiz.gameStatus = 'waiting for players';
+		quiz.gameStatus = gameStatusEnum.pendingStatus;
 		quiz.started = new Date().toISOString();
 		quiz.startedBy = user;
 		

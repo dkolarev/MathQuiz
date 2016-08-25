@@ -16,13 +16,14 @@ angular
 	.controller('questionInfoModalController', questionInfoModalController)
 	.controller('newQuizController', newQuizController)
 	.controller('profileQuizController', profileQuizController)
-	.controller('playerController', playerController)
+	.controller('createTeamController', createTeamController)
 	.controller('questionListController', questionListController)
 	.controller('quizListController', quizListController)
 	.controller('gameEndController', gameEndController)
 	.controller('userProfileController', userProfileController)
 	.controller('userHomeController', userHomeController)
 	.controller('deleteQuizModalController', deleteQuizModalController)
+	.controller('gameController', gameController)
 	.directive('checkUsername', checkUsername)
 	.directive('checkPassword', checkPassword)
 	.directive('checkEmail', checkEmail)
@@ -190,14 +191,19 @@ angular
 				needGameId: true,
 				url: '/createteam',
 				templateUrl: 'templates/player/createTeam.html',
-				controller: 'playerController'
+				controller: 'createTeamController'
 			})
 			.state('quizgame', {
 				needLogin: false,
 				needGameId: false,
 				url: '/quizgame',
 				templateUrl: 'templates/player/gamePage.html',
-				controller: 'playerController'
+				controller: 'gameController',
+				resolve: {
+					data: function(playerService) {
+						return playerService.getQuiz().$promise;
+					}
+				}
 			})
 			.state('quizend', {
 				needLogin: false,

@@ -10,6 +10,12 @@ function gameEndController($scope, $state, data, gameService, playerService) {
 	var socketNamespace = '/' + gameId;
 	var socket = io(socketNamespace);
 
+	socket.on('gameStatus', function(data) {
+		if (data.status == 'close') {
+			$state.go('main.index');
+		}
+	});
+
 	$scope.onClickBackToMainPage = function() {
 		gameService.deleteGameId();
 		$state.go('main.index');

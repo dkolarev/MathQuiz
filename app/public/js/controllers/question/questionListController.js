@@ -33,6 +33,7 @@ function questionListController($scope, data, modalService, questionResource, en
 	*	id-u, i na odgovarajucem indeksu ubaci pitanje.
 	*	(napraviti ce se zamijena)
 	*/
+	
 	socket.on('updateQuestion', function(data) {
 		for(var q of $scope.questionsList) {
 			if(q._id == data._id) {
@@ -49,6 +50,7 @@ function questionListController($scope, data, modalService, questionResource, en
 	*	primi id pitanja od servera, pronadji pitanje u
 	*	lokalnoj list te ga ukloni iz liste.
 	*/
+	
 	socket.on('deleteQuestion', function(data) {
 		for(var q of $scope.questionsList) {
 			if(q._id == data.questionId) {

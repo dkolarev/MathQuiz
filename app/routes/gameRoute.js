@@ -5,9 +5,11 @@
 */
 
 var express = require('express');
-var activeGamesCollection = require('../data/activeGamesCollection');
-var teamDataValidator = require('../data/teamDataValidator');
+var activeGamesCollection = require('../data/game/activeGamesCollection');
+var teamDataValidator = require('../data/game/teamDataValidator');
 var gameControl = require('../gameControl');
+var gameMapper = require('../mappers/gameMapper');
+
 
 var router = express.Router();
 
@@ -54,18 +56,42 @@ router.post('/saveteam', function(req, res) {
 		team.answers = [];	//odgovori tima za svaki zadatak
 		team.pointsSum = 0; //ukupni bodovi koje je tim dobio
 
-		//ubaci tim u listu timova za kviz s tim gameId
-		activeGamesCollection.insertTeam(team, gameId, function(teamId) {
-			res.send({
-				'success': true,
-				'teamId': teamId
+		var quiz = activeGamesCollection.getQuiz(gameId);
+		if (quiz.gameStatus === 'waiting for players') {
+			//ubaci tim u listu timova za kviz s tim gameId
+			activeGamesCollection.insertTeam(team, gameId, function(teamId) {
+				res.send({
+					'success': true,
+					'teamId': teamId
+				});
 			});
-		});
+		} else {
+			res.send({
+				'success': false,
+				'details': 'game in progress'
+			});
+		}
 	} else {
 		res.send({
 			'success': false
 		});
 	}
+});
+
+router.get('/quiz', function(req, res) {
+	var gameId = req.query.gameId || req.headers['gameid'];
+
+	var quiz = activeGamesCollection.getQuiz(gameId);
+	question = quiz.questions[quiz.currentQuestionPointer];
+	question.time = question.time;
+
+	var playerQuestion = gameMapper.questionToPlayerQuestion(question);
+	var scoreboard = gameMapper.teamListToScoreboardData(quiz.teams);
+
+	res.send({
+		question: playerQuestion,
+		scoreboard: scoreboard
+	});
 });
 
 router.post('/sendanswer', function(req, res) {

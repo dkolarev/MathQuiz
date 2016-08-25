@@ -31,7 +31,32 @@ var gameListToDashboard = function(gameList) {
 	return dashboard;
 }
 
+var questionToPlayerQuestion = function(question) {
+	return {
+		questionId: question._id,
+		questionTitle: question.title,
+		questionDescription: question.description,
+		questionAllAnswers: question.allAnswers
+	};
+}
+
+var teamListToScoreboardData = function(teams) {
+	var scoreboard = [];
+
+	for (var team of teams) {
+		scoreboard.push({
+			teamName: team.name,
+			teamPlayers: team.players,
+			teamPoints: team.pointsSum
+		});
+	}
+
+	return scoreboard; 
+}
+
 module.exports = {
 	gameToDashboardItem: gameToDashboardItem,
-	gameListToDashboard: gameListToDashboard
+	gameListToDashboard: gameListToDashboard,
+	questionToPlayerQuestion: questionToPlayerQuestion,
+	teamListToScoreboardData: teamListToScoreboardData
 };

@@ -53,11 +53,11 @@ var getQuiz = function(gameId) {
 
 
 var asignPoints = function(questionDifficulty) {
-	if (questionDifficulty == "easy") {
+	if (questionDifficulty === "easy") {
 		return 5;
-	} else if (questionDifficulty == "intermediate") {
+	} else if (questionDifficulty === "intermediate") {
 		return 10;
-	} else if (questionDifficulty == "hard") {
+	} else if (questionDifficulty === "hard") {
 		return 20;
 	}
 };
