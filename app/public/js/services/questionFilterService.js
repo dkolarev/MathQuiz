@@ -1,13 +1,16 @@
 //questionFilterService.js
 
 function questionFilterService() {
-	var filter = {
-		currentPage: 1,
-		pageItems: 10,
-		fieldFilter: [],
-		difficultyFilter: [],
-		sortFilter: 'title',
-		sortOrder: 1
+
+	var initilizeFilter = function(pageItems = 10) {
+		return {
+			currentPage: 1,
+			pageItems: pageItems,
+			fieldFilter: [],
+			difficultyFilter: [],
+			sortFilter: 'title',
+			sortOrder: 1
+		};
 	};
 
 	var dateSort = function(filter) {
@@ -54,7 +57,7 @@ function questionFilterService() {
 
 
 	return {
-		filter: filter,
+		initializeFilter: initializeFilter,
 		dateSort: dateSort,
 		nameSort: nameSort,
 		clearFieldFilter: clearFieldFilter,

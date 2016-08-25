@@ -1,6 +1,15 @@
 //newQuizController.js
 
-function newQuizController ($scope, $state, modalService, questionResource, quizData, data, quiz, enumData) {
+function newQuizController (
+	$scope, 
+	$state, 
+	modalService, 
+	questionResource, 
+	quizData, 
+	data, 
+	quiz, 
+	enumData,
+	questionFilterService) {
 
 	$scope.config = {
     	theme: 'minimal-dark',
@@ -16,14 +25,7 @@ function newQuizController ($scope, $state, modalService, questionResource, quiz
 
 	$scope.questionsList = data.questionsList;
 	$scope.totalCount = data.totalItems;
-	$scope.filter = {
-			currentPage: 1,
-			pageItems: 10,
-			fieldFilter: [],
-			difficultyFilter: [],
-			sortFilter: 'title',
-			sortOrder: 1
-	};
+	$scope.filter = questionFilterService.initializeFilter();
 
 	$scope.fieldEnum = enumData.fieldEnum;
 	$scope.difficultyEnum = enumData.difficultyEnum;
@@ -110,11 +112,11 @@ function newQuizController ($scope, $state, modalService, questionResource, quiz
 	};
 
 	$scope.onClickClearFieldFilter = function(filter) {
-		filter.fieldFilter = [];
+		filter = questionFilterService.clearFieldFilter(filter);
 	};
 
 	$scope.onClickClearDifficultyFilter = function(filter) {
-		filter.difficultyFilter = [];
+		filter = questionFilterService.clearDifficultyFilter();
 	};
 
 

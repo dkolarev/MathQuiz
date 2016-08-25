@@ -17,7 +17,7 @@ function questionListController(
 	$scope.fieldEnum = enumData.fieldEnum;
 	$scope.difficultyEnum = enumData.difficultyEnum;
 
-	$scope.filter = questionFilterService.filter;
+	$scope.filter = questionFilterService.initializeFilter();
 
 	var socket = io();
 

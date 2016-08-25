@@ -1,6 +1,6 @@
 //quizListController.js
 
-function quizListController($scope, data, quizData, enumData) {
+function quizListController($scope, data, quizData, enumData, quizFilterService) {
 
 	$scope.quizzesList = data.quizzesList;
 	$scope.totalCount = data.totalItems;
@@ -9,14 +9,7 @@ function quizListController($scope, data, quizData, enumData) {
 	$scope.fieldEnum = enumData.fieldEnum;
 	$scope.ratingEnum = enumData.ratingEnum;
 
-	$scope.filter = {
-		currentPage: 1,
-		pageItems: 4,
-		fieldFilter: [],
-		ratingFilter: [],
-		sortFilter: 'title',
-		sortOrder: 1
-	};
+	$scope.filter = quizFilterService.initializeFilter();
 
 	var socket = io();
 
@@ -45,11 +38,11 @@ function quizListController($scope, data, quizData, enumData) {
 	};
 
 	$scope.onClickClearFieldFilter = function(filter) {
-		filter.fieldFilter = [];
+		filter = quizFilterService.clearFieldFilter(filter);
 	};
 
 	$scope.onClickClearRatingFilter = function(filter) {
-		filter.ratingFilter = [];
+		filter = quizFilterService.clearRatingFilter(filter);
 	};
 
 	$scope.onClickFilter = function(filter) {

@@ -8,20 +8,6 @@ function profileQuizController($scope, $state, $location, data, modalService, qu
 	$scope.currentPage = 1;
 	$scope.pageItems = 6;
 
-	$scope.onClickQuestionInfo = function(question) {
-		var modalInstance = $uibModal.open({
-			animation: true,
-			templateUrl: 'QuestionInfoModal.html',
-			size: 'lg',
-			resolve: {
-				question: function() {
-					return question;
-				}
-			},
-			controller: 'questionInfoModalController'
-		});
-	};
-
 	$scope.onClickBack = function() {
 		$state.go('user.quizlist');
 	};
