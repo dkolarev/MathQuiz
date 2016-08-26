@@ -37,7 +37,7 @@ angular
 	.factory('playerService', playerService)
 	.factory('modalService', modalService)
 	.factory('uploadFile', uploadFile)
-	.factory('quizData', quizData)
+	.factory('quizResource', quizResource)
 	.factory('questionResource', questionResource)
 	.factory('correctAnswerService', correctAnswerService)
 	.factory('userData', userData)
@@ -136,8 +136,8 @@ angular
 				templateUrl: 'templates/quiz/quizList.html',
 				controller: 'quizListController',
 				resolve: {
-					data: function(quizData) {
-						return quizData.getQuizzesList().$promise;
+					data: function(quizResource) {
+						return quizResource.getQuizzesList().$promise;
 					}
 				}
 			})
@@ -147,8 +147,8 @@ angular
 				templateUrl : 'templates/quiz/quizProfile.html',
 				controller: 'profileQuizController',
 				resolve: {
-					data: function($stateParams, quizData) {
-						return quizData.getQuizWithQuestions($stateParams.quizId).$promise;
+					data: function($stateParams, quizResource) {
+						return quizResource.getQuizWithQuestions($stateParams.quizId).$promise;
 					}
 				}
 			})
@@ -161,8 +161,8 @@ angular
 					data: function(questionResource) {
 						return questionResource.getQuestionsList(10).$promise;
 					},
-					quiz: function($stateParams, quizData) {
-						return quizData.getQuizById($stateParams.quizId).$promise;
+					quiz: function($stateParams, quizResource) {
+						return quizResource.getQuizById($stateParams.quizId).$promise;
 					}
 				}
 			})

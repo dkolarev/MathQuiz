@@ -1,11 +1,11 @@
 //deleteQuizModalController.js
 
-function deleteQuizModalController ($scope, $state, $uibModalInstance, quiz, quizData) {
+function deleteQuizModalController ($scope, $state, $uibModalInstance, quiz, quizResource) {
 
 	$scope.quiz = quiz;
 
 	$scope.onClickYes = function (quizId) {
-		quizData.deleteQuiz(quizId).$promise.then(function(response) {
+		quizResource.deleteQuiz(quizId).$promise.then(function(response) {
 			$uibModalInstance.dismiss('ok');
 			$state.go('user.quizlist');
 		}, function(response) {

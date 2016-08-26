@@ -1,6 +1,6 @@
 //quizListController.js
 
-function quizListController($scope, data, quizData, enumData, quizFilterService) {
+function quizListController($scope, data, quizResource, enumData, quizFilterService) {
 
 	$scope.quizzesList = data.quizzesList;
 	$scope.totalCount = data.totalItems;
@@ -29,7 +29,7 @@ function quizListController($scope, data, quizData, enumData, quizFilterService)
 	});
 
 	$scope.onPageChange = function(filter) {
-		quizData.getFilteredList(filter).$promise.then(function(response) {
+		quizResource.getFilteredList(filter).$promise.then(function(response) {
 			$scope.quizzesList = response.quizzesList;
 			$scope.totalCount = response.totalItems; 
 		}, function(response) {
@@ -46,7 +46,7 @@ function quizListController($scope, data, quizData, enumData, quizFilterService)
 	};
 
 	$scope.onClickFilter = function(filter) {
-		quizData.getFilteredList(filter).$promise.then(function(response) {
+		quizResource.getFilteredList(filter).$promise.then(function(response) {
 			$scope.quizzesList = response.quizzesList;
 			$scope.totalCount = response.totalItems;
 		}, function(response) {

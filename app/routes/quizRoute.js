@@ -286,6 +286,11 @@ router.get('/play/:gameId', function(req, res) {
 
 	var quiz = activeGamesCollection.getQuiz(gameId);
 	quizDataRepository.updateQuizPlayedCounter(quiz._id);
+	
+	var dashboardItem = gameMapper.gameToDashboardItem(quiz);
+	socketio.emit('dashboardUpdate', {
+		item: dashboardItem
+	});
 
 	res.end();
 });

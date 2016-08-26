@@ -2,7 +2,7 @@
 
 function questionFilterService() {
 
-	var initilizeFilter = function(pageItems = 10) {
+	var initializeFilter = function(pageItems = 10) {
 		return {
 			currentPage: 1,
 			pageItems: pageItems,

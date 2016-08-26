@@ -1,6 +1,6 @@
-//quizData.js
+//quizResource.js
 
-function quizData($resource) {
+function quizResource($resource) {
 	return {
 		getQuizById: function(quizId) {
 			return $resource('/api/quiz/:quizId', {quizId: '@quizId'})

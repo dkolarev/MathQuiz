@@ -5,8 +5,7 @@ var quizDataRepository = require('./data/quiz/quizDataRepository').dataRepositor
 var gameMapper = require('./mappers/gameMapper');
 var ratingCalculator = require('./ratingCalculator');
 var gameStatusEnum = require('./data/game/gameStatusEnum');
-
-var socketio; //socket
+var gameSocketService = require('./gameSocketService');
 
 var iterateQuizQuestions = function(gameSocket, quiz) {
 	if(quiz.currentQuestionPointer == quiz.questions.length) {
@@ -18,98 +17,19 @@ var iterateQuizQuestions = function(gameSocket, quiz) {
 
 	question = quiz.questions[quiz.currentQuestionPointer];
 	question.time = question.time; //pretvori min u sec
-	emitQuestion(gameSocket, question);
+	gameSocketService.emitQuestion(gameSocket, question);
 
-	emitDashboardData(socketio, quiz);
+	gameSocketService.emitDashboardData(quiz);
 
-	var timer = emitTimer(gameSocket, question.time, quiz);
+	var timer = gameSocketService.emitTimer(gameSocket, question.time, quiz);
 	activeGamesCollection.setTimer(timer, quiz.gameId);
-};
-
-/**
-*	Funkcija kroz socket salje igracima zadatak
-*	za rjesavanje. Salju se id zadatka, naziv,
-*	tekst i odgovori (bez tocnog odgovora). Dodatno
-*	se jos salje pocetno vrijeme potrebno za zadatak.
-*/
-var emitQuestion = function(gameSocket, question) {
-	gameSocket.emit('question', {
-		question: {
-			questionId: question._id,
-			questionTitle: question.title,
-			questionDescription: question.description,
-			questionAllAnswers: question.allAnswers
-		},
-		time: question.time
-	});
-};
-
-var emitDashboardData = function(socketio, game) {
-	var dashboardItem = gameMapper.gameToDashboardItem(game);
-	
-	socketio.emit('dashboardUpdate', {
-		item: dashboardItem
-	});
-};
-
-/**
-*	Funkcija kroz socket emitira preostalo
-*	vrijeme za odredeni zadatak. Ako je vrijeme
-*	isteklo pokreni sljedeci zadatak.
-*/
-var emitTimer = function(gameSocket, time, quiz) {
-	return setInterval(function() {
-			if (time == 0) {
-				questionTransition(gameSocket, quiz);
-				clearInterval(this);
-			} else {
-				time--;
-				gameSocket.emit('timer', {
-					timer: time
-				});
-			
-			}
-		}, 1000);
-};
-
-var emitScoreboard = function(gameSocket, teams) {
-	var scoreboard = extractScoreboardData(teams);
-
-	gameSocket.emit('scoreboard', {
-		scoreboard: scoreboard
-	});
-};
-
-var extractScoreboardData = function(teams) {
-	var scoreboard = [];
-
-	for (var team of teams) {
-		scoreboard.push({
-			teamName: team.name,
-			teamPlayers: team.players,
-			teamPoints: team.pointsSum
-		});
-	}
-
-	return scoreboard; 
 };
 
 var endGame = function(gameSocket, game) {
 	setEndStatus(game);
-	emitGameEnd(gameSocket);
-	emitDashboardData(socketio, game);
+	gameSocketService.emitGameEnd(gameSocket);
+	gameSocketService.emitDashboardData(game);
 	deleteGame(gameSocket, game);
-};
-
-
-/**
-*	Funkcija kroz socket salje igracima
-*	da pocinje kviz.
-*/
-var emitGameStart = function(gameSocket) {
-	gameSocket.emit('gameStatus', {
-		status: 'start'
-	});
 };
 
 var checkAnsweredCounter = function(gameId) {
@@ -129,36 +49,12 @@ var extractWinner = function(scoreboard) {
 			});
 };
 
-var emitCorrectAnswer = function(gameSocket, answer) {
-	gameSocket.emit('correctAnswer', {
-		correctAnswer: answer
-	});
-};
-
-var emitGameEnd = function(gameSocket) {
-	gameSocket.emit('gameStatus', {
-		status: 'end'
-	});
-};
-
-var emitRemoveDashboardElement = function(game) {
-	socketio.emit('removeDashboardElement', {
-		gameId: game.gameId
-	});
-};
-
-var emitGameStatus = function(gameSocket) {
-	gameSocket.emit('gameStatus', {
-		status: 'close'
-	});
-};
-
 var deleteGame = function(gameSocket, game) {
 	setTimeout(function(){
 		activeGamesCollection.removeGame(game);
 		
-		emitGameEnd(gameSocket);	//emit admit update
-		emitGameStatus(gameSocket);	//emit player update
+		gameSocketService.emitGameEnd(gameSocket);	//emit admit update
+		gameSocketService.emitGameStatus(gameSocket);	//emit player update
 
 		activeGamesCollection.removeInactiveGames();
 	}, 5000);
@@ -166,7 +62,7 @@ var deleteGame = function(gameSocket, game) {
 
 var questionTransition = function(gameSocket, quiz) {
 	var question = quiz.questions[quiz.currentQuestionPointer];
-	emitCorrectAnswer(gameSocket, question.correctAnswer);
+	gameSocketService.emitCorrectAnswer(gameSocket, question.correctAnswer);
 
 	setTimeout(function() {
 		activeGamesCollection.iterateCurrentQuestion(quiz.gameId);
@@ -187,19 +83,15 @@ var setEndStatus = function(quiz) {
 
 
 module.exports = {
-	setSocket: function(io) {
-		socketio = io;
-	},
-
-	play: function(gameId, socketio) {
+	play: function(gameId) {
 		var quiz = activeGamesCollection.getQuiz(gameId);
 		if (quiz == null) {
 			return;
 		} else {
 			quiz.currentQuestionPointer = 0;
-			emitGameStart(quiz.gameSocket);
+			gameSocketService.emitGameStart(quiz.gameSocket);
 			iterateQuizQuestions(quiz.gameSocket, quiz);
-			emitScoreboard(quiz.gameSocket, quiz.teams);
+			gameSocketService.emitScoreboard(quiz.gameSocket, quiz.teams);
 			setPlayStatus(quiz);
 		}
 	},
@@ -209,7 +101,7 @@ module.exports = {
 
 		activeGamesCollection.storeAnswer(gameId, teamId, questionId, answer, result.correct, result.points,
 										 	function(gameSocket, teams) {
-												emitScoreboard(gameSocket, teams);
+												gameSocketService.emitScoreboard(gameSocket, teams);
 										 });
 
 		return result.correct;
@@ -223,7 +115,7 @@ module.exports = {
 
 	getWinnerData: function(gameId) {
 		var quiz = activeGamesCollection.getQuiz(gameId);
-		var scoreboard = extractScoreboardData(quiz.teams);
+		var scoreboard = gameMapper.teamListToScoreboardData(quiz.teams);
 		var winner = extractWinner(scoreboard);
 
 		return {

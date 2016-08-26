@@ -5,7 +5,7 @@ function newQuizController (
 	$state, 
 	modalService, 
 	questionResource, 
-	quizData, 
+	quizResource, 
 	data, 
 	quiz, 
 	enumData,
@@ -79,7 +79,7 @@ function newQuizController (
 		if(quiz.questions.length > 0 && $scope.newQuizForm.$valid) {
 			if(!quiz.createdBy)
 				quiz.createdBy = $scope.user.username;
-			quizData.saveQuiz(quiz).$promise.then(function(response) {
+			quizResource.saveQuiz(quiz).$promise.then(function(response) {
 				if (response.success) {
 					$state.go('user.quizlist');
 				} else {

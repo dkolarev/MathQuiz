@@ -1,20 +1,10 @@
 //newQuestionController.js
 
-function newQuestionController($scope, $state, questionResource, uploadFile, data) {
+function newQuestionController($scope, $state, questionResource, uploadFile, data, enumData) {
 
 	$scope.newQuestion = data.question;
 
-	$scope.selectList = ["calculus", 
-						 "algebra", 
-						 "number theory", 
-						 "numeric mathematic",
-						 "analitic geometry",
-						 "elementary geometry",
-						 "elementary mathematics",
-						 "computer science",
-						 "propability",
-						 "statistic"];
-
+	$scope.selectList = enumData.fieldEnum;
 
 	$scope.onClickText = function() {
 		if(!$scope.newQuestion.description) {

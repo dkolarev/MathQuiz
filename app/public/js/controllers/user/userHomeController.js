@@ -1,6 +1,6 @@
 //userHomeController.js
 
-function userHomeController ($scope, data, $interval) {
+function userHomeController ($scope, data, $interval, quizResource) {
 
 	$scope.dashboard = data.dashboard;
 
@@ -58,6 +58,14 @@ function userHomeController ($scope, data, $interval) {
 			$scope.currentPage++;
 		}
 	}, 5000);
+
+	$scope.onClickPlay = function(gameId) {
+		quizResource.playQuiz(gameId).$promise.then(function(response) {
+			console.log(response);
+		}, function(response) {
+			console.log(response);
+		});
+	};	
 
 	$scope.$on('$destroy', function() {
 		if(angular.isDefined(dashboardTimer)) {

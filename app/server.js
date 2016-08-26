@@ -10,7 +10,6 @@ var quizRoute = require('./routes/quizRoute');
 var gameRoute = require('./routes/gameRoute');
 var validateRoute = require('./routes/validateRoute');
 var userRoute = require('./routes/userRoute');
-var gameControl = require('./gameControl');
 var config = require('./config/config');
 var db = require('./config/db');
 
@@ -38,7 +37,7 @@ db.connect(config, function() {
 
 	io = require('socket.io')(server);
 	app.set('socketio', io);
-	gameControl.setSocket(io);
+	require('./gameSocketService').setSocket(io);
 });
 
 app.use('/api/auth', unauthRoute);

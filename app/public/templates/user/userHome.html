@@ -15,7 +15,7 @@
 			<div class="col-xs-12" style="padding-left: 0px">
 				<span ng-show="user.username === game.startedBy" style="font-size: 19px; color: #ffff00"><strong>gameId: </strong>{{game.gameId}}</span>
 				<button type="button" class="btn btn-info btn-xs" style="float: right">Watch</button>
-				<button ng-show="user.username === game.startedBy && game.gameStatus === 'waiting for players'" type="button" class="btn btn-success btn-xs" style="float: right; margin-right: 2px">Play</button>
+				<button ng-show="user.username === game.startedBy && game.gameStatus === 'waiting for players'" type="button" class="btn btn-success btn-xs" ng-click="onClickPlay(game.gameId)" style="float: right; margin-right: 2px">Play</button>
 			</div>
 			<div><strong>status: </strong>{{game.gameStatus}}</div>
 			<div><strong>quiz title: </strong>{{game.title}}</div>
