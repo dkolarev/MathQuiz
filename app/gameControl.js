@@ -21,7 +21,7 @@ var iterateQuizQuestions = function(gameSocket, quiz) {
 
 	gameSocketService.emitDashboardData(quiz);
 
-	var timer = gameSocketService.emitTimer(gameSocket, question.time, quiz);
+	var timer = emitTimer(gameSocket, question.time, quiz);
 	activeGamesCollection.setTimer(timer, quiz.gameId);
 };
 
@@ -32,6 +32,26 @@ var endGame = function(gameSocket, game) {
 	deleteGame(gameSocket, game);
 };
 
+/**
+*	Funkcija kroz socket emitira preostalo
+*	vrijeme za odredeni zadatak. Ako je vrijeme
+*	isteklo pokreni sljedeci zadatak.
+*/
+var emitTimer = function(gameSocket, time, quiz) {
+	return setInterval(function() {
+			if (time == 0) {
+				questionTransition(gameSocket, quiz);
+				clearInterval(this);
+			} else {
+				time--;
+				gameSocket.emit('timer', {
+					timer: time
+				});
+			
+			}
+		}, 1000);
+};
+	
 var checkAnsweredCounter = function(gameId) {
 	var quiz = activeGamesCollection.getQuiz(gameId);
 	var answersRecieved = quiz.answersRecieved;
@@ -53,8 +73,8 @@ var deleteGame = function(gameSocket, game) {
 	setTimeout(function(){
 		activeGamesCollection.removeGame(game);
 		
-		gameSocketService.emitGameEnd(gameSocket);	//emit admit update
-		gameSocketService.emitGameStatus(gameSocket);	//emit player update
+		gameSocketService.emitRemoveDashboardElement(game); //emit admin update
+		gameSocketService.emitGameEnd(gameSocket);	//emit player update
 
 		activeGamesCollection.removeInactiveGames();
 	}, 5000);

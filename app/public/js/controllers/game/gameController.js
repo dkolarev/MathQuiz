@@ -23,13 +23,15 @@ function gameController(
 	$scope.currentQuestion = data.question;
 	$scope.scoreboard = data.scoreboard;
 
+	$scope.currentPage = 1;
+	$scope.pageItems = 10;
+
 	socket.on('gameStatus', function(data) {
 		if (data.status == 'end') {
 			$scope.modalInstance.close('close');
 			$state.go('quizend');
 		}
 	});
-
 
 	socket.on('question', function(data) {
 		if($scope.modalInstance) {
@@ -75,4 +77,19 @@ function gameController(
 		});
 	};
 
+	var scoreboardTimer = $interval(function() {
+		if ($scope.currentPage >= $scope.totalCount / $scope.pageItems) {
+			$scope.currentPage = 1;
+		} else {
+			$scope.currentPage++;
+		}
+	}, 5000);
+
+	$scope.$on('$destroy', function() {
+		if(angular.isDefined(scoreboardTimer)) {
+			$interval.cancel(scoreboardTimer);
+		}
+
+		socket.removeAllListeners();
+	});
 }
