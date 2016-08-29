@@ -6,6 +6,15 @@ module.exports.init = function(db) {
 	quizzesCollection = db.collection('quizzes');
 };
 
+/**
+*	Funkcija kvizu s id-om quizId postavlja novu listu s kvizovima. 
+*/
+var updateQuizQuestions = function(quizId, newQuestions) {
+	return quizzesCollection.updateOne({"_id": new ObjectId(quizId)}, {$set: {
+		questions: newQuestions
+	}});
+};
+
 module.exports.dataRepository = {
 	/**
 	*	Funkcija ubacuje novi kviz u bazu.
@@ -42,15 +51,6 @@ module.exports.dataRepository = {
 	},
 
 	/**
-	*	Funkcija kvizu s id-om quizId postavlja novu listu s kvizovima. 
-	*/
-	updateQuizQuestions: function(quizId, questions) {
-		return quizzesCollection.updateOne({"_id": new ObjectId(quizId)}, {$set: {
-				"questions": questions
-		}});
-	},
-
-	/**
 	*	Funkcija brise kviz iz kolekcije 'quizzes'
 	*/
 	deleteQuiz: function(quizId) {
@@ -79,8 +79,8 @@ module.exports.dataRepository = {
 		quizzesCollection.find({"questions": questionId}).toArray(function(err, documents) {
 			for(var quiz of documents) {
 				var index = quiz.questions.indexOf(questionId);
-				var newQuestionsList = quiz.questions.splice(index, 1);
-				updateQuizQuestions(quiz._id, newQuestionsList);
+				quiz.questions.splice(index, 1);
+				updateQuizQuestions(quiz._id, quiz.questions);
 			}
 		});
 	},

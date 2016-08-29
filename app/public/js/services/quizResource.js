@@ -35,7 +35,7 @@ function quizResource($resource) {
 
 		deleteQuiz: function(quizId) {
 			return $resource('/api/quiz/delete/:quizId', {quizId: '@quizId'})
-				.get({quizId: quizId});
+				.delete({quizId: quizId});
 		},
 
 		startQuiz: function(quizId, user) {

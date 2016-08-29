@@ -8,7 +8,8 @@ function gameController(
 	correctAnswerService, 
 	playerService, 
 	modalService,
-	$state
+	$state,
+	$interval
 ) {
 
 	$scope.answerSended = false;
@@ -23,6 +24,7 @@ function gameController(
 	$scope.currentQuestion = data.question;
 	$scope.scoreboard = data.scoreboard;
 
+	$scope.totalCount = $scope.scoreboard.length;
 	$scope.currentPage = 1;
 	$scope.pageItems = 10;
 
@@ -53,6 +55,7 @@ function gameController(
 
 	socket.on('scoreboard', function(data) {
 		$scope.scoreboard = data.scoreboard;
+		console.log($scope.scoreboard);
 	});
 
 	socket.on('correctAnswer', function(data) {

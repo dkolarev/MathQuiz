@@ -30,7 +30,7 @@ function questionResource($resource) {
 
 		deleteQuestion: function(questionId) {
 			return $resource('/api/question/delete/:questionId', {questionId: '@questionId'})
-					.get({questionId: questionId});
+					.delete({questionId: questionId});
 		},
 	};
 }

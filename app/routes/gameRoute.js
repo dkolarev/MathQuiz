@@ -9,6 +9,7 @@ var activeGamesCollection = require('../data/game/activeGamesCollection');
 var teamDataValidator = require('../data/game/teamDataValidator');
 var gameControl = require('../gameControl');
 var gameMapper = require('../mappers/gameMapper');
+var gameSocketService = require('../gameSocketService');
 
 
 var router = express.Router();
@@ -22,7 +23,7 @@ var socket;
 */
 router.use(function(req, res, next) {
 	var gameId = req.query.gameId || req.headers['gameid'];
-	
+		
 	if(gameId) {
 		var verified = activeGamesCollection.verifyGameId(gameId);
 		if(verified) {
@@ -41,7 +42,6 @@ router.use(function(req, res, next) {
 	}
 });
 
-
 /**
 *	Igrac salje svoj tim sa podacima (ime, clanovi)
 *	i registrira se za igru.
@@ -49,6 +49,7 @@ router.use(function(req, res, next) {
 router.post('/saveteam', function(req, res) {
 	var team = req.body;
 	var gameId = req.query.gameId || req.headers['gameid'];
+	var socketio = req.app.get('socketio');
 
 	var valid = teamDataValidator.validateTeam(team);
 
@@ -64,6 +65,9 @@ router.post('/saveteam', function(req, res) {
 					'success': true,
 					'teamId': teamId
 				});
+
+				var gameSocket = activeGamesCollection.getGameSocket(gameId);
+				gameSocketService.emitNewTeam(gameSocket, teamId, team.name);
 			});
 		} else {
 			res.send({

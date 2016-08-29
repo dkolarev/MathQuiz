@@ -1,0 +1,24 @@
+<h1 style="padding-left: 15px">Spectator</h1>
+<div class="col-xs-12">
+	<div class="panel panel-info text-center" style="color:black">
+		<div class="panel-body">
+			Waiting for game start...
+		</div>
+	</div>
+</div>
+<div class="col-xs-12">
+	<div style="width: 450px; margin: 0px auto">
+		<div class="well" style="margin-bottom: 10px">
+			<span style="color: black">Teams </span>
+			<span class="badge">{{teamList.length}}</span>
+		</div>
+		<div>
+			<ul class="list-unstyled list-group">
+				<li class="list-group-item" ng-repeat="team in teamList" style="color: black">
+					<span>{{$index + 1}} </span>
+					<span style="margin-left: 15px">{{team.name}}</span>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>

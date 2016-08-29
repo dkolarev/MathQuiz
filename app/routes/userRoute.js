@@ -5,10 +5,9 @@ var jwt = require('jsonwebtoken');
 var userDataRepository = require('../data/user/userDataRepository').dataRepository;
 var activeGamesCollection = require('../data/game/activeGamesCollection');
 var gameMapper = require('../mappers/gameMapper');
+var secret = require('../config/config').secret;
 
 var router = express.Router();
-
-var secret = '1234';
 
 var socket;
 

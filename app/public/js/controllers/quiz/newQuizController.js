@@ -18,6 +18,7 @@ function newQuizController (
 
 	if(quiz.quiz) {
 		$scope.newQuiz = quiz.quiz;
+		console.log(quiz.quiz);
 	} else {
 		$scope.newQuiz = {};
 		$scope.newQuiz.questions = [];

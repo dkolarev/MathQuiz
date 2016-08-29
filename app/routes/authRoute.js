@@ -1,4 +1,4 @@
-//unauthRoute.js
+//authRoute.js
 
 var express = require('express');
 var User = require('../data/user/User');
@@ -6,10 +6,9 @@ var userDataRepository = require('../data/user/userDataRepository').dataReposito
 var userDataValidator = require('../data/user/userDataValidator');
 var crypt = require('../bcryptConfig');
 var jwt = require('jsonwebtoken');
+var secret = require('../config/config').secret;
 
 var router = express.Router();
-
-var secret = '1234';
 
 /**
 *	Provjera jedinstvenosti korisnickog imena

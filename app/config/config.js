@@ -5,7 +5,9 @@ var env = process.env.NODE_ENV || 'development';
 var config = {
 	port: 3000,
 	db: 'mongodb://localhost:27017/mathquiz',
-	host: 'localhost'
+	host: 'localhost',
+	root: 'public',
+	secret: 'fNLNUZ1YxXU1v1Cdb0sAAjGr3yS9uNOKDkQgMxoOsGDjcNES6wLlAQ6aSJE05kT'
 };
 
 if (env === 'production') {

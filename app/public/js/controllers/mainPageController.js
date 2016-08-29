@@ -67,4 +67,11 @@ function mainPageController($scope, $state, $window, authService, gameService) {
 		}
 	};
 
+	$scope.onClickSpectate = function(gameId) {
+		if(gameId) {
+			gameService.saveGameId(gameId);
+			$state.go('spectatorpending');
+		}
+	}
+
 };

@@ -97,6 +97,13 @@ var emitGameStatus = function(gameSocket) {
 	});
 };
 
+var emitNewTeam = function(gameSocket, teamId, teamName) {
+	gameSocket.emit('newTeam', {
+		id: teamId,
+		name: teamName
+	});
+}
+
 module.exports = {
 	setSocket: setSocket,
 	emitQuestion: emitQuestion,
@@ -107,5 +114,6 @@ module.exports = {
 	emitCorrectAnswer: emitCorrectAnswer,
 	emitGameEnd: emitGameEnd,
 	emitRemoveDashboardElement: emitRemoveDashboardElement,
-	emitGameStatus: emitGameStatus
+	emitGameStatus: emitGameStatus,
+	emitNewTeam: emitNewTeam
 };

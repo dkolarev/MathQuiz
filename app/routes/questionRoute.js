@@ -9,10 +9,9 @@ var questionDataValidator = require('../data/question/questionDataValidator');
 var questionFilter = require('../filters/questionFilter');
 var paginationFilter = require('../filters/paginationFilter');
 var extractTokenClaim = require('../extractTokenClaim');
+var secret = require('../config/config').secret;
 
 var router = express.Router();
-
-var secret = '1234';
 
 var socket;
 
@@ -171,7 +170,7 @@ router.get('/:questionId', function(req, res) {
 /**
 *	Ruta za brisanje pitanja u bazi.
 */
-router.get('/delete/:questionId', function(req, res) {
+router.delete('/delete/:questionId', function(req, res) {
 	var questionId = req.params.questionId;
 	var socketio = req.app.get('socketio');
 

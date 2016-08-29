@@ -4,7 +4,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var path = require('path');
 var helmet = require('helmet');
-var unauthRoute = require('./routes/unauthRoute');
+var authRoute = require('./routes/authRoute');
 var questionRoute = require('./routes/questionRoute');
 var quizRoute = require('./routes/quizRoute');
 var gameRoute = require('./routes/gameRoute');
@@ -22,7 +22,7 @@ var app = express();
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, config.root)));
 
 app.use(helmet());
 app.disable('x-powered-by');
@@ -40,7 +40,7 @@ db.connect(config, function() {
 	require('./gameSocketService').setSocket(io);
 });
 
-app.use('/api/auth', unauthRoute);
+app.use('/api/auth', authRoute);
 app.use('/api/validate', validateRoute);
 app.use('/api/question', questionRoute);
 app.use('/api/quiz', quizRoute);

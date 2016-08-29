@@ -14,10 +14,9 @@ var quizFilter = require('../filters/quizFilter');
 var gameMapper = require('../mappers/gameMapper');
 var extractTokenClaim = require('../extractTokenClaim');
 var gameStatusEnum = require('../data/game/gameStatusEnum');
+var secret = require('../config/config').secret;
 
 var router = express.Router();
-
-var secret = '1234';
 
 var socket;
 
@@ -121,7 +120,6 @@ router.get('/:quizId', function(req, res) {
 
 router.get('/details/:quizId', function(req, res) {
 	var quizId = req.params.quizId;
-	var questions = [];
 	quizDataRepository.getQuiz(quizId).then(function(quiz) {
 		//izvuci svaki zadatak iz baze
 		questionDataRepository.questionListByIds(quiz.questions).toArray(function(err, doc) {
@@ -202,7 +200,7 @@ router.post('/save', function(req, res) {
 *	Ruta za brisanje kviza. Korisnik salje id kviza
 *	koji zeli obrisati.
 */
-router.get('/delete/:quizId', function(req, res) {
+router.delete('/delete/:quizId', function(req, res) {
 	var quizId = req.params.quizId;
 	var socketio = req.app.get('socketio');
 
@@ -258,8 +256,6 @@ router.get('/start/:quizId/:user', function(req, res) {
 		quiz.gameStatus = gameStatusEnum.pendingStatus;
 		quiz.started = new Date().toISOString();
 		quiz.startedBy = user;
-		
-		var questions = [];	//pitanja
 		
 		questionDataRepository.questionListByIds(quiz.questions).toArray(function(err, doc) {
 			quiz.questions = doc;

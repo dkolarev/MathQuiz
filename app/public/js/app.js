@@ -24,6 +24,7 @@ angular
 	.controller('userHomeController', userHomeController)
 	.controller('deleteQuizModalController', deleteQuizModalController)
 	.controller('gameController', gameController)
+	.controller('gamePendingController', gamePendingController)
 	.directive('checkUsername', checkUsername)
 	.directive('checkPassword', checkPassword)
 	.directive('checkEmail', checkEmail)
@@ -197,7 +198,7 @@ angular
 			})
 			.state('quizgame', {
 				needLogin: false,
-				needGameId: false,
+				needGameId: true,
 				url: '/quizgame',
 				templateUrl: 'templates/player/gamePage.html',
 				controller: 'gameController',
@@ -209,7 +210,7 @@ angular
 			})
 			.state('quizend', {
 				needLogin: false,
-				neeGameId: false,
+				needGameId: true,
 				url: '/quizend',
 				templateUrl: 'templates/player/gameEndScreen.html',
 				controller: 'gameEndController',
@@ -218,6 +219,13 @@ angular
 						return playerService.getWinnerData().$promise;
 					}
 				}
+			})
+			.state('spectatorpending', {
+				needLogin: false,
+				needGameId: false,
+				url: '/spectator/pending',
+				templateUrl: 'templates/spectator/gamePending.html',
+				controller: 'gamePendingController'
 			});
 
 		$urlRouterProvider.otherwise('/index');
@@ -246,7 +254,7 @@ angular
 			*	Ako je potrebno biti prijavljen provjeri jel korisnik
 			*	ima valjan token. Ako nema, server ce vratiti gresku 401.
 			*/
-			if (toState.needLogin) {				
+			if (toState.needLogin) {			
 				authService.verifyToken().$promise.then(function(response) {
 					if(toState.name === 'user') {
 						event.preventDefault();

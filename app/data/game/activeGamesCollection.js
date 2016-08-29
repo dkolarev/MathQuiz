@@ -1,5 +1,7 @@
 //activeGamesCollection.js
 
+var gamePointsEnum = require('./gamePointsEnum');
+
 /**
 *	ActiveQuizzes sadrzi aktivan kviz. Kviz je modeliran
 *	na sljedecin nacin:
@@ -54,11 +56,11 @@ var getQuiz = function(gameId) {
 
 var asignPoints = function(questionDifficulty) {
 	if (questionDifficulty === "easy") {
-		return 5;
+		return gamePointsEnum.easy;
 	} else if (questionDifficulty === "intermediate") {
-		return 10;
+		return gamePointsEnum.intermediate;
 	} else if (questionDifficulty === "hard") {
-		return 20;
+		return gamePointsEnum.hard;
 	}
 };
 
@@ -111,11 +113,9 @@ module.exports =  {
 		var teamId;
 		for (var quiz of ActiveQuizzes) {
 			if (quiz.gameId == gameId) {
-				var index = ActiveQuizzes.indexOf(quiz);
 				teamId = quiz.teams.length + 1;
 				team.teamId = teamId;
 				quiz.teams.push(team);
-				ActiveQuizzes[index] = quiz;
 				break;
 			}
 		}
@@ -146,27 +146,19 @@ module.exports =  {
 	storeAnswer: function(gameId, teamId, questionId, answer, success, points, callb) {
 		for (var quiz of ActiveQuizzes) {
 			if (quiz.gameId == gameId) {
-				var index = ActiveQuizzes.indexOf(quiz);
-
 				for (var team of quiz.teams) {
 					if (team.teamId == teamId) {
-						var teamIndex = quiz.teams.indexOf(team);
-
 						team.answers.push({
 							questionId: questionId,
 							answer: answer,
 							success: success,
 							points: points
 						});
-
 						team.pointsSum = team.pointsSum + points;
 
-						quiz.teams[teamIndex] = team;
 						break;
 					}
 				}
-
-				ActiveQuizzes[index] = quiz;
 
 				callb(quiz.gameSocket, quiz.teams);
 
@@ -186,9 +178,7 @@ module.exports =  {
 	iterateCurrentQuestion: function(gameId) {
 		for (var quiz of ActiveQuizzes) {
 			if (quiz.gameId == gameId) {
-				var index = ActiveQuizzes.indexOf(quiz);
 				quiz.currentQuestionPointer++;
-				ActiveQuizzes[index] = quiz;
 				break;
 			}
 		}
@@ -197,9 +187,7 @@ module.exports =  {
 	setTimer: function(timer, gameId) {
 		for (var quiz of ActiveQuizzes) {
 			if (quiz.gameId == gameId) {
-				var index = ActiveQuizzes.indexOf(quiz);
 				quiz.timer = timer;
-				ActiveQuizzes[index] = quiz;
 				break;
 			}
 		}
@@ -208,9 +196,7 @@ module.exports =  {
 	iterateAnswersRecieved: function(gameId) {
 		for (var quiz of ActiveQuizzes) {
 			if (quiz.gameId == gameId) {
-				var index = ActiveQuizzes.indexOf(quiz);
 				quiz.answersRecieved++;
-				ActiveQuizzes[index] = quiz;
 				break;
 			}
 		}
@@ -228,9 +214,7 @@ module.exports =  {
 	resetAnswersRecieved: function(gameId) {
 		for (var quiz of ActiveQuizzes) {
 			if (quiz.gameId == gameId) {
-				var index = ActiveQuizzes.indexOf(quiz);
 				quiz.answersRecieved = 0;
-				ActiveQuizzes[index] = quiz;
 				break;
 			}
 		}
@@ -256,6 +240,12 @@ module.exports =  {
 				removeGame(game);
 			}
 		}
+	},
+
+	getGameSocket: function(gameId) {
+		var quiz = getQuiz(gameId);
+
+		return quiz.gameSocket;
 	}
 };
 

@@ -7,7 +7,7 @@ function gameService ($window, $resource) {
 	*/
 	var verifyGameId = function() {
 		var gameId = getGameId();
-		return $resource('/game').get();
+		return $resource('/api/game').get();
 	};
 
 	/**

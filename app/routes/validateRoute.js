@@ -2,10 +2,9 @@
 
 var express = require('express');
 var jwt = require('jsonwebtoken');
+var secret = require('../config/config').secret;
 
 var router = express.Router();
-
-var secret = '1234';
 
 router.get('/', function (req, res, next) {
 	var token = req.query.token || req.headers['x-auth-token'];
