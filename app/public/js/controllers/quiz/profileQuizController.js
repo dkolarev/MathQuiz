@@ -8,10 +8,6 @@ function profileQuizController($scope, $state, $location, data, modalService, qu
 	$scope.currentPage = 1;
 	$scope.pageItems = 6;
 
-	console.log(data.quiz);
-
-	$scope.teams = ['team1', 'team2', 'team3', 'team4', 'team5'];
-
 	$scope.onClickBack = function() {
 		$state.go('user.quizlist');
 	};

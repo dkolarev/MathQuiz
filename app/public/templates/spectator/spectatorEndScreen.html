@@ -1,6 +1,6 @@
 <style type="text/css">
-	.glyphicon-star, .glyphicon-star-empty {
-		font-size: 40px;
+	.rating li {
+		font-size: 50px;
 	}
 </style>
 
@@ -32,11 +32,7 @@
 			</div>
 		</div>
 		<div class="row" style="margin: 0px">
-			<div style="text-align:center">
-				<h1 style="text-align: center">Rate quiz</h1>
-				<div class="row" style="padding-top: 15px; padding-left: 15px">
-					<span uib-rating ng-model="rating" max="5" read-only="rated" on-leave="overStar = null" titles="['one','two','three']" aria-labelledby="default-rating" ng-click="rateFunction(rating)" style="color: yellow"></span>
-				</div>
+			<div style="text-align: center">
 				<button type="button" class="btn btn-primary" style="margin-top: 50px" ng-click="onClickBackToMainPage()">Back to main page</button>
 			</div>
 		</div>

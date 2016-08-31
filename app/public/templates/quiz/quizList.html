@@ -1,3 +1,9 @@
+<style type="text/css">
+	.glyphicon-star, .glyphicon-star-empty {
+		font-size: 20px;
+	}
+</style>
+
 <div class="col-sm-12">
 <h1>Quizzes collection</h1>
 <div class="row" style="padding-top: 60px">
@@ -53,21 +59,15 @@
 					<span class="col-xs-12"><strong>Field: </strong>{{quiz.field}}</span>
 				</div>
 				<div class="row">
-					<span class="col-xs-12"><strong>Last modified: </strong>{{quiz.lastModified | date: 'dd/MM/yy hh:mm'}}</span>
+					<span class="col-xs-12"><strong>Last modified: </strong>{{quiz.lastModified | date: 'dd.MM.yyyy. HH:mm'}}</span>
 				</div>
 				<div class="row">
 					<span class="col-xs-12"><strong>Created by: </strong>{{quiz.createdBy}}</span>
 				</div>
 				<div>
-					<div ng-init="rating = rating" ng-show="quiz.rating > 0"></div>
-            		<div class="star-rating" star-rating rating-value="quiz.rating" data-max="5" read-only="true"></div>
-        			<div ng-show="quiz.rating == 0">
-            			<span class="fa fa-star rating" style="font-size: 15px"></span>
-            			<span class="fa fa-star rating" style="font-size: 15px"></span>
-            			<span class="fa fa-star rating" style="font-size: 15px"></span>
-            			<span class="fa fa-star rating" style="font-size: 15px"></span>
-            			<span class="fa fa-star rating" style="font-size: 15px"></span>
-        			</div>
+					<div class="row" style="padding-top: 15px; padding-left: 15px">
+						<span uib-rating ng-model="quiz.rating" max="5" read-only="true" on-leave="overStar = null" titles="['one','two','three']" aria-labelledby="default-rating" style="color: yellow"></span>
+					</div>
 				</div>
 			</div>
 			</a>

@@ -1,22 +1,14 @@
-//gameController.js
+//spectatorController.js
 
-function gameController(
+function spectatorController(
 	$scope, 
-	$rootScope, 
 	gameService, 
-	data, 
-	correctAnswerService, 
-	gameResource, 
-	modalService,
 	$state,
+	data,
+	gameResource,
+	modalService,
 	$interval
 ) {
-
-	$scope.answerSended = false;
-	$scope.teamSended = false;
-
-	$scope.showAlert = false;
-
 	var gameId = gameService.getGameId();
 	var socketNamespace = '/' + gameId;
 	var socket = io(socketNamespace);
@@ -29,9 +21,9 @@ function gameController(
 	$scope.pageItems = 10;
 
 	socket.on('gameStatus', function(data) {
-		if (data.status == 'end') {
+		if (data.status === 'end') {
 			$scope.modalInstance.close('close');
-			$state.go('quizend');
+			$state.go('spectatorend');
 		}
 	});
 
@@ -39,11 +31,9 @@ function gameController(
 		if($scope.modalInstance) {
 			$scope.modalInstance.close('close');
 		}
-		correctAnswerService.resetButtonsColors();
 
 		$scope.currentQuestion = data.question;
 		$scope.timer = data.time;
-		$scope.answerSended = false;
 
 		$scope.$apply();
 	});
@@ -62,22 +52,6 @@ function gameController(
 
 		$scope.modalInstance = modalService.correctAnswerModal(correctAnswer);
 	});
-
-	$scope.onClickSendAnswer = function(answer, questionId, buttonId) {
-		var data = {
-			answer: answer,
-			questionId: questionId,
-			teamId: $rootScope.team.teamId
-		};
-
-		gameResource.sendAnswer(data).$promise.then(function(response) {
-			$scope.answerSended = true;
-
-			correctAnswerService.setCorrectColor(response.correct, buttonId);
-		}, function(response) {
-			console.log(response);
-		});
-	};
 
 	var scoreboardTimer = $interval(function() {
 		if ($scope.currentPage >= $scope.totalCount / $scope.pageItems) {

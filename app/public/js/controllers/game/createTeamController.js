@@ -1,6 +1,6 @@
 //createTeamController.js
 
-function createTeamController($scope, $rootScope, $state, playerService, gameService) {
+function createTeamController($scope, $rootScope, $state, gameResource, gameService) {
 	
 	$scope.config = {
     	theme: 'minimal-dark',
@@ -46,7 +46,7 @@ function createTeamController($scope, $rootScope, $state, playerService, gameSer
 	};
 
 	$scope.onClickReady = function(team) {
-		playerService.saveTeam(team).$promise.then(function(response) {
+		gameResource.saveTeam(team).$promise.then(function(response) {
 			if(response.success) {
 				$rootScope.team.teamId = response.teamId;
 				$scope.teamSended = true;

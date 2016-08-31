@@ -60,7 +60,7 @@
 				<td style="color: #0099e6"><a id="questionTitle" ng-href="#" ng-click="onClickQuestionInfo(question._id)" style="margin-left: 15px">{{question.title}}</a></td>
 				<td>{{question.difficulty}}</td>
 				<td>{{question.field}}</td>
-				<td>{{question.lastModified | date: 'dd/MM/yyyy hh:mm'}}</td>
+				<td>{{question.lastModified | date: 'dd.MM.yyyy. HH:mm'}}</td>
 				<td><a ng-href="/user/question/newquestion/{{question._id}}" ng-hide="user.username !== question.createdBy" style=" margin-left: 5px"><i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 20px"></i></a></td>
 				<td><a ng-href="#deleteQuestion" ng-hide="user.username !== question.createdBy" data-toggle="modal" ng-click="onClickDeleteQuestion(question)" style="margin-left: 10px"><i class="fa fa-trash-o" style="color: #333333; font-size: 16px"></i></a></td>
 			</tr>

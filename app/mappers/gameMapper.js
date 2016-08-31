@@ -45,6 +45,7 @@ var teamListToScoreboardData = function(teams) {
 
 	for (var team of teams) {
 		scoreboard.push({
+			teamId: team.teamId,
 			teamName: team.name,
 			teamPlayers: team.players,
 			teamPoints: team.pointsSum
@@ -54,9 +55,23 @@ var teamListToScoreboardData = function(teams) {
 	return scoreboard; 
 }
 
+var teamListToTeamMetadataList = function(teams) {
+	var metadataList = [];
+	for (var team of teams) {
+		metadataList.push({
+			teamId: team.teamId,
+			teamName: team.name,
+			teamPlayers: team.players
+		});
+	}
+
+	return metadataList;
+}
+
 module.exports = {
 	gameToDashboardItem: gameToDashboardItem,
 	gameListToDashboard: gameListToDashboard,
 	questionToPlayerQuestion: questionToPlayerQuestion,
-	teamListToScoreboardData: teamListToScoreboardData
+	teamListToScoreboardData: teamListToScoreboardData,
+	teamListToTeamMetadataList: teamListToTeamMetadataList
 };

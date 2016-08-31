@@ -97,10 +97,11 @@ var emitGameStatus = function(gameSocket) {
 	});
 };
 
-var emitNewTeam = function(gameSocket, teamId, teamName) {
+var emitNewTeam = function(gameSocket, team) {
 	gameSocket.emit('newTeam', {
-		id: teamId,
-		name: teamName
+		teamId: team.teamId,
+		teamName: team.name,
+		teamPlayers: team.players
 	});
 }
 

@@ -1,6 +1,6 @@
-//playerService.js
+//gameResource.js
 
-function playerService ($resource) {
+function gameResource ($resource) {
 
 	var saveTeam = function(team) {
 		return $resource('/api/game/saveteam').save(team);
@@ -22,11 +22,16 @@ function playerService ($resource) {
 		return $resource('/api/game/winnerdata').get();
 	};
 
+	var getSignedTeams = function() {
+		return $resource('/api/game/teams').get();
+	};
+
 	return {
 		saveTeam: saveTeam,
 		getQuiz: getQuiz,
 		sendAnswer: sendAnswer,
 		sendRating: sendRating,
-		getWinnerData: getWinnerData
+		getWinnerData: getWinnerData,
+		getSignedTeams: getSignedTeams
 	}
 };

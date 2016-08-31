@@ -10,6 +10,7 @@ var teamDataValidator = require('../data/game/teamDataValidator');
 var gameControl = require('../gameControl');
 var gameMapper = require('../mappers/gameMapper');
 var gameSocketService = require('../gameSocketService');
+var gameStatusEnum = require('../data/game/gameStatusEnum');
 
 
 var router = express.Router();
@@ -58,7 +59,7 @@ router.post('/saveteam', function(req, res) {
 		team.pointsSum = 0; //ukupni bodovi koje je tim dobio
 
 		var quiz = activeGamesCollection.getQuiz(gameId);
-		if (quiz.gameStatus === 'waiting for players') {
+		if (quiz.gameStatus === gameStatusEnum.pendingStatus) {
 			//ubaci tim u listu timova za kviz s tim gameId
 			activeGamesCollection.insertTeam(team, gameId, function(teamId) {
 				res.send({
@@ -66,8 +67,10 @@ router.post('/saveteam', function(req, res) {
 					'teamId': teamId
 				});
 
+				team.teamId = teamId;
+				
 				var gameSocket = activeGamesCollection.getGameSocket(gameId);
-				gameSocketService.emitNewTeam(gameSocket, teamId, team.name);
+				gameSocketService.emitNewTeam(gameSocket, team);
 			});
 		} else {
 			res.send({
@@ -87,6 +90,7 @@ router.get('/quiz', function(req, res) {
 
 	var quiz = activeGamesCollection.getQuiz(gameId);
 	question = quiz.questions[quiz.currentQuestionPointer];
+	//staviti SEKUNDE
 	question.time = question.time;
 
 	var playerQuestion = gameMapper.questionToPlayerQuestion(question);
@@ -95,6 +99,18 @@ router.get('/quiz', function(req, res) {
 	res.send({
 		question: playerQuestion,
 		scoreboard: scoreboard
+	});
+});
+
+router.get('/teams', function(req, res) {
+	var gameId = req.query.gameId || req.headers['gameid'];
+
+	var quiz = activeGamesCollection.getQuiz(gameId);
+	var metadataList = gameMapper.teamListToTeamMetadataList(quiz.teams);
+
+	res.send({
+		teams: metadataList,
+		status: quiz.gameStatus
 	});
 });
 
@@ -116,7 +132,7 @@ router.post('/rating', function(req, res) {
 	var gameId = req.query.gameId || req.headers['gameid'];
 
 	gameControl.rateQuiz(gameId, data.rating);
-
+	
 	res.end();
 });
 

@@ -117,7 +117,7 @@ function newQuizController (
 	};
 
 	$scope.onClickClearDifficultyFilter = function(filter) {
-		filter = questionFilterService.clearDifficultyFilter();
+		filter = questionFilterService.clearDifficultyFilter(filter);
 	};
 
 

@@ -25,6 +25,8 @@ angular
 	.controller('deleteQuizModalController', deleteQuizModalController)
 	.controller('gameController', gameController)
 	.controller('gamePendingController', gamePendingController)
+	.controller('spectatorController', spectatorController)
+	.controller('spectatorEndController', spectatorEndController)
 	.directive('checkUsername', checkUsername)
 	.directive('checkPassword', checkPassword)
 	.directive('checkEmail', checkEmail)
@@ -35,7 +37,7 @@ angular
 	.directive('fileModel', fileModel)
 	.factory('authService', authService)
 	.factory('gameService', gameService)
-	.factory('playerService', playerService)
+	.factory('gameResource', gameResource)
 	.factory('modalService', modalService)
 	.factory('uploadFile', uploadFile)
 	.factory('quizResource', quizResource)
@@ -203,8 +205,8 @@ angular
 				templateUrl: 'templates/player/gamePage.html',
 				controller: 'gameController',
 				resolve: {
-					data: function(playerService) {
-						return playerService.getQuiz().$promise;
+					data: function(gameResource) {
+						return gameResource.getQuiz().$promise;
 					}
 				}
 			})
@@ -215,17 +217,46 @@ angular
 				templateUrl: 'templates/player/gameEndScreen.html',
 				controller: 'gameEndController',
 				resolve: {
-					data: function(playerService) {
-						return playerService.getWinnerData().$promise;
+					data: function(gameResource) {
+						return gameResource.getWinnerData().$promise;
 					}
 				}
 			})
 			.state('spectatorpending', {
 				needLogin: false,
-				needGameId: false,
+				needGameId: true,
 				url: '/spectator/pending',
 				templateUrl: 'templates/spectator/gamePending.html',
-				controller: 'gamePendingController'
+				controller: 'gamePendingController',
+				resolve: {
+					data: function(gameResource) {
+						return gameResource.getSignedTeams().$promise;
+					}
+				}
+			})
+			.state('spectatorgame', {
+				needLogin: false,
+				needGameId: true,
+				url: '/spectator/game',
+				templateUrl: 'templates/spectator/spectatorGame.html',
+				controller: 'spectatorController',
+				resolve: {
+					data: function(gameResource) {
+						return gameResource.getQuiz().$promise;
+					}
+				}
+			})
+			.state('spectatorend', {
+				needLogin: false,
+				needGameId: true,
+				url: '/spectator/end',
+				templateUrl: 'templates/spectator/spectatorEndScreen.html',
+				controller: 'spectatorEndController',
+				resolve: {
+					data: function(gameResource) {
+						return gameResource.getWinnerData().$promise;
+					}
+				}
 			});
 
 		$urlRouterProvider.otherwise('/index');
