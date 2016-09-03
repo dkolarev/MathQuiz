@@ -106,7 +106,7 @@ router.post('/login', function(req, res) {
 	userDataRepository.getUserByUsername(user.username).then(function(doc) {
 		if(!doc) {
 			//Ako se uneseno korisnicko ime ne podudara ni s jednim u bazi
-			res.send({"success": false, "message": "User not found"});
+			res.send({"success": false, "message": "Wrong username or password"});
 		} else {
 			if(crypt.validPassword(user.password, doc.password)) {
 				/*
@@ -132,7 +132,7 @@ router.post('/login', function(req, res) {
 			}
 			else{
 				//ako se unesena lozinka ne podudara s hashiranom u bazi
-				res.send({"success": false, "message": "Wrong password"});
+				res.send({"success": false, "message": "Wrong username or password"});
 			}
 		}
 	});

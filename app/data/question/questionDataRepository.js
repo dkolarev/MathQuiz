@@ -2,8 +2,10 @@
 
 var ObjectId = require('mongodb').ObjectID;
 
+var questionCollection;
+
 module.exports.init = function(db) {
-	questionsCollection = db.collection('questions');
+	questionCollection = db.collection('questions');
 };
 
 module.exports.dataRepository = {
@@ -12,7 +14,7 @@ module.exports.dataRepository = {
 	*	u kolekciju Questions.
 	*/	
 	insertQuestion: function(question) {
-		return questionsCollection.insertOne(question);
+		return questionCollection.insertOne(question);
 	},
 
 	/**
@@ -20,15 +22,15 @@ module.exports.dataRepository = {
 	*	'questions' u bazi.
 	*/
 	queryQuestions: function() {
-		return questionsCollection.find();
+		return questionCollection.find();
 	},
 
 	getQuestionById: function(questionId) {
-		return questionsCollection.findOne({'_id': new ObjectId(questionId)});
+		return questionCollection.findOne({'_id': new ObjectId(questionId)});
 	},
 
 	getQuestionsMetadata: function() {
-		return questionsCollection.find({}, {
+		return questionCollection.find({}, {
 			'title': true,
 			'difficulty': true,
 			'field': true,
@@ -41,7 +43,7 @@ module.exports.dataRepository = {
 	*	Funkcija azurira vec postojeci zadatak u bazi podataka.
 	*/
 	updateQuestion: function(question, callb) {
-		return questionsCollection.updateOne({"_id": new ObjectId (question._id)}, {$set: {
+		return questionCollection.updateOne({"_id": new ObjectId (question._id)}, {$set: {
 				"title": question.title,
 				"description": question.description,
 				"time": question.time,
@@ -60,12 +62,12 @@ module.exports.dataRepository = {
 	*	sacuvao referencijalni integritet.
 	*/
 	deleteQuestion: function(questionId) {
-		return questionsCollection.deleteOne({"_id": new ObjectId (questionId)});
+		return questionCollection.deleteOne({"_id": new ObjectId (questionId)});
 	},
 
 	questionListByIds: function(questionIds) {
 		var ids = questionIds.map(function(id) { return ObjectId(id); });
 		
-		return questionsCollection.find({"_id": {$in: ids}});
+		return questionCollection.find({"_id": {$in: ids}});
 	}
 };

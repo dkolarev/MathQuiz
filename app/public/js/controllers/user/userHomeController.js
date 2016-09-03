@@ -1,6 +1,6 @@
 //userHomeController.js
 
-function userHomeController ($scope, data, $interval, quizResource) {
+function userHomeController ($scope, data, $interval, quizResource, $location) {
 
 	$scope.dashboard = data.dashboard;
 
@@ -58,7 +58,17 @@ function userHomeController ($scope, data, $interval, quizResource) {
 		}, function(response) {
 			console.log(response);
 		});
-	};	
+	};
+
+	$scope.onClickWatch = function(gameId, gameStatus) {
+		if(gameStatus === 'waiting for players') {
+			$location.url('/user/game/pending/' + gameId);
+		} else if(gameStatus === 'playing') {
+			$location.url('/user/game/playing/' + gameId);
+		} else {
+			$location.url('/user/game/end/' + gameId);
+		}
+	}	
 
 	$scope.$on('$destroy', function() {
 		if(angular.isDefined(dashboardTimer)) {

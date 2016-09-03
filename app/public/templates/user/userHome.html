@@ -14,7 +14,7 @@
 		<div ng-repeat="game in dashboard | paginationFilter:(currentPage - 1) * pageItems | limitTo: pageItems track by game.gameId" style="background-color: #5900b3; color: white; border-radius: 2px; height: 150px; padding: 15px; margin-bottom: 15px; border: 1px solid white">
 			<div class="col-xs-12" style="padding-left: 0px">
 				<span ng-show="user.username === game.startedBy" style="font-size: 19px; color: #ffff00"><strong>gameId: </strong>{{game.gameId}}</span>
-				<button type="button" class="btn btn-info btn-xs" style="float: right">Watch</button>
+				<button type="button" class="btn btn-info btn-xs" style="float: right" ng-click="onClickWatch(game.gameId, game.gameStatus)">Watch</button>
 				<button ng-show="user.username === game.startedBy && game.gameStatus === 'waiting for players'" type="button" class="btn btn-success btn-xs" ng-click="onClickPlay(game.gameId)" style="float: right; margin-right: 2px">Play</button>
 			</div>
 			<div><strong>status: </strong>{{game.gameStatus}}</div>

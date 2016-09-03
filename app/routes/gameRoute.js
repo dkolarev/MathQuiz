@@ -22,6 +22,7 @@ var socket;
 *	gameId za aktivnu igru. Ako nema, posalji mu 403
 *	'forbidden' status.
 */
+
 router.use(function(req, res, next) {
 	var gameId = req.query.gameId || req.headers['gameid'];
 		

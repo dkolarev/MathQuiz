@@ -6,8 +6,8 @@ function gameResource ($resource) {
 		return $resource('/api/game/saveteam').save(team);
 	};
 
-	var getQuiz = function() {
-		return $resource('/api/game/quiz').get();
+	var getQuiz = function(gameId) {
+		return $resource('/api/game/quiz', {gameId: '@gameId'}).get({gameId: gameId});
 	};
 
 	var sendAnswer = function(data) {
@@ -18,12 +18,12 @@ function gameResource ($resource) {
 		return $resource('/api/game/rating').save(rating);
 	};
 
-	var getWinnerData = function() {
-		return $resource('/api/game/winnerdata').get();
+	var getWinnerData = function(gameId) {
+		return $resource('/api/game/winnerdata', {gameId: '@gameId'}).get({gameId: gameId});
 	};
 
-	var getSignedTeams = function() {
-		return $resource('/api/game/teams').get();
+	var getSignedTeams = function(gameId) {
+		return $resource('/api/game/teams', {gameId: '@gameId'}).get({gameId: gameId});
 	};
 
 	return {

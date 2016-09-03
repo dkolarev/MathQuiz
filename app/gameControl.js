@@ -135,9 +135,10 @@ module.exports = {
 
 	getWinnerData: function(gameId) {
 		var quiz = activeGamesCollection.getQuiz(gameId);
-		var scoreboard = gameMapper.teamListToScoreboardData(quiz.teams);
-		var winner = extractWinner(scoreboard);
-
+		if(quiz.teams.length !== 0) {
+			var scoreboard = gameMapper.teamListToScoreboardData(quiz.teams);
+			var winner = extractWinner(scoreboard);
+		}
 		return {
 			"scoreboard": scoreboard,
 			"winner": winner

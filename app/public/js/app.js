@@ -27,6 +27,9 @@ angular
 	.controller('gamePendingController', gamePendingController)
 	.controller('spectatorController', spectatorController)
 	.controller('spectatorEndController', spectatorEndController)
+	.controller('userGamePendingController', userGamePendingController)
+	.controller('userGameController', userGameController)
+	.controller('userGameEndController', userGameEndController)
 	.directive('checkUsername', checkUsername)
 	.directive('checkPassword', checkPassword)
 	.directive('checkEmail', checkEmail)
@@ -188,6 +191,39 @@ angular
 				resolve: {
 					data: function($stateParams, questionResource) {
 						return questionResource.getQuestionById($stateParams.questionId).$promise;
+					}
+				}
+			})
+			.state('user.gamepending', {
+				needLogin: true,
+				url: '/game/pending/:gameId',
+				templateUrl: 'templates/user/userGamePending.html',
+				controller: 'userGamePendingController',
+				resolve: {
+					data: function(gameResource, $stateParams) {
+						return gameResource.getSignedTeams($stateParams.gameId).$promise;
+					}
+				}
+			})
+			.state('user.game', {
+				needLogin: true,
+				url: '/game/playing/:gameId',
+				templateUrl: 'templates/user/userGame.html',
+				controller: 'userGameController',
+				resolve: {
+					data: function(gameResource, $stateParams) {
+						return gameResource.getQuiz($stateParams.gameId).$promise;
+					}
+				}
+			})
+			.state('user.gameend', {
+				needLogin: true,
+				url: '/game/end/:gameId',
+				templateUrl: 'templates/user/userGameEnd.html',
+				controller: 'userGameEndController',
+				resolve: {
+					data: function(gameResource, $stateParams) {
+						return gameResource.getWinnerData($stateParams.gameId).$promise;
 					}
 				}
 			})

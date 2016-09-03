@@ -1,0 +1,77 @@
+//userGameController.js
+
+function userGameController(
+	$scope, 
+	gameService, 
+	$state,
+	data,
+	gameResource,
+	modalService,
+	$interval,
+	$stateParams,
+	$location
+) {
+	var gameId = $stateParams.gameId;
+	var socketNamespace = '/' + gameId;
+	var socket = io(socketNamespace);
+
+	$scope.currentQuestion = data.question;
+	$scope.scoreboard = data.scoreboard;
+
+	$scope.totalCount = $scope.scoreboard.length;
+	$scope.currentPage = 1;
+	$scope.pageItems = 10;
+
+	socket.on('gameStatus', function(data) {
+		if (data.status === 'end') {
+			$scope.modalInstance.close('close');
+			$location.url('/user/game/end/' + gameId);
+		}
+	});
+
+	socket.on('question', function(data) {
+		if($scope.modalInstance) {
+			$scope.modalInstance.close('close');
+		}
+
+		$scope.currentQuestion = data.question;
+		$scope.timer = data.time;
+
+		$scope.$apply();
+	});
+
+	socket.on('timer', function(data) {
+		$scope.timer = data.timer;
+		$scope.$apply();
+	});
+
+	socket.on('scoreboard', function(data) {
+		$scope.scoreboard = data.scoreboard;
+	});
+
+	socket.on('correctAnswer', function(data) {
+		var correctAnswer = data.correctAnswer;
+
+		$scope.modalInstance = modalService.correctAnswerModal(correctAnswer);
+	});
+
+	$scope.onClickBack = function() {
+		$state.go('user.home');
+	}
+
+	var scoreboardTimer = $interval(function() {
+		if ($scope.currentPage >= $scope.totalCount / $scope.pageItems) {
+			$scope.currentPage = 1;
+		} else {
+			$scope.currentPage++;
+		}
+	}, 5000);
+
+	$scope.$on('$destroy', function() {
+		if(angular.isDefined(scoreboardTimer)) {
+			$interval.cancel(scoreboardTimer);
+		}
+
+		socket.removeAllListeners();
+	});
+}

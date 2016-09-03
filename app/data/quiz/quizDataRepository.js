@@ -2,15 +2,17 @@
 
 var ObjectId = require('mongodb').ObjectID;
 
+var quizCollection;
+
 module.exports.init = function(db) {
-	quizzesCollection = db.collection('quizzes');
+	quizCollection = db.collection('quizzes');
 };
 
 /**
 *	Funkcija kvizu s id-om quizId postavlja novu listu s kvizovima. 
 */
 var updateQuizQuestions = function(quizId, newQuestions) {
-	return quizzesCollection.updateOne({"_id": new ObjectId(quizId)}, {$set: {
+	return quizCollection.updateOne({"_id": new ObjectId(quizId)}, {$set: {
 		questions: newQuestions
 	}});
 };
@@ -20,18 +22,18 @@ module.exports.dataRepository = {
 	*	Funkcija ubacuje novi kviz u bazu.
 	*/
 	insertQuiz: function(quiz) {
-		return quizzesCollection.insertOne(quiz);
+		return quizCollection.insertOne(quiz);
 	},
 
 	/**
 	*	Funkcija vraca listu svih pitanja u kolekciji 'quizzes'
 	*/
 	queryQuizzes: function() {
-		return quizzesCollection.find();
+		return quizCollection.find();
 	},
 
 	getQuizListMetadata: function() {
-		return quizzesCollection.find({}, {
+		return quizCollection.find({}, {
 			"title": true,
 			"field": true,
 			"lastModified": true,
@@ -41,7 +43,7 @@ module.exports.dataRepository = {
 	},
 
 	updateQuiz: function(quiz, callb) {
-		quizzesCollection.updateOne({"_id": new ObjectId(quiz._id)}, {$set: {
+		quizCollection.updateOne({"_id": new ObjectId(quiz._id)}, {$set: {
 			"title": quiz.title,
 			"description": quiz.description,
 			"field": quiz.field,
@@ -54,18 +56,18 @@ module.exports.dataRepository = {
 	*	Funkcija brise kviz iz kolekcije 'quizzes'
 	*/
 	deleteQuiz: function(quizId) {
-		return quizzesCollection.deleteOne({"_id": new ObjectId (quizId)});
+		return quizCollection.deleteOne({"_id": new ObjectId (quizId)});
 	},
 
 	/**
 	*	Funkcija vraca kviz na temelju kljuca.
 	*/
 	getQuiz: function(quizId) {
-		return quizzesCollection.findOne({"_id": new ObjectId (quizId)});
+		return quizCollection.findOne({"_id": new ObjectId (quizId)});
 	},
 
 	updateQuizRating: function(quizId, newRatingCount, newRating) {
-		return quizzesCollection.updateOne({"_id": new ObjectId(quizId)}, {$set: {
+		return quizCollection.updateOne({"_id": new ObjectId(quizId)}, {$set: {
 				"ratingCount": newRatingCount,
 				"rating": newRating
 		}});
@@ -76,7 +78,7 @@ module.exports.dataRepository = {
 	*	te ga brise iz kvizove liste s pitanjima i radi update kolekcije 'quizzes'.
 	*/
 	deleteQuestionCascade: function(questionId) {
-		quizzesCollection.find({"questions": questionId}).toArray(function(err, documents) {
+		quizCollection.find({"questions": questionId}).toArray(function(err, documents) {
 			for(var quiz of documents) {
 				var index = quiz.questions.indexOf(questionId);
 				quiz.questions.splice(index, 1);
@@ -86,7 +88,7 @@ module.exports.dataRepository = {
 	},
 
 	updateQuizPlayedCounter: function(quizId) {
-		return quizzesCollection.updateOne({"_id": new ObjectId(quizId)}, { $inc: {
+		return quizCollection.updateOne({"_id": new ObjectId(quizId)}, { $inc: {
 					"played": 1
 		}});
 	}

@@ -1,7 +1,9 @@
 //userDataRepository.js
 
+var userCollection;
+
 module.exports.init = function(db) {
-	usersCollection = db.collection('users');
+	userCollection = db.collection('users');
 };
 
 
@@ -11,7 +13,7 @@ module.exports.dataRepository = {
 	*	adrese.
 	*/
 	getUserByEmail: function(email) {
-		return usersCollection.find({"email": email});
+		return userCollection.find({"email": email});
 	},
 
 	/**
@@ -20,7 +22,7 @@ module.exports.dataRepository = {
 	*	korisnika u bazi.
 	*/
 	getUserByUsername: function(username) {
-		return usersCollection.findOne({"username": username});
+		return userCollection.findOne({"username": username});
 	},
 
 	/**
@@ -30,6 +32,6 @@ module.exports.dataRepository = {
 	*	formu.
 	*/
 	insertUser: function(user) {
-		usersCollection.insert(user);	
+		userCollection.insert(user);	
 	}
 };
