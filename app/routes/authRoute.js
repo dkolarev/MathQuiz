@@ -102,8 +102,13 @@ router.post('/signin', function(req, res) {
 */
 router.post('/login', function(req, res) {
 	var user = req.body;
-	res.setHeader('Content-Type', 'application/json');
-	userDataRepository.getUserByUsername(user.username).then(function(doc) {
+
+	//validiraj je li uneseni username valjani oblik za email
+	var valid = userDataValidator.validateEmail(user.username);
+
+	if (valid) {
+		res.setHeader('Content-Type', 'application/json');
+	userDataRepository.getUserByEmail(user.username).then(function(doc) {
 		if(!doc) {
 			//Ako se uneseno korisnicko ime ne podudara ni s jednim u bazi
 			res.send({"success": false, "message": "Wrong username or password"});
@@ -136,6 +141,10 @@ router.post('/login', function(req, res) {
 			}
 		}
 	});
+	} else {
+		res.setHeader('Content-Type', 'application/json');
+		res.send({"success":false, "message": "Email not valid."});
+	}
 });
 
 

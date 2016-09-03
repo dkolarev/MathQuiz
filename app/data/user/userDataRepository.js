@@ -13,7 +13,7 @@ module.exports.dataRepository = {
 	*	adrese.
 	*/
 	getUserByEmail: function(email) {
-		return userCollection.find({"email": email});
+		return userCollection.findOne({"email": email});
 	},
 
 	/**
