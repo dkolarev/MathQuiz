@@ -1,6 +1,7 @@
 //activeGamesCollection.js
 
 var gamePointsEnum = require('./gamePointsEnum');
+var questionDifficultyEnum = require('../question/questionDifficultyEnum');
 
 /**
 *	ActiveQuizzes sadrzi aktivan kviz. Kviz je modeliran
@@ -16,6 +17,8 @@ var gamePointsEnum = require('./gamePointsEnum');
 			currentQuestionPointer: broj koji pokazuje koje je trenutno
 									pitanje aktivno
 			gameStatus: trenutni status igre
+			scoringMethod: ['difficulty', 'time'] metoda kojom se obracunavaju
+							bodovi
 			startedBy: ime igraca koji je pokrenio igru
 			started: datum kada je igra pokrenuta
 			teams: {
@@ -54,15 +57,33 @@ var getQuiz = function(gameId) {
 };
 
 
-var asignPoints = function(questionDifficulty) {
-	if (questionDifficulty === "easy") {
+var asignPoints = function(questionDifficulty, scoringMethod, overallTime, answerTime) {
+	if(scoringMethod === 'difficulty') {
+		return assignPointsByDifficulty(questionDifficulty);
+	} else {
+		return assignPointsByTime(questionDifficulty, overallTime, answerTime);	
+	}
+};
+
+var assignPointsByDifficulty = function(questionDifficulty) {
+	if (questionDifficulty === questionDifficultyEnum.easy) {
 		return gamePointsEnum.easy;
-	} else if (questionDifficulty === "intermediate") {
+	} else if (questionDifficulty === questionDifficultyEnum.intermediate) {
 		return gamePointsEnum.intermediate;
-	} else if (questionDifficulty === "hard") {
+	} else if (questionDifficulty === questionDifficultyEnum.hard) {
 		return gamePointsEnum.hard;
 	}
 };
+
+var assignPointsByTime = function(questionDifficulty, overallTime, answerTime) {
+	if (questionDifficulty === "easy") {
+		return gamePointsEnum.easy*answerTime/overallTime;
+	} else if (questionDifficulty === "intermediate") {
+		return gamePointsEnum.intermediate*answerTime/overallTime;
+	} else if (questionDifficulty === "hard") {
+		return gamePointsEnum.hard*answerTime/overallTime;
+	}
+};	
 
 module.exports =  {
 	/**
@@ -123,12 +144,12 @@ module.exports =  {
 		callb(teamId);
 	},
 
-	validateAnswer: function(answer, gameId, questionId) {
+	validateAnswer: function(answer, gameId, questionId, answerTime) {
 		var quiz = getQuiz(gameId);
 			for (var question of quiz.questions) {
 				if (question._id == questionId) {
 					if (answer == question.correctAnswer) {
-						var points = asignPoints(question.difficulty);
+						var points = asignPoints(question.difficulty, quiz.scoringMethod, question.time, answerTime);
 							return {
 								correct: true,
 								points: points

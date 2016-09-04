@@ -25,25 +25,6 @@ function questionListController(
 		return item._id + item.lastModified;
 	};
 
-
-	/**
-	*	Ukoliko je netko od korisnika napravio promjene
-	*	na nekom od pitanja. Pronadji podudaranost po
-	*	id-u, i na odgovarajucem indeksu ubaci pitanje.
-	*	(napraviti ce se zamijena)
-	*/
-	
-	socket.on('updateQuestion', function(data) {
-		for(var q of $scope.questionsList) {
-			if(q._id == data._id) {
-				var index = $scope.questionsList.indexOf(q); //index popudaranog pitanja
-				$scope.questionsList[index] = data;
-				$scope.$apply();
-				break;
-			}				
-		}
-	});
-
 	/**
 	*	Ako je netko od korisnika obrisao pitanje u bazi,
 	*	primi id pitanja od servera, pronadji pitanje u
@@ -79,7 +60,7 @@ function questionListController(
 			$scope.questionsList = response.questionsList;
 			$scope.totalCount = response.totalItems;
 		}, function(response) {
-			console.log(Response);
+			console.log(response);
 		})
 	}
 

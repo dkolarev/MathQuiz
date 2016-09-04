@@ -37,7 +37,9 @@ router.use(function(req, res, next) {
 	}
 });
 
-
+/**
+*	Posalji listu svih pitanja s punim podacima.
+*/ 
 router.get('/all', function(req, res) {
 	questionDataRepository.queryQuestions().toArray().then(function (questions) {
 		res.setHeader('Content-Type', 'application/json');
@@ -47,6 +49,11 @@ router.get('/all', function(req, res) {
 	});
 });
 
+
+/**
+*	Posalji listu s osnovnim podacima o pitanjima s opcijom za
+*	sortiranje i paginaciju.
+*/
 router.get('/list/:itemsPerPage/:pageNumber', function(req, res) {
 	var itemsPerPage = parseInt(req.params.itemsPerPage);
 	var pageNumber = parseInt(req.params.pageNumber);
@@ -64,6 +71,11 @@ router.get('/list/:itemsPerPage/:pageNumber', function(req, res) {
 		});
 });
 
+
+/**
+*	Ruta za filtriranje liste pitanja na osnovu filtra
+*	koji je korisnik poslao.
+*/
 router.post('/list/filter', function(req, res) {
 	var itemsPerPage = req.body.pageItems;
 	var pageNumber = req.body.currentPage;
@@ -83,6 +95,7 @@ router.post('/list/filter', function(req, res) {
 		configurable: true
 	});
 
+	//kreiraj filter objekt
 	var filter = questionFilter.filter(filterData.fieldFilter, filterData.difficultyFilter);
 
 	questionDataRepository.getQuestionsMetadata()
@@ -108,7 +121,6 @@ router.post('/list/filter', function(req, res) {
 */
 router.post('/save', function(req, res) {
 	var question = req.body;
-	var socketio = req.app.get('socketio');
 	var currentTime = new Date().toISOString();
 
 	var questionModel = new Question(question);
@@ -123,9 +135,7 @@ router.post('/save', function(req, res) {
 
 				if (valid) {
 					questionModel.changeModifiedTime(currentTime);
-					questionDataRepository.updateQuestion(questionModel, function(err, doc) {
-						socketio.emit('updateQuestion', doc);
-				
+					questionDataRepository.updateQuestion(questionModel, function(err, doc) {				
 						res.send({"valid": true});
 					});
 				} else {
@@ -143,8 +153,6 @@ router.post('/save', function(req, res) {
 			questionModel.changeModifiedTime(currentTime);
 		
 			questionDataRepository.insertQuestion(questionModel).then(function(doc) {
-				socketio.emit('newQuestion', doc.ops[0]);
-
 				res.send({"valid": true});
 			});
 		} else {

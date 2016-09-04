@@ -25,9 +25,19 @@ function enumData() {
 		1,2,3,4,5
 	];
 
+	var gameStatusEnum = {
+		pendingStatus: 'waiting for players',
+		playingStatus: 'playing',
+		endStatus: 'ended'
+	};
+
+	var scoringEnum = ['difficulty', 'time'];
+
 	return {
 		fieldEnum: fieldEnum,
 		difficultyEnum: difficultyEnum,
-		ratingEnum: ratingEnum
+		ratingEnum: ratingEnum,
+		gameStatusEnum: gameStatusEnum,
+		scoringEnum: scoringEnum
 	};
 }

@@ -34,7 +34,7 @@ function mainPageController($scope, $state, $window, authService, gameService) {
 	*	se greska.
 	*/
 	$scope.onClickLogIn = function(user, logInForm) {
-		if(logInForm.$valid){
+		if(user.username.length > 0 && user.password.length > 0){
 			authService.logIn(user).$promise.then(
 				function(response){
 					if(response.success){

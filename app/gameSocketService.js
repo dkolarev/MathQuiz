@@ -42,7 +42,7 @@ var emitDashboardData = function(game) {
 */
 var emitTimer = function(gameSocket, time, quiz) {
 	return setInterval(function() {
-			if (time == 0) {
+			if (time === 0) {
 				questionTransition(gameSocket, quiz);
 				clearInterval(this);
 			} else {
@@ -91,7 +91,7 @@ var emitRemoveDashboardElement = function(game) {
 	});
 };
 
-var emitGameStatus = function(gameSocket) {
+var emitGameClose = function(gameSocket) {
 	gameSocket.emit('gameStatus', {
 		status: 'close'
 	});
@@ -115,6 +115,6 @@ module.exports = {
 	emitCorrectAnswer: emitCorrectAnswer,
 	emitGameEnd: emitGameEnd,
 	emitRemoveDashboardElement: emitRemoveDashboardElement,
-	emitGameStatus: emitGameStatus,
+	emitGameClose: emitGameClose,
 	emitNewTeam: emitNewTeam
 };

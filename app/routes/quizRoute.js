@@ -141,7 +141,6 @@ router.get('/details/:quizId', function(req, res) {
 */
 router.post('/save', function(req, res) {
 	var quiz = req.body;
-	var socketio = req.app.get('socketio');
 	var currentTime = new Date().toISOString();
 
 	var quizModel = new Quiz(quiz);
@@ -158,8 +157,6 @@ router.post('/save', function(req, res) {
 					quizModel.changeModifiedTime(currentTime);
 
 					quizDataRepository.updateQuiz(quizModel, function(err, doc) {
-						socketio.emit('updateQuiz', doc);
-
 						res.send({
 							success: true
 						});
@@ -182,8 +179,6 @@ router.post('/save', function(req, res) {
 			quizModel.changeModifiedTime(currentTime);
 
 			quizDataRepository.insertQuiz(quizModel).then(function(doc) {
-				socketio.emit('newQuiz', doc.ops[0]);
-
 				res.send({
 					success: true
 				});
@@ -274,16 +269,17 @@ router.get('/start/:quizId/:user', function(req, res) {
 	});
 });
 
-router.get('/play/:gameId', function(req, res) {
-	var gameId = req.params.gameId;
-	var socketio = req.app.get('socketio');
+router.post('/play', function(req, res) {
+	var gameId = req.body.gameId;
+	var scoringMethod = req.body.scoring;
 	
-	gameControl.play(gameId, socketio);
+	gameControl.play(gameId, scoringMethod);
 
 	var quiz = activeGamesCollection.getQuiz(gameId);
 	quizDataRepository.updateQuizPlayedCounter(quiz._id);
 	
 	var dashboardItem = gameMapper.gameToDashboardItem(quiz);
+	var socketio = req.app.get('socketio');
 	socketio.emit('dashboardUpdate', {
 		item: dashboardItem
 	});

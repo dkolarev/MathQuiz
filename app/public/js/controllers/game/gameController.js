@@ -30,7 +30,9 @@ function gameController(
 
 	socket.on('gameStatus', function(data) {
 		if (data.status == 'end') {
-			$scope.modalInstance.close('close');
+			if($scope.modalInstance) {
+				$scope.modalInstance.close('close');
+			}
 			$state.go('quizend');
 		}
 	});
@@ -63,11 +65,12 @@ function gameController(
 		$scope.modalInstance = modalService.correctAnswerModal(correctAnswer);
 	});
 
-	$scope.onClickSendAnswer = function(answer, questionId, buttonId) {
+	$scope.onClickSendAnswer = function(answer, questionId, buttonId, answerTime) {
 		var data = {
-			answer: answer,
-			questionId: questionId,
-			teamId: $rootScope.team.teamId
+			'answer': answer,
+			'questionId': questionId,
+			'teamId': $rootScope.team.teamId,
+			'answerTime': answerTime
 		};
 
 		gameResource.sendAnswer(data).$promise.then(function(response) {

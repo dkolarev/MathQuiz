@@ -1,5 +1,17 @@
 //questionDataValidator.js
 
+var questionDifficultyEnum = require('./questionDifficultyEnum');
+
+var elementOf = function(array, element) {
+	var value = array.indexOf(element);
+	if (value === -1) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
+
 var validateTitle = function (title) {
 	if (typeof title !== "undefined" && typeof title === "string") {
 		return title !== "";

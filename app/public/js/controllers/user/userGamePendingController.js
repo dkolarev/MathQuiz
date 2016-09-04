@@ -1,9 +1,19 @@
 //userGamePendingController.js
 
-function userGamePendingController($scope, gameService, $state, data, $state, quizResource, $location, $stateParams) {
-	if(data.status === 'playing') {
+function userGamePendingController(
+	$scope, 
+	gameService, 
+	$state, 
+	data, 
+	$state, 
+	quizResource, 
+	$location, 
+	$stateParams,
+	enumData
+) {
+	if(data.status === enumData.gameStatusEnum.playingStatus) {
 		$location.url('/user/game/playing/' + gameId);
-	} else if (data.status === 'ended') {
+	} else if (data.status === enumData.gameStatusEnum.endStatus) {
 		$location.url('/user/game/end/' + gameId);
 	}
 
@@ -13,6 +23,7 @@ function userGamePendingController($scope, gameService, $state, data, $state, qu
 	var socket = io(socketNamespace);
 
 	$scope.teamList = data.teams;
+	$scope.startedBy = data.startedBy;
 
 	socket.on('newTeam', function(data) {
 		$scope.teamList.push(data);
@@ -21,7 +32,6 @@ function userGamePendingController($scope, gameService, $state, data, $state, qu
 
 	socket.on('gameStatus', function(data) {
 		if (data.status === 'start') {
-			console.log(gameId);
 			$location.url('/user/game/playing/' + gameId);
 		}
 	});

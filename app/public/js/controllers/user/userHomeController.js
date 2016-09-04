@@ -1,6 +1,6 @@
 //userHomeController.js
 
-function userHomeController ($scope, data, $interval, quizResource, $location) {
+function userHomeController ($scope, data, $interval, quizResource, $location, enumData) {
 
 	$scope.dashboard = data.dashboard;
 
@@ -11,6 +11,8 @@ function userHomeController ($scope, data, $interval, quizResource, $location) {
 	$scope.pageItems = 3;
 	$scope.currentPage = 1;
 	$scope.totalCount = $scope.dashboard.length;
+
+	$scope.scoring = 'difficulty';
 
 	var socket = io();
 
@@ -52,8 +54,12 @@ function userHomeController ($scope, data, $interval, quizResource, $location) {
 		}
 	}, 5000);
 
-	$scope.onClickPlay = function(gameId) {
-		quizResource.playQuiz(gameId).$promise.then(function(response) {
+	$scope.onClickPlay = function(gameId, scoring) {
+		var data = {
+			'gameId': gameId,
+			'scoring': scoring
+		};
+		quizResource.playQuiz(data).$promise.then(function(response) {
 			console.log(response);
 		}, function(response) {
 			console.log(response);
@@ -61,9 +67,9 @@ function userHomeController ($scope, data, $interval, quizResource, $location) {
 	};
 
 	$scope.onClickWatch = function(gameId, gameStatus) {
-		if(gameStatus === 'waiting for players') {
+		if(gameStatus === enumData.gameStatusEnum.pendingStatus) {
 			$location.url('/user/game/pending/' + gameId);
-		} else if(gameStatus === 'playing') {
+		} else if(gameStatus === enumData.gameStatusEnum.playingStatus) {
 			$location.url('/user/game/playing/' + gameId);
 		} else {
 			$location.url('/user/game/end/' + gameId);

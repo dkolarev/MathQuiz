@@ -25,11 +25,18 @@ var iterateQuizQuestions = function(gameSocket, quiz) {
 	activeGamesCollection.setTimer(timer, quiz.gameId);
 };
 
+/**
+*	Funkcija pokrece postupak za zavrsavanje igre.
+	- postavlja status igre na 'ended'
+	- update-a status igracima i administratoru
+	- pokrece postupak za brisanje igre iz liste
+	  aktivnih igara.
+*/
 var endGame = function(gameSocket, game) {
 	setEndStatus(game);
 	gameSocketService.emitGameEnd(gameSocket);
 	gameSocketService.emitDashboardData(game);
-	deleteGame(gameSocket, game);
+	startGameDeleteProcess(gameSocket, game);
 };
 
 /**
@@ -69,12 +76,12 @@ var extractWinner = function(scoreboard) {
 			});
 };
 
-var deleteGame = function(gameSocket, game) {
+var startGameDeleteProcess = function(gameSocket, game) {
 	setTimeout(function(){
 		activeGamesCollection.removeGame(game);
 		
 		gameSocketService.emitRemoveDashboardElement(game); //emit admin update
-		gameSocketService.emitGameEnd(gameSocket);	//emit player update
+		gameSocketService.emitGameClose(gameSocket);	//emit player update
 
 		activeGamesCollection.removeInactiveGames();
 	}, 5000);
@@ -86,7 +93,6 @@ var questionTransition = function(gameSocket, quiz) {
 
 	setTimeout(function() {
 		activeGamesCollection.iterateCurrentQuestion(quiz.gameId);
-		//quiz.currentQuestionPointer++;
 		iterateQuizQuestions(gameSocket, quiz);
 
 		clearTimeout(this);
@@ -103,12 +109,14 @@ var setEndStatus = function(quiz) {
 
 
 module.exports = {
-	play: function(gameId) {
+	play: function(gameId, scoringMethod) {
 		var quiz = activeGamesCollection.getQuiz(gameId);
 		if (quiz == null) {
 			return;
 		} else {
 			quiz.currentQuestionPointer = 0;
+			quiz.scoringMethod = scoringMethod;
+
 			gameSocketService.emitGameStart(quiz.gameSocket);
 			iterateQuizQuestions(quiz.gameSocket, quiz);
 			gameSocketService.emitScoreboard(quiz.gameSocket, quiz.teams);
@@ -116,8 +124,8 @@ module.exports = {
 		}
 	},
 
-	validateAnswer: function(answer, gameId, questionId, teamId) {
-		var result = activeGamesCollection.validateAnswer(answer, gameId, questionId);
+	validateAnswer: function(answer, gameId, questionId, teamId, answerTime) {
+		var result = activeGamesCollection.validateAnswer(answer, gameId, questionId, answerTime);
 
 		activeGamesCollection.storeAnswer(gameId, teamId, questionId, answer, result.correct, result.points,
 										 	function(gameSocket, teams) {

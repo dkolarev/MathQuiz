@@ -4,7 +4,7 @@
 			<span class="glyphicon glyphicon-arrow-left"></span> Back
 		</button>
 	</div>
-	<div class="col-xs-12 col-sm-10">
+	<div restrict-access user="user.username" created-by="startedBy" class="col-xs-12 col-sm-10">
 		<span style="margin-right: 15px">game invitation: {{gameId}}</span>
 		<button type="button" class="btn btn-success" ng-click="onClickPlay(gameId)">Play</button>
 	</div>

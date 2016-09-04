@@ -22,7 +22,9 @@ function spectatorController(
 
 	socket.on('gameStatus', function(data) {
 		if (data.status === 'end') {
-			$scope.modalInstance.close('close');
+			if($scope.modalInstance) {
+				$scope.modalInstance.close('close');
+			}
 			$state.go('spectatorend');
 		}
 	});

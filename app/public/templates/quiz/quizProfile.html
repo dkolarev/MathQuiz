@@ -54,7 +54,14 @@
     <button type="button" class="btn btn-success btn-block" ng-click="onClickStartQuiz(profileQuiz._id)">Start Quiz</button>
     <div class="alert alert-info" ng-show="gameId">
         <p style="font-size: 25px; margin-bottom: 15px">Invitation code: {{gameId}}</p>
-        <button type="button" class="btn btn-success" ng-click="onClickPlay(gameId)"><i class="fa fa-play" aria-hidden="true" style="margin-right: 5px"></i> Play</button>
+        <span>
+            Scoring: 
+            <div class="btn-group">
+                <label class="btn btn-primary" ng-model="scoring" uib-btn-radio="'difficulty'" uncheckable><i class="fa fa-level-up" aria-hidden="true"></i> Difficulty</label>
+                <label class="btn btn-primary" ng-model="scoring" uib-btn-radio="'time'" uncheckable><i class="fa fa-clock-o" aria-hidden="true"></i> Time</label>
+            </div>
+        </span>
+        <button type="button" class="btn btn-success" ng-click="onClickPlay(gameId, scoring)"><i class="fa fa-play" aria-hidden="true" style="margin-right: 5px"></i> Play</button>
     </div>
 </div>
 </div>

@@ -38,6 +38,7 @@ angular
 	.directive('dynamicBind', dynamicBind)
 	.directive('starRating', starRating)
 	.directive('fileModel', fileModel)
+	.directive('restrictAccess', restrictAccess)
 	.factory('authService', authService)
 	.factory('gameService', gameService)
 	.factory('gameResource', gameResource)

@@ -43,9 +43,9 @@ function quizResource($resource) {
 				.get({quizId: quizId, user: user});
 		},
 
-		playQuiz: function(gameId) {
-			return $resource('/api/quiz/play/:gameId', {gameId: '@gameId'})
-				.get({gameId: gameId});
+		playQuiz: function(data) {
+			return $resource('/api/quiz/play')
+				.save(data);
 		}
 	};
 }

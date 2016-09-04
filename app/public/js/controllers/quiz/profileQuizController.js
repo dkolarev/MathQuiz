@@ -8,6 +8,8 @@ function profileQuizController($scope, $state, $location, data, modalService, qu
 	$scope.currentPage = 1;
 	$scope.pageItems = 6;
 
+	$scope.scoring = 'difficulty';
+
 	$scope.onClickBack = function() {
 		$state.go('user.quizlist');
 	};
@@ -35,8 +37,12 @@ function profileQuizController($scope, $state, $location, data, modalService, qu
 		});
 	};
 
-	$scope.onClickPlay = function(gameId) {
-		quizResource.playQuiz(gameId).$promise.then(function(response) {
+	$scope.onClickPlay = function(gameId, scoring) {
+		var data = {
+			'gameId': gameId,
+			'scoring': scoring
+		};
+		quizResource.playQuiz(data).$promise.then(function(response) {
 			$state.go('user.home');
 		}, function(response) {
 			console.log(response);

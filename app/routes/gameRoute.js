@@ -111,7 +111,8 @@ router.get('/teams', function(req, res) {
 
 	res.send({
 		teams: metadataList,
-		status: quiz.gameStatus
+		status: quiz.gameStatus,
+		startedBy: quiz.startedBy
 	});
 });
 
@@ -119,7 +120,7 @@ router.post('/sendanswer', function(req, res) {
 	var data = req.body;
 	var gameId = req.query.gameId || req.headers['gameid'];
 
-	var correct = gameControl.validateAnswer(data.answer, gameId, data.questionId, data.teamId);
+	var correct = gameControl.validateAnswer(data.answer, gameId, data.questionId, data.teamId, data.answerTime);
 
 	res.send({
 		correct: correct

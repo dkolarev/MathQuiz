@@ -49,7 +49,7 @@ function modalService($uibModal, questionResource) {
 					animation: true,
 					keyboard: false,
 					templateUrl: 'templates/player/correctAnswerModal.html',
-					size: 'sm',
+					size: 'lg',
 					resolve: {
 						correctAnswer: function() {
 							return correctAnswer;

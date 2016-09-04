@@ -32,6 +32,6 @@ module.exports.dataRepository = {
 	*	formu.
 	*/
 	insertUser: function(user) {
-		userCollection.insert(user);	
+		return userCollection.insertOne(user);	
 	}
 };
