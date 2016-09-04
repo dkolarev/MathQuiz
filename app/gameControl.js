@@ -16,7 +16,7 @@ var iterateQuizQuestions = function(gameSocket, quiz) {
 	activeGamesCollection.resetAnswersRecieved(quiz.gameId);
 
 	question = quiz.questions[quiz.currentQuestionPointer];
-	question.time = question.time; //pretvori min u sec
+	question.time = question.time * 60; //pretvori min u sec
 	gameSocketService.emitQuestion(gameSocket, question);
 
 	gameSocketService.emitDashboardData(quiz);

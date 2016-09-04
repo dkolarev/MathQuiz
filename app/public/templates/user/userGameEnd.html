@@ -6,13 +6,13 @@
 
 <div class="row" style="height: 100%">
 	<div class="col-xs-12 col-sm-4 col-md-4 col-lg-3" style="height: 100%; min-height: 640px; background-color: #1a1a1a; padding-left: 0px; padding-right: 0px">
-		<div class="row-fluid" style="height: 100%" ng-scrollbars ng-scrollbars-config="config">
+		<div class="row-fluid" style="height: 100%">
 			<div class="col-xs-12" style="padding: 10px; border-bottom: 1px solid #00bfff; font-size:12px">
 				<span style="float: left; margin-right:10px">Position</span>
 				<span style="float: left">Team</span>
 				<span style="float: right">Points</span>
 			</div>
-			<div class="col-xs-12 team" style="padding: 15px 20px" ng-repeat="team in scoreboard | orderBy:'teamPoints':true" ng-class="{'leader': $index == 0}">
+			<div class="col-xs-12 team" style="padding: 15px 20px" ng-repeat="team in scoreboard | paginationFilter:(currentPage - 1) * pageItems | limitTo:pageItems track by team.teamId" ng-class="{'leader': (($index + 1) + (currentPage - 1)*pageItems) == 1}">
 				<span style="float:left; margin-right: 20px">{{$index + 1}}</span>
 				<span style="float:left">{{team.teamName}}</span>
 				<span style="float:right">{{team.teamPoints}}</span>
@@ -31,7 +31,7 @@
 					<i class="fa fa-trophy" style="font-size: 100px"></i><span style="font-size: 70px"> Winner</span>
 					<div style="font-size: 40px">{{winner.teamName}}</div>
 					<ul class="list-unstyled">
-						<li ng-repeat="player in winner.teamPlayers">{{player.name}}</li>
+						<li ng-repeat="player in winner.teamPlayers track by player.id">{{player.name}}</li>
 					</ul>
 				</div>
 			</div>

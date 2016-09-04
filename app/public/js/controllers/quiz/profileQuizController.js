@@ -49,6 +49,10 @@ function profileQuizController($scope, $state, $location, data, modalService, qu
 		});
 	};
 
+	$scope.onClickDetails = function(gameId) {
+		$location.url('/user/game/pending/' + gameId);
+	};
+
 	$scope.onClickQuestionInfo = function(question) {
 		var modalInstance = modalService.questionInfoModal(question._id);
 	};

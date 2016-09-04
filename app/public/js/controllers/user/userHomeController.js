@@ -1,6 +1,6 @@
 //userHomeController.js
 
-function userHomeController ($scope, data, $interval, quizResource, $location, enumData) {
+function userHomeController ($scope, data, $interval, quizResource, $location, enumData, $window) {
 
 	$scope.dashboard = data.dashboard;
 
@@ -52,7 +52,7 @@ function userHomeController ($scope, data, $interval, quizResource, $location, e
 		} else {
 			$scope.currentPage++;
 		}
-	}, 5000);
+	}, 10000);
 
 	$scope.onClickPlay = function(gameId, scoring) {
 		var data = {

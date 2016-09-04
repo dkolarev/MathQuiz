@@ -92,7 +92,7 @@ router.get('/quiz', function(req, res) {
 	var quiz = activeGamesCollection.getQuiz(gameId);
 	question = quiz.questions[quiz.currentQuestionPointer];
 	//staviti SEKUNDE
-	question.time = question.time;
+	//question.time = question.time * 60;
 
 	var playerQuestion = gameMapper.questionToPlayerQuestion(question);
 	var scoreboard = gameMapper.teamListToScoreboardData(quiz.teams);

@@ -1,17 +1,16 @@
 <div class="row" style="height: 100%">
 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3" style="height: 100%; background-color: #1a1a1a; padding-left: 15px; padding-right: 0px">
-	<div class="row-fluid" style="height: 100%" ng-scrollbars ng-scrollbars-config="config">
+	<div class="row-fluid" style="height: 100%">
 		<div class="col-xs-12" style="padding: 10px; border-bottom: 1px solid #00bfff; font-size:12px">
 			<span style="float: left; margin-right:10px">Position</span>
 			<span style="float: left">Team</span>
 			<span style="float: right">Points</span>
 		</div>
-		<div class="col-xs-12 team" style="padding: 15px 20px" ng-repeat="team in scoreboard | paginationFilter:(currentPage - 1) * pageItems | limitTo:pageItems | orderBy:'teamPoints':true" ng-class="{'leader': (($index + 1) + (currentPage - 1)*pageItems) == 1}">
+		<div class="col-xs-12 team" style="padding: 15px 20px" ng-repeat="team in scoreboard | paginationFilter:(currentPage - 1) * pageItems | limitTo:pageItems track by team.teamId" ng-class="{'leader': (($index + 1) + (currentPage - 1)*pageItems) == 1}">
 			<span style="float:left; margin-right: 20px">{{($index + 1) + (currentPage - 1)*pageItems}}</span>
 			<span style="float:left">{{team.teamName}}</span>
 			<span style="float:right">{{team.teamPoints}}</span>
 		</div>
-		<ul uib-pagination total-items="totalCount" ng-model="currentPage" max-size="5" class="pagination-sm" boundary-links="true" items-per-page="pageItems"></ul>	
 	</div>
 </div>
 

@@ -1,14 +1,16 @@
 //questionDataValidator.js
 
 var questionDifficultyEnum = require('./questionDifficultyEnum');
+var fieldEnum = require('../fieldEnum');
 
-var elementOf = function(array, element) {
-	var value = array.indexOf(element);
-	if (value === -1) {
-		return false;
-	} else {
-		return true;
+var elementOf = function(Enum, element) {
+	for(var key of Object.keys(Enum)) {
+		if (element === Enum[key]) {
+			return true;
+		}
 	}
+
+	return false;
 }
 
 
@@ -45,11 +47,10 @@ var validateCreatedBy = function(createdBy) {
 }
 
 var validateDifficulty = function(difficulty) {
-	if (typeof difficulty !== "undefined" && typeof difficulty == "string") {
-		return difficulty !== "";
-	} else {
-		return false;
-	}
+	if (typeof difficulty === "undefined" || typeof difficulty !== "string") return false;
+	if (difficulty === "") return false;
+	if (!elementOf(questionDifficultyEnum, difficulty)) return false;
+	return true;
 }
 
 var validateAnswer = function(answer) {
@@ -61,11 +62,11 @@ var validateAnswer = function(answer) {
 }
 
 var validateField = function(field) {
-	if (typeof field !== "undefined" && typeof field === "string") {
-		return field !== "";
-	} else {
-		return false;
-	}
+	if (typeof field === "undefined" || typeof field !== "string") return false;
+	if (field === "") return false;
+	if(!elementOf(fieldEnum, field)) return false;
+
+	return true;
 }
 
 

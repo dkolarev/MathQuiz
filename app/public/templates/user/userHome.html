@@ -13,14 +13,14 @@
 
 		<div ng-repeat="game in dashboard | paginationFilter:(currentPage - 1) * pageItems | limitTo: pageItems track by game.gameId" style="background-color: #5900b3; color: white; border-radius: 2px; height: 170px; padding: 15px; margin-bottom: 15px; border: 1px solid white">
 			<div class="col-xs-12" style="padding-left: 0px">
-				<span restrict-access user="user.username" created-by="game.startedBy" style="font-size: 19px; color: #ffff00"><strong>gameId: </strong>{{game.gameId}}</span>
+				<span restrict-access user="user.username" created-by="game.startedBy" style="font-size: 19px; color: #ffff00"><strong>invitation: </strong>{{game.gameId}}</span>
 				<button type="button" class="btn btn-info btn-xs" style="float: right" ng-click="onClickWatch(game.gameId, game.gameStatus)">Watch</button>
 				<button restrict-access user="user.username" created-by="game.startedBy" ng-show="game.gameStatus === 'waiting for players'" type="button" class="btn btn-success btn-xs" ng-click="onClickPlay(game.gameId, scoring)" style="float: right; margin-right: 2px">Play</button>
 				<div restrict-access user="user.username" created-by="game.startedBy" ng-show="game.gameStatus === 'waiting for players'" style="padding-bottom: 5px">
             		Scoring: 
             		<div class="btn-group">
-                		<label class="btn btn-primary btn-xs" ng-model="scoring" uib-btn-radio="'difficulty'" uncheckable><i class="fa fa-level-up" aria-hidden="true"></i> Difficulty</label>
-                		<label class="btn btn-primary btn-xs" ng-model="scoring" uib-btn-radio="'time'" uncheckable><i class="fa fa-clock-o" aria-hidden="true"></i> Time</label>
+                		<label class="btn btn-primary btn-xs" ng-model="scoring" uib-btn-radio="'difficulty'" uncheckable uib-uncheckable="uncheckable"><i class="fa fa-level-up" aria-hidden="true"></i> Difficulty</label>
+                		<label class="btn btn-primary btn-xs" ng-model="scoring" uib-btn-radio="'time'" uncheckable uib-uncheckable="uncheckable"><i class="fa fa-clock-o" aria-hidden="true"></i> Time</label>
             		</div>
             	</div>
 			</div>

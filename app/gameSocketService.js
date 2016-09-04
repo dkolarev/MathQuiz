@@ -57,7 +57,6 @@ var emitTimer = function(gameSocket, time, quiz) {
 
 var emitScoreboard = function(gameSocket, teams) {
 	var scoreboard = gameMapper.teamListToScoreboardData(teams);
-
 	gameSocket.emit('scoreboard', {
 		scoreboard: scoreboard
 	});

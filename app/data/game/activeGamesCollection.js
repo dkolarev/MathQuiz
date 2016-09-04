@@ -56,6 +56,9 @@ var getQuiz = function(gameId) {
 		return null;	// ako smo dosli ovako daleko kviz nije pronadjen
 };
 
+var roundToTwo = function(num) {    
+    return +(Math.round(num + "e+2")  + "e-2");
+};
 
 var asignPoints = function(questionDifficulty, scoringMethod, overallTime, answerTime) {
 	if(scoringMethod === 'difficulty') {
@@ -76,12 +79,12 @@ var assignPointsByDifficulty = function(questionDifficulty) {
 };
 
 var assignPointsByTime = function(questionDifficulty, overallTime, answerTime) {
-	if (questionDifficulty === "easy") {
-		return gamePointsEnum.easy*answerTime/overallTime;
-	} else if (questionDifficulty === "intermediate") {
-		return gamePointsEnum.intermediate*answerTime/overallTime;
-	} else if (questionDifficulty === "hard") {
-		return gamePointsEnum.hard*answerTime/overallTime;
+	if (questionDifficulty === questionDifficultyEnum.easy) {
+		return roundToTwo(gamePointsEnum.easy*answerTime/overallTime);
+	} else if (questionDifficulty === questionDifficultyEnum.intermediate) {
+		return roundToTwo(gamePointsEnum.intermediate*answerTime/overallTime);
+	} else if (questionDifficulty === questionDifficultyEnum.hard) {
+		return roundToTwo(gamePointsEnum.hard*answerTime/overallTime);
 	}
 };	
 

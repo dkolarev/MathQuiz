@@ -9,7 +9,7 @@ function enumData() {
 		"numeric mathematic",
 		"analitic geometry",
 		"elementary geometry",
-		"elementary mathematics",
+		"elementary mathematic",
 		"computer science",
 		"propability",
 		"statistic"

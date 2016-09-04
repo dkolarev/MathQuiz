@@ -1,10 +1,18 @@
 //gameEndController.js
 
-function gameEndController($scope, $state, data, gameService, gameResource) {
+function gameEndController($scope, $state, data, gameService, gameResource, $interval) {
+
+	data.scoreboard.sort(function(a,b) {
+		return (a.teamPoints - b.teamPoints) ? 1 : ((b.teamPoints - a.teamPoints) ? -1 : 0);
+	});
 
 	$scope.scoreboard = data.scoreboard;
 	$scope.winner = data.winner;
 	$scope.rated = false;
+
+	$scope.totalCount = data.scoreboard.length;
+	$scope.currentPage = 1;
+	$scope.pageItems = 2;
 
 	var gameId = gameService.getGameId();
 	var socketNamespace = '/' + gameId;
@@ -32,7 +40,19 @@ function gameEndController($scope, $state, data, gameService, gameResource) {
 		$scope.rated = true;
 	};
 
-	$scope.$on('destroy', function() {
+	var scoreboardTimer = $interval(function() {
+		if ($scope.currentPage >= $scope.totalCount / $scope.pageItems) {
+			$scope.currentPage = 1;
+		} else {
+			$scope.currentPage++;
+		}
+	}, 10000);
+
+	$scope.$on('$destroy', function() {
+		if(angular.isDefined(scoreboardTimer)) {
+			$interval.cancel(scoreboardTimer);
+		}
+
 		socket.removeAllListeners();
 	});
 }

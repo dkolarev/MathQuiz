@@ -16,7 +16,7 @@ function spectatorController(
 	$scope.currentQuestion = data.question;
 	$scope.scoreboard = data.scoreboard;
 
-	$scope.totalCount = $scope.scoreboard.length;
+	$scope.totalCount = data.scoreboard.length;
 	$scope.currentPage = 1;
 	$scope.pageItems = 10;
 
@@ -46,6 +46,9 @@ function spectatorController(
 	});
 
 	socket.on('scoreboard', function(data) {
+		data.scoreboard.sort(function(a,b) {
+			return (a.teamPoints - b.teamPoints) ? 1 : ((b.teamPoints - a.teamPoints) ? -1 : 0);
+		});
 		$scope.scoreboard = data.scoreboard;
 	});
 
@@ -61,7 +64,7 @@ function spectatorController(
 		} else {
 			$scope.currentPage++;
 		}
-	}, 5000);
+	}, 10000);
 
 	$scope.$on('$destroy', function() {
 		if(angular.isDefined(scoreboardTimer)) {

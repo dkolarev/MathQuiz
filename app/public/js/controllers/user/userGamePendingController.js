@@ -25,6 +25,8 @@ function userGamePendingController(
 	$scope.teamList = data.teams;
 	$scope.startedBy = data.startedBy;
 
+	$scope.scoring = 'difficulty';
+
 	socket.on('newTeam', function(data) {
 		$scope.teamList.push(data);
 		$scope.$apply();
@@ -40,8 +42,12 @@ function userGamePendingController(
 		$state.go('user.home');
 	};
 
-	$scope.onClickPlay = function(gameId) {
-		quizResource.playQuiz(gameId).$promise.then(function(response) {
+	$scope.onClickPlay = function(gameId, scoring) {
+		var data = {
+			'gameId': gameId,
+			'scoring': scoring
+		};
+		quizResource.playQuiz(data).$promise.then(function(response) {
 			console.log(response);
 		}, function(response) {
 			console.log(response);
