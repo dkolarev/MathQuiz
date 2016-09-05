@@ -16,14 +16,9 @@ var setSocket = function(io) {
 *	se jos salje pocetno vrijeme potrebno za zadatak.
 */
 var emitQuestion = function(gameSocket, question) {
+	var playerQuestion = gameMapper.questionToPlayerQuestion(question);
 	gameSocket.emit('question', {
-		question: {
-			questionId: question._id,
-			questionTitle: question.title,
-			questionDescription: question.description,
-			questionAllAnswers: question.allAnswers,
-			questionImage: question.image
-		},
+		question: playerQuestion,
 		time: question.time
 	});
 };

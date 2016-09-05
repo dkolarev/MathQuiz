@@ -36,7 +36,8 @@ var questionToPlayerQuestion = function(question) {
 		questionId: question._id,
 		questionTitle: question.title,
 		questionDescription: question.description,
-		questionAllAnswers: question.allAnswers
+		questionAllAnswers: question.allAnswers,
+		questionImage: question.image
 	};
 }
 

@@ -1,6 +1,6 @@
 //userGameEndController.js
 
-function userGameEndController($scope, gameService, $state, data, $stateParams) {
+function userGameEndController($scope, gameService, $state, data, $stateParams, $interval) {
 
 	data.scoreboard.sort(function(a,b) {
 		return (a.teamPoints - b.teamPoints) ? 1 : ((b.teamPoints - a.teamPoints) ? -1 : 0);

@@ -122,9 +122,8 @@ router.get('/details/:quizId', function(req, res) {
 	var quizId = req.params.quizId;
 	quizDataRepository.getQuiz(quizId).then(function(quiz) {
 		//izvuci svaki zadatak iz baze
-		questionDataRepository.questionListByIds(quiz.questions).toArray(function(err, doc) {
+		questionDataRepository.questionListMetadataByIds(quiz.questions).toArray(function(err, doc) {
 			quiz.questions = doc;
-
 			res.setHeader('Content-Type', 'application/json');
 			res.send({
 				"quiz": quiz

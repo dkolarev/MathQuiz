@@ -24,7 +24,7 @@
 	</div>
 
 	<div class="row"  style="padding: 100px 50px">
-		<div ng-show="question.image" style="padding: 15px 15px"><img ng-src="{{question.questionImage}}" width="100%"></div>
+		<div ng-show="currentQuestion.questionImage" style="padding: 15px 15px"><img ng-src="{{currentQuestion.questionImage}}" width="100%"></div>
 
 		<div style="text-align:center; width: 100%; margin: 0px auto; border: 1px solid #bfbfbf; border-radius: 50px; min-height: 100px; padding: 15px 10px">
             	<strong dynamic-bind="currentQuestion.questionDescription"></strong>
@@ -46,7 +46,4 @@
             </ul>
           </div>
     </div>
-
-
-</div>
 </div>

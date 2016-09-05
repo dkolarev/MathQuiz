@@ -31,12 +31,13 @@ module.exports.dataRepository = {
 
 	getQuestionsMetadata: function() {
 		return questionCollection.find({}, {
-			'title': true,
-			'difficulty': true,
-			'field': true,
-			'time': true,
-			'lastModified': true,
-			'createdBy': true});
+			"title": true,
+			"difficulty": true,
+			"field": true,
+			"time": true,
+			"lastModified": true,
+			"createdBy": true
+		});
 	},
 
 	/*
@@ -69,5 +70,18 @@ module.exports.dataRepository = {
 		var ids = questionIds.map(function(id) { return ObjectId(id); });
 		
 		return questionCollection.find({"_id": {$in: ids}});
+	},
+
+	questionListMetadataByIds: function(questionIds) {
+		var ids = questionIds.map(function(id) { return ObjectId(id); });
+
+		return questionCollection.find({"_id": {$in: ids}}, {
+			"title": true,
+			"difficulty": true,
+			"field": true,
+			"time": true,
+			"lastModified": true,
+			"createdBy": true
+		});
 	}
 };

@@ -84,7 +84,7 @@ var startGameDeleteProcess = function(gameSocket, game) {
 		gameSocketService.emitGameClose(gameSocket);	//emit player update
 
 		activeGamesCollection.removeInactiveGames();
-	}, 5000);
+	}, 1000*60*5);
 };
 
 var questionTransition = function(gameSocket, quiz) {
