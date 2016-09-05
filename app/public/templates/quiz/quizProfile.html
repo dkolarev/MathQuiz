@@ -11,8 +11,8 @@
 </button>
 </div>
 <div class="col-xs-12" style="padding-top: 15px; margin-left: 15px">
-    <button type="button" ng-hide="user.username !== profileQuiz.createdBy" class="btn btn-default btn-sm" ng-click="onClickEdit(profileQuiz)">Edit</button>
-        <button type="button" ng-hide="user.username !== profileQuiz.createdBy" class="btn btn-danger btn-sm" ng-click="onClickDelete(profileQuiz)">Delete</button>
+    <button type="button" restrict-access user="user.username" created-by="profileQuiz.createdBy" class="btn btn-default btn-sm" ng-click="onClickEdit(profileQuiz)">Edit</button>
+        <button type="button" restrict-access user="user.username" created-by="profileQuiz.createdBy" class="btn btn-danger btn-sm" ng-click="onClickDelete(profileQuiz)">Delete</button>
 </div>
 <div class="row" style="margin-top: 15px">
 <div class="col-sm-8">

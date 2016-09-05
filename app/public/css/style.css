@@ -139,6 +139,10 @@ body, html {
 	color: #ff9933;
 }
 
+.currentTeam {
+	color: #00b8e6;
+}
+
 /*rating css*/
 
 .rating{

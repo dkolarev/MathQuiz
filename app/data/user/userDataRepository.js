@@ -3,7 +3,7 @@
 var userCollection;
 
 module.exports.init = function(db) {
-	userCollection = db.collection('users');
+	userCollection = db.collection('user');
 };
 
 

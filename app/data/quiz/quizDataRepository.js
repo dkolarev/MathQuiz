@@ -5,7 +5,7 @@ var ObjectId = require('mongodb').ObjectID;
 var quizCollection;
 
 module.exports.init = function(db) {
-	quizCollection = db.collection('quizzes');
+	quizCollection = db.collection('quiz');
 };
 
 /**

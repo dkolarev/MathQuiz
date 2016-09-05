@@ -6,10 +6,10 @@
 			<span style="float: left">Team</span>
 			<span style="float: right">Points</span>
 		</div>
-		<div class="col-xs-12 team" style="padding: 15px 20px" ng-repeat="team in scoreboard | paginationFilter:(currentPage - 1) * pageItems | limitTo:pageItems track by team.teamId" ng-class="{'leader': (($index + 1) + (currentPage - 1)*pageItems) == 1}">
+		<div class="col-xs-12 team" style="padding: 15px 20px" ng-repeat="scoreboardTeam in scoreboard | paginationFilter:(currentPage - 1) * pageItems | limitTo:pageItems track by scoreboardTeam.teamId" ng-class="{'leader': (($index + 1) + (currentPage - 1)*pageItems) == 1, 'currentTeam': team.teamId === scoreboardTeam.teamId}">
 			<span style="float:left; margin-right: 20px">{{($index + 1) + (currentPage - 1)*pageItems}}</span>
-			<span style="float:left">{{team.teamName}}</span>
-			<span style="float:right">{{team.teamPoints}}</span>
+			<span style="float:left">{{scoreboardTeam.teamName}}</span>
+			<span style="float:right">{{scoreboardTeam.teamPoints}}</span>
 		</div>
 	</div>
 </div>

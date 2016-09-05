@@ -7,17 +7,19 @@
 
 <div class="row" style="padding-top: 60px">
 	<div class="col-xs-12 col-sm-6 col-md-5 col-lg-4">
-		<div class="form-group">
-			<label for="teamName">Team name</label>
-			<input ng-disabled="teamSended" type="text" name="teamName" class="form-control" ng-model="team.name" placeholder="Enter team name">
-		</div>
+        <form name="teamForm" role="form">
+		  <div class="form-group">
+			 <label for="teamName">Team name</label>
+			 <input ng-disabled="teamSended" type="text" name="teamName" required class="form-control" ng-model="team.name" placeholder="Enter team name">
+		  </div>
+        </form>
 	</div>
 </div>
 <div class="row" style="padding: 15px">
 		 <div class="control-group" id="fields">
             <label class="control-label" for="field1">Team members</label>
             <div class="controls"  style="padding-bottom: 15px"> 
-                <form role="form" autocomplete="off">
+                <form name="playerForm" role="form" autocomplete="off">
                     <div class="entry input-group col-xs-12 col-sm-5 col-md-4 col-lg-3" ng-repeat="player in team.players">
                         <input ng-disabled="teamSended" id="0" class="form-control" name="fields[]" ng-model="player.name" type="text" placeholder="Team member" />
                     	<span class="input-group-btn">
@@ -26,6 +28,7 @@
                             </button>
                         </span>
                     </div>
+                    <div class="errorMessage" ng-show="playersError">{{playersError}}</div>
                 </form>
             <br>
             <small style="margin-right: 10px">Press <span class="glyphicon glyphicon-plus gs"></span> to add another team member</small>

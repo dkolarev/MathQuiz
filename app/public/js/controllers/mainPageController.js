@@ -63,14 +63,25 @@ function mainPageController($scope, $state, $window, authService, gameService) {
 	$scope.onClickEnter = function(gameId) {
 		if(gameId) {
 			gameService.saveGameId(gameId);
-			$state.go('createteam');
+			gameService.verifyGameId().$promise.then(function(response) {
+				gameService.saveGameId(gameId);
+				$state.go('createteam');
+			}, function(response) {
+				$scope.enterMessage = "Quiz code is not valid.";
+			});
+			
 		}
 	};
 
 	$scope.onClickSpectate = function(gameId) {
 		if(gameId) {
 			gameService.saveGameId(gameId);
-			$state.go('spectatorpending');
+			gameService.verifyGameId().$promise.then(function(response) {
+				gameService.saveGameId(gameId);
+				$state.go('spectatorpending');
+			}, function(response) {
+				$scope.spectateMessage = "Quiz code is not valid.";
+			});
 		}
 	}
 

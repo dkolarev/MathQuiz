@@ -13,6 +13,7 @@
           <div style="display: inline-block">
             <p style="text-align:center; font-size: 25px; padding: 20px 0px; color: #333333">Play quiz</p>
             <input type="text" name="quiz" class="form-control input-lg" ng-model="gameId" required placeholder="Quiz code">
+            <div ng-show="enterMessage" class="errorMessage" style="text-align: center">{{enterMessage}}</div>
             <button type="button" class="btn btn-success btn-lg" ng-click="onClickEnter(gameId)" style="margin-top: 12px; border-color: white">Enter</button>
           </div>
         </div>
@@ -22,6 +23,7 @@
           <div style="display: inline-block">
             <p style="text-align:center; font-size: 25px; padding: 20px 0px; color: #333333">Watch quiz</p>
             <input type="text" name="quiz" class="form-control input-lg" ng-model="spectatorGameId" required placeholder="Quiz code">
+            <div ng-show="spectateMessage" class="errorMessage" style="text-align: center">{{spectateMessage}}</div>
             <button type="button" class="btn btn-success btn-lg" ng-click="onClickSpectate(spectatorGameId)" style="margin-top: 12px; border-color: white">Enter</button>
           </div>
         </div>

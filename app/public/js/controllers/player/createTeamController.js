@@ -46,18 +46,19 @@ function createTeamController($scope, $rootScope, $state, gameResource, gameServ
 	};
 
 	$scope.onClickReady = function(team) {
-		gameResource.saveTeam(team).$promise.then(function(response) {
+		if(team.players[0].name) {
+			gameResource.saveTeam(team).$promise.then(function(response) {
 			if(response.success) {
 				$rootScope.team.teamId = response.teamId;
 				$scope.teamSended = true;
 				$scope.showAlert = true;
-			} else {
-				console.log(response);
-			}
-			
+			} 		
 		}, function(response) {
 			console.log(response);
 		});
+		} else {
+			$scope.playersError = 'At least one player required.';
+		}
 	};
 
 	$scope.$on('destroy', function() {

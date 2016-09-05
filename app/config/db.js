@@ -25,6 +25,7 @@ module.exports.connect = function(config, callb) {
 		require('../data/user/userDataRepository').init(database);
 		require('../data/question/questionDataRepository').init(database);
 		require('../data/quiz/quizDataRepository').init(database);
+		require('../data/activity/activityDataRepository').init(database);
 		
 		callb();
 	});

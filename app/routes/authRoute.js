@@ -7,6 +7,8 @@ var userDataValidator = require('../data/user/userDataValidator');
 var jwt = require('jsonwebtoken');
 var secret = require('../config/config').secret;
 var hashingService = require('../hashingService');
+var activityDataRepository = require('../data/activity/activityDataRepository').dataRepository;
+var Activity = require('../data/activity/Activity');
 
 var router = express.Router();
 
@@ -87,11 +89,15 @@ router.post('/signin', function(req, res) {
 			var token = jwt.sign(userInformations, secret, {
 				expiresIn: '60m'
 			});
+			
+			var activity = new Activity(doc.ops[0]._id, 1, "", "");
+			activityDataRepository.insertActivity(activity);
 
 			res.status(200).json({
 				success: true,
 				token: token
 			});
+
 		});
 	} else {
 		res.status(200).json({
