@@ -38,9 +38,9 @@ function quizResource($resource) {
 				.delete({quizId: quizId});
 		},
 
-		startQuiz: function(quizId, user) {
-			return $resource('/api/quiz/start/:quizId/:user', {quizId: '@quizId', user: '@user'})
-				.get({quizId: quizId, user: user});
+		startQuiz: function(data) {
+			return $resource('/api/quiz/start')
+				.save(data);
 		},
 
 		playQuiz: function(data) {

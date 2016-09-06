@@ -36,7 +36,6 @@ angular
 	.directive('eqnBind', eqnBind)
 	.directive('mathjaxBind', mathjaxBind)
 	.directive('dynamicBind', dynamicBind)
-	.directive('starRating', starRating)
 	.directive('fileModel', fileModel)
 	.directive('restrictAccess', restrictAccess)
 	.factory('authService', authService)

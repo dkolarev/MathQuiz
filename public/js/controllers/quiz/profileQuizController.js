@@ -30,7 +30,12 @@ function profileQuizController($scope, $state, $location, data, modalService, qu
 
 	$scope.onClickStartQuiz = function(quizId) {
 		var user = authService.getUser();
-		quizResource.startQuiz(quizId, user.username).$promise.then(function(response) {
+		var data = {
+			"quizId": quizId,
+			"user": user.username
+		};
+
+		quizResource.startQuiz(data).$promise.then(function(response) {
 			$scope.gameId = response.gameId;
 		}, function(response) {
 			console.log(response);

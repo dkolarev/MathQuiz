@@ -225,9 +225,9 @@ router.delete('/delete/:quizId', function(req, res) {
 *	identificirana sa hash kodom koji je jedinstven za svaku
 *	igru i koristi se za pristup igraca svakom kvizu.
 */
-router.get('/start/:quizId/:user', function(req, res) {
-	var quizId = req.params.quizId;
-	var user = req.params.user;
+router.post('/start', function(req, res) {
+	var quizId = req.body.quizId;
+	var user = req.body.user;
 	quizDataRepository.getQuiz(quizId).then(function(quiz) {
 		/**
 		*	Kreiraj jedinstveni nasumicni id aktivnog kviza
