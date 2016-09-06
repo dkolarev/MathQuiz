@@ -48,7 +48,12 @@ function profileQuizController($scope, $state, $location, data, modalService, qu
 			'scoring': scoring
 		};
 		quizResource.playQuiz(data).$promise.then(function(response) {
-			$state.go('user.home');
+			console.log(response.success);
+			if(response.success) {
+				$state.go('user.home');
+			} else {
+				$scope.playError = "Cannot start game with no signed teams.";
+			}
 		}, function(response) {
 			console.log(response);
 		});

@@ -178,7 +178,7 @@ module.exports =  {
 							success: success,
 							points: points
 						});
-						team.pointsSum = team.pointsSum + points;
+						team.pointsSum = roundToTwo(team.pointsSum + points);
 
 						break;
 					}

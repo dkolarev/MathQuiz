@@ -48,6 +48,9 @@ function userGamePendingController(
 			'scoring': scoring
 		};
 		quizResource.playQuiz(data).$promise.then(function(response) {
+			if(!response.success) {
+				$scope.playError = "Cannot start game with no signed teams.";
+			}
 			console.log(response);
 		}, function(response) {
 			console.log(response);

@@ -272,18 +272,26 @@ router.post('/play', function(req, res) {
 	var gameId = req.body.gameId;
 	var scoringMethod = req.body.scoring;
 	
-	gameControl.play(gameId, scoringMethod);
-
 	var quiz = activeGamesCollection.getQuiz(gameId);
-	quizDataRepository.updateQuizPlayedCounter(quiz._id);
-	
-	var dashboardItem = gameMapper.gameToDashboardItem(quiz);
-	var socketio = req.app.get('socketio');
-	socketio.emit('dashboardUpdate', {
-		item: dashboardItem
-	});
 
-	res.end();
+	if(quiz.teams.length > 0) {
+		gameControl.play(gameId, scoringMethod);
+		quizDataRepository.updateQuizPlayedCounter(quiz._id);
+	
+		var dashboardItem = gameMapper.gameToDashboardItem(quiz);
+		var socketio = req.app.get('socketio');
+		socketio.emit('dashboardUpdate', {
+			item: dashboardItem
+		});
+
+		res.send({
+			"success": true
+		});
+	} else {
+		res.send({
+			"success": false
+		});
+	}
 });
 
 module.exports = router;

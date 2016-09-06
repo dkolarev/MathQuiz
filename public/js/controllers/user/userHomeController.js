@@ -60,7 +60,9 @@ function userHomeController ($scope, data, $interval, quizResource, $location, e
 			'scoring': scoring
 		};
 		quizResource.playQuiz(data).$promise.then(function(response) {
-			console.log(response);
+			if(!response.success) {
+				$scope.playError = "Cannot play game with no signed teams.";
+			}
 		}, function(response) {
 			console.log(response);
 		});

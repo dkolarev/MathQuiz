@@ -6,6 +6,7 @@ var gameMapper = require('./mappers/gameMapper');
 var ratingCalculator = require('./ratingCalculator');
 var gameStatusEnum = require('./data/game/gameStatusEnum');
 var gameSocketService = require('./gameSocketService');
+var gameTimeConstant = require('./data/game/gameTimeConstant');
 
 var iterateQuizQuestions = function(gameSocket, quiz) {
 	if(quiz.currentQuestionPointer == quiz.questions.length) {
@@ -84,7 +85,7 @@ var startGameDeleteProcess = function(gameSocket, game) {
 		gameSocketService.emitGameClose(gameSocket);	//emit player update
 
 		activeGamesCollection.removeInactiveGames();
-	}, 1000*60*5);
+	}, gameTimeConstant.deleteGameTimeout);
 };
 
 var questionTransition = function(gameSocket, quiz) {
@@ -96,7 +97,7 @@ var questionTransition = function(gameSocket, quiz) {
 		iterateQuizQuestions(gameSocket, quiz);
 
 		clearTimeout(this);
-	}, 5000);
+	}, gameTimeConstant.questionTransition);
 };
 
 var setPlayStatus = function(quiz) {
