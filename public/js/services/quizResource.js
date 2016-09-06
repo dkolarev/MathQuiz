@@ -33,6 +33,12 @@ function quizResource($resource) {
 				.save(quiz);
 		},
 
+		editQuiz: function(quizId, quiz) {
+			return $resource('/api/quiz/edit/:quizId', null, {
+				'update': {method: 'PUT'}
+			}).update({quizId: quizId}, quiz);
+		},
+
 		deleteQuiz: function(quizId) {
 			return $resource('/api/quiz/delete/:quizId', {quizId: '@quizId'})
 				.delete({quizId: quizId});

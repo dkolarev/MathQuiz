@@ -144,49 +144,53 @@ router.post('/save', function(req, res) {
 
 	var quizModel = new Quiz(quiz);
 
-	if(quizModel._id) {
-		var valid = quizDataValidator.validateQuiz(quizModel);
+	var valid = quizDataValidator.validateQuiz(quizModel);
 
-		if(valid) {
-			var token = req.query.token || req.headers['x-auth-token'];
-			var user = extractTokenClaim(token);
+	if(valid) {
+		quizModel.changeCreatedTime(currentTime);
+		quizModel.changeModifiedTime(currentTime);
 
-			quizDataRepository.getQuiz(quizModel._id).then(function(dbQuiz) {
-				if (dbQuiz.createdBy === user.username) {
-					quizModel.changeModifiedTime(currentTime);
-
-					quizDataRepository.updateQuiz(quizModel, function(err, doc) {
-						res.send({
-							success: true
-						});
-					});
-				} else {
-					res.end();
-				}
-			});
-		} else {
+		quizDataRepository.insertQuiz(quizModel).then(function(doc) {
 			res.send({
-				success: false
+				success: true
 			});
-		}
-	
+		});
 	} else {
-		var valid = quizDataValidator.validateQuiz(quizModel);
+		res.send({
+			success: false
+		});
+	}
+});
 
-		if(valid) {
-			quizModel.changeCreatedTime(currentTime);
-			quizModel.changeModifiedTime(currentTime);
+router.put('/edit/:quizId', function(req, res) {
+	var quiz = req.body;
+	var currentTime = new Date().toISOString();
 
-			quizDataRepository.insertQuiz(quizModel).then(function(doc) {
-				res.send({
-					success: true
+	var quizModel = new Quiz(quiz);
+
+	var valid = quizDataValidator.validateQuiz(quizModel);
+
+	if(valid) {
+		var token = req.query.token || req.headers['x-auth-token'];
+		var user = extractTokenClaim(token);
+
+		quizDataRepository.getQuiz(quizModel._id).then(function(dbQuiz) {
+			if (dbQuiz.createdBy === user.username) {
+				quizModel.changeModifiedTime(currentTime);
+
+				quizDataRepository.updateQuiz(quizModel, function(err, doc) {
+					res.send({
+						success: true
+					});
 				});
-			});
-		} else {
-			res.send({
-				success: false
-			});
-		}
+			} else {
+				res.end();
+			}
+		});
+	} else {
+		res.send({
+			success: false
+		});
 	}
 });
 

@@ -17,7 +17,7 @@ function profileQuizController($scope, $state, $location, data, modalService, qu
 	$scope.onClickEdit = function(quiz) {
 		var user = authService.getUser();
 		if (user.username === quiz.createdBy) {
-			$location.url('/user/quiz/newquiz/' + quiz._id);
+			$location.url('/user/quiz/edit/' + quiz._id);
 		}
 	};
 

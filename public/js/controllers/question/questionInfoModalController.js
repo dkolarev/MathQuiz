@@ -10,6 +10,6 @@ function questionInfoModalController ($scope, $uibModalInstance, data, $location
 
 	$scope.onClickEdit = function(questionId) {
 		$uibModalInstance.dismiss('edit');
-		$location.url('/user/question/newquestion/' + questionId);
+		$location.url('/user/question/edit/' + questionId);
 	};
 };

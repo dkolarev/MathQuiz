@@ -1,8 +1,8 @@
-//newQuestionController.js
+//editQuestionController.js
 
-function newQuestionController($scope, $state, questionResource, uploadFile, enumData) {
+function editQuestionController($scope, $state, questionResource, uploadFile, data, enumData) {
 
-	$scope.newQuestion = {};
+	$scope.newQuestion = data.question;
 
 	$scope.selectList = enumData.fieldEnum;
 
@@ -128,8 +128,7 @@ function newQuestionController($scope, $state, questionResource, uploadFile, enu
 
 	$scope.onClickSaveQuestion = function (question) {
 		if($scope.newQuestionForm.$valid) {
-			question.createdBy = $scope.user.username;
-			questionResource.saveQuestion(question).$promise.then(function (response) {
+			questionResource.editQuestion(question._id, question).$promise.then(function (response) {
 				if(response.valid) {
 					$state.go('user.questionlist');
 				}
@@ -151,4 +150,4 @@ function newQuestionController($scope, $state, questionResource, uploadFile, enu
    			$scope.$apply();
    		})
 	};
-};
+}

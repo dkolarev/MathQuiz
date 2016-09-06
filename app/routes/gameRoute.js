@@ -22,7 +22,6 @@ var socket;
 *	gameId za aktivnu igru. Ako nema, posalji mu 403
 *	'forbidden' status.
 */
-
 router.use(function(req, res, next) {
 	var gameId = req.query.gameId || req.headers['gameid'];
 		
@@ -86,13 +85,14 @@ router.post('/saveteam', function(req, res) {
 	}
 });
 
+/**
+*	Ruta za slanje podataka o aktivnoj igri.
+*/
 router.get('/quiz', function(req, res) {
 	var gameId = req.query.gameId || req.headers['gameid'];
 
 	var quiz = activeGamesCollection.getQuiz(gameId);
 	question = quiz.questions[quiz.currentQuestionPointer];
-	//staviti SEKUNDE
-	//question.time = question.time * 60;
 
 	var playerQuestion = gameMapper.questionToPlayerQuestion(question);
 	var scoreboard = gameMapper.teamListToScoreboardData(quiz.teams);
@@ -103,6 +103,10 @@ router.get('/quiz', function(req, res) {
 	});
 });
 
+/**
+*	Ruta za odredenu igru salje popis timovi koji su
+*	prijavljeni status o igri i tko ga je pokrenio.
+*/
 router.get('/teams', function(req, res) {
 	var gameId = req.query.gameId || req.headers['gameid'];
 
@@ -116,6 +120,9 @@ router.get('/teams', function(req, res) {
 	});
 });
 
+/**
+*	Ruta za primanje odgovora od timova.
+*/
 router.post('/sendanswer', function(req, res) {
 	var data = req.body;
 	var gameId = req.query.gameId || req.headers['gameid'];
@@ -129,6 +136,9 @@ router.post('/sendanswer', function(req, res) {
 	gameControl.iterateAnsweredCounter(gameId);
 });
 
+/**
+*	Ruta za spremanje ratinga kviza od igraca.
+*/
 router.post('/rating', function(req, res) {
 	var data = req.body;
 	var gameId = req.query.gameId || req.headers['gameid'];
@@ -138,6 +148,9 @@ router.post('/rating', function(req, res) {
 	res.end();
 });
 
+/**
+*	Ruta za dohvacanje podataka o pobjedniku.
+*/
 router.get('/winnerdata', function(req, res) {
 	var gameId = req.query.gameId || req.headers['gameid'];
 

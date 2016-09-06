@@ -113,11 +113,7 @@ router.post('/list/filter', function(req, res) {
 });
 
 /**
-*	Ruta za spremanje pitanja. Ako pitanje vec
-*	sadrzi atribut id, koji mu dodjeljuje baza automatski,
-*	onda znaci da je napravljen update vec postojeceg pitanja
-*	te u tom slucaju izvrsi update u bazi. U suprotnom postavi
-*	novo pitanje u bazu.
+*	Ruta za spremanje pitanja.
 */
 router.post('/save', function(req, res) {
 	var question = req.body;
@@ -125,40 +121,54 @@ router.post('/save', function(req, res) {
 
 	var questionModel = new Question(question);
 
-	//ako pitanje ima atribut id onda radi update
-	if(questionModel._id) {
-		var token = req.query.token || req.headers['x-auth-token'];
-		var user = extractTokenClaim(token);
-		questionDataRepository.getQuestionById(question._id).then(function(dbQuestion) {
-			if(dbQuestion.createdBy === user.username) {
-				var valid = questionDataValidator.validateQuestion(questionModel);
+	//validiraj model, tj. podatke koje je korisnik unio
+	var valid = questionDataValidator.validateQuestion(questionModel);
 
-				if (valid) {
-					questionModel.changeModifiedTime(currentTime);
-					questionDataRepository.updateQuestion(questionModel, function(err, doc) {				
-						res.send({"valid": true});
-					});
-				} else {
-					res.send({"valid": false})
-				}
-			} else {
-				res.end();
-			}
-		});	
-	} else {
-		var valid = questionDataValidator.validateQuestion(questionModel);
-
-		if (valid) {		
-			questionModel.changeCreatedTime(currentTime);
-			questionModel.changeModifiedTime(currentTime);
+	if (valid) {		
+		questionModel.changeCreatedTime(currentTime);
+		questionModel.changeModifiedTime(currentTime);
 		
-			questionDataRepository.insertQuestion(questionModel).then(function(doc) {
-				res.send({"valid": true});
-			});
-		} else {
-			res.send({"valid": false});
-		}
+		questionDataRepository.insertQuestion(questionModel).then(function(doc) {
+			res.send({"valid": true});
+		});
+	} else {
+		res.send({"valid": false});
 	}
+});
+
+/**
+*	Ruta za editiranje postojeceg pitanja u bazi. 
+*/
+router.put('/edit/:questionId', function(req, res) {
+	var question = req.body;
+	var currentTime = new Date().toISOString();
+
+	var questionModel = new Question(question);
+
+	/**
+	*	Izvuci iz korisnikovog tokena informaciju o korisniku
+	*	i prije spremanja promjena provjeri je li korisnik koji je
+	*	je napravio promjene isti onaj koji je napravio i pitanje.
+	*/
+	var token = req.query.token || req.headers['x-auth-token'];
+	var user = extractTokenClaim(token);
+	questionDataRepository.getQuestionById(question._id).then(function(dbQuestion) {
+		if(dbQuestion.createdBy === user.username) {
+			//validiraj model
+			var valid = questionDataValidator.validateQuestion(questionModel);
+
+			if (valid) {
+				questionModel.changeModifiedTime(currentTime);
+				questionDataRepository.updateQuestion(questionModel, function(err, doc) {				
+					res.send({"valid": true});
+				});
+			} else {
+				res.send({"valid": false})
+			}
+		} else {
+			res.end();
+		}
+	});	
 });
 
 /**
@@ -182,12 +192,18 @@ router.delete('/delete/:questionId', function(req, res) {
 	var questionId = req.params.questionId;
 	var socketio = req.app.get('socketio');
 
+	//izvuci iz korisnikovog tokena podatke o korisniku
 	var token = req.query.token || req.headers['x-auth-token'];
 	var user = extractTokenClaim(token);
 
+	/**
+	*	Prije brisanja pitanja provjeri je li korisnik koji zahtjeva brisanje
+	*	isti onaj koji ga je napravio.
+	*/
 	questionDataRepository.getQuestionById(questionId).then(function(question) {
 		if(question.createdBy === user.username) {
 			questionDataRepository.deleteQuestion(questionId).then(function() {
+				//obrisi pitanje iz svakog kviza u kojem je navedeno
 				quizDataRepository.deleteQuestionCascade(questionId);
 
 				socketio.emit('deleteQuestion', {

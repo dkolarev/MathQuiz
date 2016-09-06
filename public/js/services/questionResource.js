@@ -12,6 +12,12 @@ function questionResource($resource) {
 					.get();
 		},
 
+		editQuestion: function(questionId, question) {
+			return $resource('/api/question/edit/:questionId', null, {
+				'update': {method: 'PUT'}
+			}).update({questionId: questionId}, question);
+		},
+
 		getQuestionsList: function(itemsPerPage = 10, pageNumber = 1) {
 			return $resource('/api/question/list/:itemsPerPage/:pageNumber', 
 					{itemsPerPage: '@itemsPerPage', pageNumber: '@pageNumber'})

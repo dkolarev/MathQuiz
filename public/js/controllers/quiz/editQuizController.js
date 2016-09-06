@@ -1,22 +1,22 @@
-//newQuizController.js
+//editQuizController.js
 
-function newQuizController (
+function editQuizController(
 	$scope, 
 	$state, 
 	modalService, 
 	questionResource, 
-	quizResource,
+	quizResource, 
 	data, 
+	quiz, 
 	enumData,
-	questionFilterService) {
-
+	questionFilterService
+) {
 	$scope.config = {
     	theme: 'minimal-dark',
     	axis: 'y'
   	};
 
-	$scope.newQuiz = {};
-	$scope.newQuiz.questions = [];
+	$scope.newQuiz = quiz.quiz;
 
 	$scope.questionsList = data.questionsList;
 	$scope.totalCount = data.totalItems;
@@ -51,8 +51,7 @@ function newQuizController (
 
   	$scope.onClickSave = function(quiz) {
 		if(quiz.questions.length > 0 && $scope.newQuizForm.$valid) {
-			quiz.createdBy = $scope.user.username;
-			quizResource.saveQuiz(quiz).$promise.then(function(response) {
+			quizResource.editQuiz(quiz._id, quiz).$promise.then(function(response) {
 				if (response.success) {
 					$state.go('user.quizlist');
 				} else {
@@ -96,4 +95,4 @@ function newQuizController (
 	$scope.$on('destroy', function() {
 		socket.removeAllListeners();
 	});
-};
+}

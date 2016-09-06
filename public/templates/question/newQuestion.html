@@ -7,29 +7,25 @@
 				<input type="text" name="questionName" class="form-control" style="background-color: #333333; color:white" ng-model="newQuestion.title" required placeholder="Title">
 			</div>
 			<div class="row" style="padding-left: 15px">
-			<div class="form-group" style="font-size: 15px; padding: 15px 0px">
-			<label class="radio-inline" style="margin-right: 15px">
-				<input type="radio" ng-model="newQuestion.difficulty" ng-required="!newQuestion.difficulty" value="easy" name="diffRadio">Easy
-			</label>
-			<label class="radio-inline" style="margin-right: 15px">
-				<input type="radio" ng-model="newQuestion.difficulty" ng-required="!newQuestion.difficulty" value="intermediate" name="diffRadio">Intermediate
-			</label>
-			<label class="radio-inline">
-				<input type="radio" ng-model="newQuestion.difficulty" ng-required="!newQuestion.difficulty" value="hard" name="diffRadio">Hard
-			</label>
-			</div>
-			<div class="row" style="padding-left: 15px; padding-right: 15px">
-				<div class="form-group col-sm-6" style="padding-left: 0px">
-				<label for="time">Time (min):</label>
-				<input type="number" min="1" name="time" class="form-control" style="background-color: #333333; color:white" ng-model="newQuestion.time" required ng-pattern="/^[1-9][0-9]*$/" placeholder="Time (min)">
+				<div class="form-group" style="font-size: 15px; padding: 15px 0px">
+			 		<div class="btn-group">
+        				<label class="btn btn-primary" ng-model="newQuestion.difficulty" uib-btn-radio="'easy'" ng-required="!newQuestion.difficulty">Easy</label>
+        				<label class="btn btn-primary" ng-model="newQuestion.difficulty" uib-btn-radio="'intermediate'" ng-required="!newQuestion.difficulty">Intermediate</label>
+        				<label class="btn btn-primary" ng-model="newQuestion.difficulty" uib-btn-radio="'hard'" ng-required="!newQuestion.difficulty">Hard</label>
+    				</div>
+    			</div>
+				<div class="row" style="padding-left: 15px; padding-right: 15px">
+					<div class="form-group col-sm-6" style="padding-left: 0px">
+						<label for="time">Time (min):</label>
+						<input type="number" min="1" name="time" class="form-control" style="background-color: #333333; color:white" ng-model="newQuestion.time" required ng-pattern="/^[1-9][0-9]*$/" placeholder="Time (min)">
+					</div>
+					<div class="form-group col-sm-6">
+					 	<label for="sel1">Field:</label>
+      					<select class="form-control" id="sel1" ng-model="newQuestion.field" required style="background-color: #333333; color:white">
+        					<option ng-repeat="field in selectList">{{field}}</option>
+      					</select>
+					</div>
 				</div>
-				<div class="form-group col-sm-6">
-					 <label for="sel1">Field:</label>
-      				<select class="form-control" id="sel1" ng-model="newQuestion.field" required style="background-color: #333333; color:white">
-        				<option ng-repeat="field in selectList">{{field}}</option>
-      				</select>
-				</div>
-			</div>
 			</div>
 			<div class="row" style="padding-left: 15px; padding-top: 15px">
 				<button type="button" class="btn btn-default btn-sm" ng-click="onClickText()">Text</button>

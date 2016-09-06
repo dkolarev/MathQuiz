@@ -30,6 +30,8 @@ angular
 	.controller('userGamePendingController', userGamePendingController)
 	.controller('userGameController', userGameController)
 	.controller('userGameEndController', userGameEndController)
+	.controller('editQuestionController', editQuestionController)
+	.controller('editQuizController', editQuizController)
 	.directive('checkUsername', checkUsername)
 	.directive('checkPassword', checkPassword)
 	.directive('checkEmail', checkEmail)
@@ -160,9 +162,20 @@ angular
 			})
 			.state('user.newquiz', {
 				needLogin: true,
-				url: '/quiz/newquiz/:quizId',
+				url: '/quiz/new',
 				templateUrl: 'templates/quiz/newQuiz.html',
 				controller: 'newQuizController',
+				resolve: {
+					data: function(questionResource) {
+						return questionResource.getQuestionsList(10).$promise;
+					}
+				}
+			})
+			.state('user.editquiz', {
+				needLogin: true,
+				url: '/quiz/edit/:quizId',
+				templateUrl: 'templates/quiz/newQuiz.html',
+				controller: 'editQuizController',
 				resolve: {
 					data: function(questionResource) {
 						return questionResource.getQuestionsList(10).$promise;
@@ -185,9 +198,15 @@ angular
 			})
 			.state('user.newquestion', {
 				needLogin: true,
-				url: '/question/newquestion/:questionId',
+				url: '/question/new',
 				templateUrl: 'templates/question/newQuestion.html',
-				controller: 'newQuestionController',
+				controller: 'newQuestionController'
+			})
+			.state('user.editquestion', {
+				needLogin: true,
+				url: '/question/edit/:questionId',
+				templateUrl: 'templates/question/newQuestion.html',
+				controller: 'editQuestionController',
 				resolve: {
 					data: function($stateParams, questionResource) {
 						return questionResource.getQuestionById($stateParams.questionId).$promise;
