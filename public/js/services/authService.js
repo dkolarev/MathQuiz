@@ -2,8 +2,8 @@
 
 function authService($window, $resource) {
 
-	var signIn = function(user) {
-		return $resource('/api/auth/signin').save(user);
+	var signUp = function(user) {
+		return $resource('/api/auth/signup').save(user);
 	};
 
 	var logIn = function(user) {
@@ -83,7 +83,7 @@ function authService($window, $resource) {
 	}
 
 	return {
-		signIn: signIn,
+		signUp: signUp,
 		logIn: logIn,
 		logOut: logOut,
 		saveToken: saveToken,

@@ -244,10 +244,12 @@ module.exports =  {
 		}
 	},
 
-	removeGame: function(quiz) {
-		var index = ActiveQuizzes.indexOf(quiz);
-		if (index >= 0) {
-			ActiveQuizzes.splice(index, 1);
+	removeGame: function(gameId) {
+		for(var index in ActiveQuizzes) {
+			if (ActiveQuizzes[index].gameId == gameId) {
+				ActiveQuizzes.splice(index, 1);
+				return;
+			}
 		}
 	},
 

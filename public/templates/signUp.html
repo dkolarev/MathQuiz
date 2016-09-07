@@ -1,16 +1,16 @@
 <div class="row text-center" style="padding-top: 90px">
 	<div class="col-xs-12">
-		<h2 style="color:  #F5F5F5">Sign In</h2>
+		<h2 style="color:  #F5F5F5">Sign Up</h2>
 	</div>
 	<div class="col-xs-12" style="margin-top: 10px">
 		<div class="signIn" style="color: #243942">
-			<form class="form" role="form" name="signInForm">
+			<form class="form" role="form" name="signUpForm">
 				<div class="form-group">
 					<label>Username</label>
 					<input type="text" name="username" class="form-control" ng-model="user.username" ng-model-options="{updateOn: 'blur'}" required ng-pattern="/^[0-9]*[A-Za-z][A-Za-z0-9]*$/" ng-minlength="5" check-username="user.username" placeholder="Enter username">
 
-					<div ng-messages="signInForm.username.$error" ng-show="signInForm.username.$touched" role="alert">
-                      <div ng-show="signInForm.username.$error.unique" class="errorMessage">Username already exists.</div>
+					<div ng-messages="signUpForm.username.$error" ng-show="signUpForm.username.$touched" role="alert">
+                      <div ng-show="signUpForm.username.$error.unique" class="errorMessage">Username already exists.</div>
                       <div ng-message="pattern" class="errorMessage">Username must have at least one letter.</div>
                       <div ng-message="minlength" class="errorMessage">Username must have at least five characters.</div>
                     </div>
@@ -18,27 +18,27 @@
 				<div class="form-group">
 					<label>Password</label>
 					<input type="password" name="password" required class="form-control" ng-model="user.password" ng-model-options="{updateOn: 'blur'}" ng-minlength="6" placeholder="Enter password">
-					<div ng-messages="signInForm.password.$error" ng-show="signInForm.password.$touched" role="alert">
+					<div ng-messages="signUpForm.password.$error" ng-show="signUpForm.password.$touched" role="alert">
 						<div ng-message="minlength" class="errorMessage">Password must be at least 6 characters.</div>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Repeat Password</label>
 					<input type="password" name="repeatPassword" required class="form-control" ng-model="repeatPassword" ng-model-options="{updateOn: 'blur'}" password="user.password" check-password="repeatPassword" placeholder="Enter password">
-					<div ng-messages="signInForm.repeatPassword.$error" ng-show="signInForm.repeatPassword.$touched" role="alert">
-						<div ng-show="signInForm.repeatPassword.$error.correct" class="errorMessage">Passwords don't match.</div>
+					<div ng-messages="signUpForm.repeatPassword.$error" ng-show="signInForm.repeatPassword.$touched" role="alert">
+						<div ng-show="signUpForm.repeatPassword.$error.correct" class="errorMessage">Passwords don't match.</div>
 					</div>
 				</div>
 				<div class="form-group">
 					<label>Email</label>
 					<input type="email" name="email" required class="form-control" ng-model="user.email" ng-pattern='/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/' ng-model-options="{updateOn: 'blur'}" check-email="user.email" placeholder="Enter email">
-					<div ng-messages="signInForm.email.$error" ng-show="signInForm.email.$touched" role="alert">
-						<div ng-show="signInForm.email.$error.unique" class="errorMessage">Email alredy taken.</div>
+					<div ng-messages="signUpForm.email.$error" ng-show="signUpForm.email.$touched" role="alert">
+						<div ng-show="signUpForm.email.$error.unique" class="errorMessage">Email alredy taken.</div>
 						<div ng-message="pattern" class="errorMessage">Not an email address.</div>
 					</div>
 				</div>
 				<div style="margin-top: 40px">
-					<button type="submit" class="btn btn-primary" ng-click="onClickSubmitRegistration(user, signInForm)">Submit</button>
+					<button type="submit" class="btn btn-primary" ng-click="onClickSubmitRegistration(user, signUpForm)">Submit</button>
 					<button type="button" class="btn btn-danger" ui-sref="main.index">Cancel</button>
 				<div>
 			</form>

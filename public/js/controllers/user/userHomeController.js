@@ -1,6 +1,15 @@
 //userHomeController.js
 
-function userHomeController ($scope, data, $interval, quizResource, $location, enumData, $window) {
+function userHomeController (
+	$scope, 
+	data, 
+	$interval, 
+	quizResource, 
+	$location, 
+	enumData, 
+	$window, 
+	modalService
+) {
 
 	$scope.dashboard = data.dashboard;
 
@@ -76,7 +85,11 @@ function userHomeController ($scope, data, $interval, quizResource, $location, e
 		} else {
 			$location.url('/user/game/end/' + gameId);
 		}
-	}	
+	};
+
+	$scope.onClickDissolve = function(gameId) {
+		var modalInstance = modalService.dissolveGameModal(gameId);
+	};	
 
 	$scope.$on('$destroy', function() {
 		if(angular.isDefined(dashboardTimer)) {

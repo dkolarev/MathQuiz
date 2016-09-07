@@ -8,9 +8,9 @@ function mainPageController($scope, $state, $window, authService, gameService) {
 	*	za daljnu komunikaciju sa serverom i redirekta korisnika
 	*	na /user stranicu.
 	*/
-	$scope.onClickSubmitRegistration = function(user, signInForm) {
-		if(signInForm.$valid){
-			authService.signIn(user).$promise.then(
+	$scope.onClickSubmitRegistration = function(user, signUpForm) {
+		if(signUpForm.$valid){
+			authService.signUp(user).$promise.then(
 				function(response) {
 					if (response.success) {
 						console.log("Succesfully sign in as + " + user.username);

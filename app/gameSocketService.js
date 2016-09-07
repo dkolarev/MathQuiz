@@ -80,9 +80,9 @@ var emitGameEnd = function(gameSocket) {
 	});
 };
 
-var emitRemoveDashboardElement = function(game) {
+var emitRemoveDashboardElement = function(gameId) {
 	socketio.emit('removeDashboardElement', {
-		gameId: game.gameId
+		gameId: gameId
 	});
 };
 

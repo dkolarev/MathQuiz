@@ -298,4 +298,24 @@ router.post('/play', function(req, res) {
 	}
 });
 
+router.delete('/dissolve/:gameId', function(req, res) {
+	var gameId = req.params.gameId;
+	var token = req.query.token || req.headers['x-auth-token'];
+	var user = extractTokenClaim(token);
+
+	var quiz = activeGamesCollection.getQuiz(gameId);
+
+	if(quiz.startedBy === user.username && quiz.gameStatus === gameStatusEnum.pendingStatus) {
+		gameControl.deleteGame(gameId, quiz.gameSocket);
+
+		res.send({
+			"success": true
+		});
+	} else {
+		res.send({
+			"success": false
+		});
+	}
+});
+
 module.exports = router;

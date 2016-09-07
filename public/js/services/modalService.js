@@ -44,6 +44,20 @@ function modalService($uibModal, questionResource) {
 			});
 		},
 
+		dissolveGameModal: function(gameId) {
+			return $uibModal.open({
+				animation: true,
+				templateUrl: 'templates/quiz/dissolveGameModal.html',
+				size: 'sm',
+				resolve: {
+					gameId: function() {
+						return gameId;
+					}
+				},
+				controller: 'dissolveGameModalController'
+			});
+		},
+
 		correctAnswerModal: function(correctAnswer) {
 			return $uibModal.open({
 					animation: true,

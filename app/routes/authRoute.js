@@ -57,11 +57,11 @@ router.get('/email/:email', function(req, res) {
 
 /**
 *	Ruta kojoj se pristupa pri uspjesnom
-*	popunjavanju 'signIn' forme. Poziva
+*	popunjavanju 'signUp' forme. Poziva
 *	se funkcija za dodavanje novog korisnika
 *	u bazu.
 */
-router.post('/signin', function(req, res) {
+router.post('/signup', function(req, res) {
 	var user = req.body;
 	var currentTime = new Date().toISOString();
 

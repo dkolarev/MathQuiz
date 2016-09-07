@@ -1,8 +1,6 @@
 <h1>HOME</h1>
 <div class="row" style="padding-right: 15px">
-	<div class="col-sm-6 col-md-8">
-	</div>
-	<div class="col-sm-6 col-md-4">
+	<div class="col-sm-10 col-md-8 col-lg-6">
 		<div ng-show="dashboard.length === 0">
 			<h3>No active games.</h3>
 		</div>
@@ -11,23 +9,24 @@
 	 		<ul uib-pagination total-items="totalCount" ng-model="currentPage" max-size="5" class="pagination-sm" boundary-links="true" items-per-page="pageItems" ng-change="onPageChange(pageItems, currentPage)"></ul>
 		</div>
 
-		<div ng-repeat="game in dashboard | paginationFilter:(currentPage - 1) * pageItems | limitTo: pageItems track by game.gameId" style="background-color: #5900b3; color: white; border-radius: 2px; height: 170px; padding: 15px; margin-bottom: 15px; border: 1px solid white">
+		<div ng-repeat="game in dashboard | paginationFilter:(currentPage - 1) * pageItems | limitTo: pageItems track by game.gameId" style="background-color: #5900b3; color: white; border-radius: 2px; min-height: 150px; padding: 15px; margin-bottom: 15px; border: 1px solid white">
 			<div class="col-xs-12" style="padding-left: 0px">
-				<span restrict-access user="user.username" created-by="game.startedBy" style="font-size: 19px; color: #ffff00"><strong>invitation: </strong>{{game.gameId}}</span>
+				<span restrict-access user="user.username" created-by="game.startedBy" ng-show="game.gameStatus === 'waiting for players'" style="font-size: 19px; color: #ffff00"><strong>invitation: </strong>{{game.gameId}}</span>
+				<button restrict-access user="user.username" created-by="game.startedBy" type="button" class="btn btn-danger btn-xs" ng-click="onClickDissolve(game.gameId)" style="float: right; margin-left: 12px"><i class="fa fa-times" aria-hidden="true"></i> Dissolve</button>
 				<button type="button" class="btn btn-info btn-xs" style="float: right" ng-click="onClickWatch(game.gameId, game.gameStatus)">Watch</button>
-				<button restrict-access user="user.username" created-by="game.startedBy" ng-show="game.gameStatus === 'waiting for players'" type="button" class="btn btn-success btn-xs" ng-click="onClickPlay(game.gameId, scoring)" style="float: right; margin-right: 2px">Play</button>
-				<div restrict-access user="user.username" created-by="game.startedBy" ng-show="game.gameStatus === 'waiting for players'" style="padding-bottom: 5px">
+				<button restrict-access user="user.username" created-by="game.startedBy" ng-show="game.gameStatus === 'waiting for players'" type="button" class="btn btn-success btn-xs" ng-click="onClickPlay(game.gameId, scoring)" style="float: right; margin-right: 5px">Play</button>
+				<span restrict-access user="user.username" created-by="game.startedBy" ng-show="game.gameStatus === 'waiting for players'" style="float: right; margin-right: 10px">
             		Scoring: 
             		<div class="btn-group">
                 		<label class="btn btn-primary btn-xs" ng-model="scoring" uib-btn-radio="'difficulty'" uncheckable uib-uncheckable="uncheckable"><i class="fa fa-level-up" aria-hidden="true"></i> Difficulty</label>
                 		<label class="btn btn-primary btn-xs" ng-model="scoring" uib-btn-radio="'time'" uncheckable uib-uncheckable="uncheckable"><i class="fa fa-clock-o" aria-hidden="true"></i> Time</label>
             		</div>
-            	</div>
+            	</span>
 			</div>
 			<div><strong>status: </strong>{{game.gameStatus}}</div>
 			<div><strong>quiz title: </strong>{{game.title}}</div>
 			<div><strong>started by: </strong>{{game.startedBy}}</div>
-			<uib-progressbar max="game.questionsNumber" value="game.currentQuestion" type="success" style="margin-top: 10px"><span style="color: #404040; white-space:nowrap;">{{game.currentQuestion}} / {{game.questionsNumber}}</span></uib-progressbar>
+			<uib-progressbar max="game.questionsNumber" value="game.currentQuestion" type="success" style="margin-top: 10px; margin-bottom: 0px"><span style="color: #404040; white-space:nowrap;">{{game.currentQuestion}} / {{game.questionsNumber}}</span></uib-progressbar>
 		</div>
 	</div>
 </div>

@@ -22,10 +22,7 @@ function profileQuizController($scope, $state, $location, data, modalService, qu
 	};
 
 	$scope.onClickDelete = function(quiz) {
-		var user = authService.getUser();
-		if (user.username === quiz.createdBy) {
-			var modalInstance = modalService.deleteQuizModal(quiz);
-		}
+		var modalInstance = modalService.deleteQuizModal(quiz);
 	};
 
 	$scope.onClickStartQuiz = function(quizId) {

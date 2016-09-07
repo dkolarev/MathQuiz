@@ -23,6 +23,8 @@ function gamePendingController($scope, gameService, $state, data) {
 	socket.on('gameStatus', function(data) {
 		if (data.status === 'start') {
 			$state.go('spectatorgame');
+		} else if (data.status === 'close') {
+			$state.go('main.index');
 		}
 	});
 

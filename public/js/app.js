@@ -32,6 +32,7 @@ angular
 	.controller('userGameEndController', userGameEndController)
 	.controller('editQuestionController', editQuestionController)
 	.controller('editQuizController', editQuizController)
+	.controller('dissolveGameModalController', dissolveGameModalController)
 	.directive('checkUsername', checkUsername)
 	.directive('checkPassword', checkPassword)
 	.directive('checkEmail', checkEmail)
@@ -100,10 +101,10 @@ angular
 				url: 'index',
 				templateUrl: '/templates/firstPageContent.html'
 			})
-			.state('main.signin', {
+			.state('main.signup', {
 				needLogin: false,
-				url: 'signin',
-				templateUrl: 'templates/signIn.html'
+				url: 'signup',
+				templateUrl: 'templates/signUp.html'
 			})
 			.state('main.login', {
 				needLogin: false,

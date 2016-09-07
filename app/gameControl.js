@@ -79,11 +79,11 @@ var extractWinner = function(scoreboard) {
 
 var startGameDeleteProcess = function(gameSocket, game) {
 	setTimeout(function(){
-		activeGamesCollection.removeGame(game);
-		
-		gameSocketService.emitRemoveDashboardElement(game); //emit admin update
+		gameSocketService.emitRemoveDashboardElement(game.gameId); //emit admin update
 		gameSocketService.emitGameClose(gameSocket);	//emit player update
 
+		activeGamesCollection.removeGame(game.gameId);
+		
 		activeGamesCollection.removeInactiveGames();
 	}, gameTimeConstant.deleteGameTimeout);
 };
@@ -163,5 +163,12 @@ module.exports = {
 
 			quizDataRepository.updateQuizRating(dbQuiz._id, newRatingCount, newRating);
 		});
+	},
+
+	deleteGame: function(gameId, gameSocket) {
+		gameSocketService.emitRemoveDashboardElement(gameId); //emit admin update
+		gameSocketService.emitGameClose(gameSocket);	//emit player update
+
+		activeGamesCollection.removeGame(gameId);		
 	}
 };

@@ -25,6 +25,8 @@ function createTeamController($scope, $rootScope, $state, gameResource, gameServ
 		if (data.status === 'start') {
 			$rootScope.team = $scope.team;
 			$state.go('quizgame');
+		} else if (data.status === 'close') {
+			$state.go('main.index');
 		}
 	});
 

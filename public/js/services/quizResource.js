@@ -52,6 +52,11 @@ function quizResource($resource) {
 		playQuiz: function(data) {
 			return $resource('/api/quiz/play')
 				.save(data);
+		},
+
+		dissolveGame: function(gameId) {
+			return $resource('/api/quiz/dissolve/:gameId', {gameId: '@gameId'})
+				.delete({gameId: gameId});
 		}
 	};
 }

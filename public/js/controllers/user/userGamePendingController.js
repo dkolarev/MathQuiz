@@ -9,7 +9,8 @@ function userGamePendingController(
 	quizResource, 
 	$location, 
 	$stateParams,
-	enumData
+	enumData,
+	modalService
 ) {
 	if(data.status === enumData.gameStatusEnum.playingStatus) {
 		$location.url('/user/game/playing/' + gameId);
@@ -35,6 +36,8 @@ function userGamePendingController(
 	socket.on('gameStatus', function(data) {
 		if (data.status === 'start') {
 			$location.url('/user/game/playing/' + gameId);
+		} else if (data.status === 'close') {
+			$state.go('user.home');
 		}
 	});
 
@@ -55,6 +58,10 @@ function userGamePendingController(
 		}, function(response) {
 			console.log(response);
 		});
+	};
+
+	$scope.onClickDissolve = function(gameId) {
+		var modalInstance = modalService.dissolveGameModal(gameId);
 	};
 	
 	$scope.$on('destroy', function() {

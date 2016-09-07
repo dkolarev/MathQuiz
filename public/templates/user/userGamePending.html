@@ -5,7 +5,7 @@
 		</button>
 	</div>
 	<div restrict-access user="user.username" created-by="startedBy" class="col-xs-12 col-sm-10">
-		<span style="margin-right: 15px">game invitation: {{gameId}}</span>
+		<span style="margin-right: 15px">game invitation: <strong>{{gameId}}</strong></span>
 		<span restrict-access user="user.username" created-by="startedBy" style="padding-bottom: 5px">
             Scoring: 
             <div class="btn-group">
@@ -15,6 +15,7 @@
         </span>
 		<button type="button" class="btn btn-success" ng-click="onClickPlay(gameId, scoring)">Play</button>
 		<span class="errorMessage" ng-show="playError" style="padding: 0px; color: #ff6600">{{playError}}</span>
+		<button restrict-access user="user.username" created-by="startedBy" type="button" class="btn btn-danger btn-xs" ng-click="onClickDissolve(gameId)" style="margin-top: 5px; float: right"><i class="fa fa-times" aria-hidden="true"></i> Dissolve</button>
 	</div>
 </div>
 <div class="col-xs-12">
