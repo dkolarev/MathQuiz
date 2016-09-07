@@ -18,14 +18,9 @@ var options = {
 
 module.exports.connect = function(config, callb) {
 	mongoClient.connect(config.db, options, function(err, database) {
-		/*if (err) {
-			throw new Error('Unable to connect to database ' + config.db);
-		}*/
-
 		require('../data/user/userDataRepository').init(database);
 		require('../data/question/questionDataRepository').init(database);
 		require('../data/quiz/quizDataRepository').init(database);
-		require('../data/activity/activityDataRepository').init(database);
 		
 		callb();
 	});

@@ -24,6 +24,21 @@ function gameService ($window, $resource) {
 		return;	
 	};
 
+	var saveTeamId = function(teamId) {
+		$window.localStorage.teamId = teamId;
+	};
+
+	var deleteTeamId = function() {
+		if ($window.localStorage.teamId) {
+			delete $window.localStorage.teamId;
+		}
+		return;
+	};
+
+	var getTeamId = function() {
+		return $window.localStorage.teamId;
+	}
+
 	/**
 	*	Vraca gameId iz localStorage-a.
 	*/
@@ -35,6 +50,9 @@ function gameService ($window, $resource) {
 		verifyGameId: verifyGameId,
 		saveGameId: saveGameId,
 		getGameId: getGameId,
-		deleteGameId: deleteGameId
+		deleteGameId: deleteGameId,
+		saveTeamId: saveTeamId,
+		deleteTeamId: deleteTeamId,
+		getTeamId: getTeamId
 	}
 };

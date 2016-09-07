@@ -6,7 +6,7 @@
 			<span style="float: left">Team</span>
 			<span style="float: right">Points</span>
 		</div>
-		<div class="col-xs-12 team" style="padding: 15px 20px" ng-repeat="scoreboardTeam in scoreboard | paginationFilter:(currentPage - 1) * pageItems | limitTo:pageItems track by scoreboardTeam.teamId" ng-class="{'leader': (($index + 1) + (currentPage - 1)*pageItems) == 1, 'currentTeam': team.teamId === scoreboardTeam.teamId}">
+		<div class="col-xs-12 team" style="padding: 15px 20px" ng-repeat="scoreboardTeam in scoreboard | paginationFilter:(currentPage - 1) * pageItems | limitTo:pageItems track by scoreboardTeam.teamId" ng-class="{'leader': (($index + 1) + (currentPage - 1)*pageItems) == 1, 'currentTeam': teamId == scoreboardTeam.teamId}">
 			<span style="float:left; margin-right: 20px">{{($index + 1) + (currentPage - 1)*pageItems}}</span>
 			<span style="float:left">{{scoreboardTeam.teamName}}</span>
 			<span style="float:right">{{scoreboardTeam.teamPoints}}</span>
@@ -32,21 +32,21 @@
 
 	<div style="margin-top: 25px">
             		<ul class="list-unstyled">
-						<li class="col-sm-6">
+						<li class="col-sm-12 col-md-6">
 						<button type="button" id="button1" class="btn btn-default answerButton col-xs-12" ng-disabled="answerSended" ng-click="onClickSendAnswer(currentQuestion.questionAllAnswers.answer1,
 						currentQuestion.questionId, 'button1', timer)">
 						<strong>A: </strong><span dynamic-bind="currentQuestion.questionAllAnswers.answer1"></span></button></li> 
-						<li class="col-sm-6">
+						<li class="col-sm-12 col-md-6">
 						<button type="button" id="button2" class="btn btn-default answerButton col-xs-12" ng-disabled="answerSended" ng-click="onClickSendAnswer(
 						currentQuestion.questionAllAnswers.answer2,
 						currentQuestion.questionId, 'button2', timer)">
 						<strong>B: </strong><span dynamic-bind="currentQuestion.questionAllAnswers.answer2"></span></button></li> 
-						<li class="col-sm-6">
+						<li class="col-sm-12 col-md-6">
 						<button type="button" id="button3" class="btn btn-default answerButton col-xs-12" ng-disabled="answerSended" ng-click="onClickSendAnswer(
 						currentQuestion.questionAllAnswers.answer3,
 						currentQuestion.questionId, 'button3', timer)">
 						<strong>C: </strong><span dynamic-bind="currentQuestion.questionAllAnswers.answer3"></span></button></li> 
-						<li class="col-sm-6">
+						<li class="col-sm-12 col-md-6">
 						<button type="button" id="button4" class="btn btn-default answerButton col-xs-12" ng-disabled="answerSended" ng-click="onClickSendAnswer(
 						currentQuestion.questionAllAnswers.answer4,
 						currentQuestion.questionId, 'button4', timer)">

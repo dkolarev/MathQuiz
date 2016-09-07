@@ -65,12 +65,19 @@ angular
 					var token = $window.localStorage.token;
 					// gameId za pristup igri
 					var gameId = $window.localStorage.gameId;
+					//teamId u igri
+					var teamId = $window.localStorage.teamId;
+
 					if(token) {
 						config.headers['x-auth-token'] = token;
 					}
 					if (gameId) {
 						config.headers['gameid'] = gameId;
 					}
+					if (teamId) {
+						config.headers['teamid'] = teamId;
+					}
+					
 					return config;
 				},
 				/**

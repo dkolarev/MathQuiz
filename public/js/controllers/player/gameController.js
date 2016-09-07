@@ -2,7 +2,6 @@
 
 function gameController(
 	$scope, 
-	$rootScope, 
 	gameService, 
 	data, 
 	correctAnswerService, 
@@ -12,16 +11,24 @@ function gameController(
 	$interval
 ) {
 
-	$scope.answerSended = false;
-	$scope.teamSended = false;
+	if(data.answered) {
+		$scope.answerSended = true;
+	} else {
+		$scope.answerSended = false;
+	}
 
-	$scope.showAlert = false;
-
+	$scope.teamId = gameService.getTeamId();
 	var gameId = gameService.getGameId();
+	
 	var socketNamespace = '/' + gameId;
 	var socket = io(socketNamespace);
 
 	$scope.currentQuestion = data.question;
+
+	data.scoreboard.sort(function(a,b) {
+		return (a.teamPoints - b.teamPoints) ? 1 : ((b.teamPoints - a.teamPoints) ? -1 : 0);
+	});
+
 	$scope.scoreboard = data.scoreboard;
 
 	$scope.totalCount = data.scoreboard.length;
@@ -70,10 +77,11 @@ function gameController(
 	});
 
 	$scope.onClickSendAnswer = function(answer, questionId, buttonId, answerTime) {
+		var teamId = gameService.getTeamId();
 		var data = {
 			'answer': answer,
 			'questionId': questionId,
-			'teamId': $rootScope.team.teamId,
+			'teamId': teamId,
 			'answerTime': answerTime
 		};
 

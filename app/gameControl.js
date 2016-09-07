@@ -59,7 +59,11 @@ var emitTimer = function(gameSocket, time, quiz) {
 			}
 		}, 1000);
 };
-	
+
+/**
+*	Provjeri koliko je igraca odgovorilo na pitanje.
+*	Ako su svi igraci odgovorili, prijedji na novo pitanje.
+*/	
 var checkAnsweredCounter = function(gameId) {
 	var quiz = activeGamesCollection.getQuiz(gameId);
 	var answersRecieved = quiz.answersRecieved;
@@ -71,12 +75,19 @@ var checkAnsweredCounter = function(gameId) {
 	}
 };
 
+
+//dohvati pobijednika
 var extractWinner = function(scoreboard) {
 	return scoreboard.reduce(function(prev, current) {
     			return (prev.pointsSum > current.pointsSum) ? prev : current
 			});
 };
 
+/**
+*	Zapocni proces brisanja igre. Nakon odredjenog vremena
+*	posalji status o brisanju administratorima i igracima
+*	te nakon toga obrisi igru.
+*/
 var startGameDeleteProcess = function(gameSocket, game) {
 	setTimeout(function(){
 		gameSocketService.emitRemoveDashboardElement(game.gameId); //emit admin update
@@ -88,6 +99,10 @@ var startGameDeleteProcess = function(gameSocket, game) {
 	}, gameTimeConstant.deleteGameTimeout);
 };
 
+/**
+*	Promijeni sljedece pitanje. Prije toga emitiraj igracima
+*	tocan odgovor trenutnog pitanja.
+*/
 var questionTransition = function(gameSocket, quiz) {
 	var question = quiz.questions[quiz.currentQuestionPointer];
 	gameSocketService.emitCorrectAnswer(gameSocket, question.correctAnswer);

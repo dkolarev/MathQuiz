@@ -1,20 +1,24 @@
 //createTeamController.js
 
-function createTeamController($scope, $rootScope, $state, gameResource, gameService) {
+function createTeamController($scope, $state, gameResource, gameService) {
 	
 	$scope.config = {
     	theme: 'minimal-dark',
     	axis: 'y'
   	};
 
-	$rootScope.team = {};
+	$scope.team = {};
 	$scope.player = "";
 	$scope.team.players = [{'id':1}];
 
-	$scope.answerSended = false;
-	$scope.teamSended = false;
-
-	$scope.showAlert = false;
+	//provjeri je li korisnik vec unio podatke
+	if(gameService.getTeamId()) {
+		$scope.teamSended = true;
+		$scope.showAlert = true;
+	} else {
+		$scope.teamSended = false;
+		$scope.showAlert = false;
+	}
 
 	var gameId = gameService.getGameId();
 	var socketNamespace = '/' + gameId;
@@ -23,7 +27,6 @@ function createTeamController($scope, $rootScope, $state, gameResource, gameServ
 
 	socket.on('gameStatus', function(data) {
 		if (data.status === 'start') {
-			$rootScope.team = $scope.team;
 			$state.go('quizgame');
 		} else if (data.status === 'close') {
 			$state.go('main.index');
@@ -51,9 +54,11 @@ function createTeamController($scope, $rootScope, $state, gameResource, gameServ
 		if(team.players[0].name) {
 			gameResource.saveTeam(team).$promise.then(function(response) {
 			if(response.success) {
-				$rootScope.team.teamId = response.teamId;
+				gameService.saveTeamId(response.teamId);
 				$scope.teamSended = true;
 				$scope.showAlert = true;
+			} else {
+				$scope.gameStarted = response.message;
 			} 		
 		}, function(response) {
 			console.log(response);

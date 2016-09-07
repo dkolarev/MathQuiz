@@ -1,6 +1,10 @@
 //mainPageController.js
 
 function mainPageController($scope, $state, $window, authService, gameService) {
+	
+	gameService.deleteTeamId();
+	gameService.deleteGameId();
+
 	/**
 	*	Ako je signIn forma valjano popunjena posalji popunjene
 	*	informacije na server za unos u bazu. Kao odgovor korisnik

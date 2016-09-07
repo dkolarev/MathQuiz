@@ -59,28 +59,36 @@ router.post('/saveteam', function(req, res) {
 		team.pointsSum = 0; //ukupni bodovi koje je tim dobio
 
 		var quiz = activeGamesCollection.getQuiz(gameId);
-		if (quiz.gameStatus === gameStatusEnum.pendingStatus) {
-			//ubaci tim u listu timova za kviz s tim gameId
-			activeGamesCollection.insertTeam(team, gameId, function(teamId) {
-				res.send({
-					'success': true,
-					'teamId': teamId
-				});
+		if (quiz) {
+			if (quiz.gameStatus === gameStatusEnum.pendingStatus) {
+				//ubaci tim u listu timova za kviz s tim gameId
+				activeGamesCollection.insertTeam(team, gameId, function(teamId) {
+					res.send({
+						'success': true,
+						'teamId': teamId
+					});
 
-				team.teamId = teamId;
+					team.teamId = teamId;
 				
-				var gameSocket = activeGamesCollection.getGameSocket(gameId);
-				gameSocketService.emitNewTeam(gameSocket, team);
-			});
+					var gameSocket = activeGamesCollection.getGameSocket(gameId);
+					gameSocketService.emitNewTeam(gameSocket, team);
+				});
+			} else {
+				res.send({
+					"success": false,
+					"message": "Cannot register team for started game."
+				});
+			}
 		} else {
 			res.send({
-				'success': false,
-				'details': 'game in progress'
+				"success": false,
+				"message": "Game not exist."
 			});
 		}
 	} else {
 		res.send({
-			'success': false
+			"success": false,
+			"message": "Invalid team input. Try again."
 		});
 	}
 });
@@ -90,6 +98,7 @@ router.post('/saveteam', function(req, res) {
 */
 router.get('/quiz', function(req, res) {
 	var gameId = req.query.gameId || req.headers['gameid'];
+	var teamId = req.query.teamId || req.headers['teamid'];
 
 	var quiz = activeGamesCollection.getQuiz(gameId);
 	question = quiz.questions[quiz.currentQuestionPointer];
@@ -97,10 +106,30 @@ router.get('/quiz', function(req, res) {
 	var playerQuestion = gameMapper.questionToPlayerQuestion(question);
 	var scoreboard = gameMapper.teamListToScoreboardData(quiz.teams);
 
-	res.send({
-		question: playerQuestion,
-		scoreboard: scoreboard
-	});
+	if(teamId) {
+		var teamAnswer = activeGamesCollection.getTeamAnswer(gameId, teamId, question._id);
+
+		if (teamAnswer) {
+			res.send({
+				"question": playerQuestion,
+				"scoreboard": scoreboard,
+				"answered": true,
+				"success": teamAnswer.success,
+				"answer": teamAnswer.answer
+			});
+		} else {
+			res.send({
+				question: playerQuestion,
+				scoreboard: scoreboard,
+				"answered": false
+			});
+		}
+	} else {
+		res.send({
+			question: playerQuestion,
+			scoreboard: scoreboard
+		});
+	}
 });
 
 /**
@@ -109,15 +138,22 @@ router.get('/quiz', function(req, res) {
 */
 router.get('/teams', function(req, res) {
 	var gameId = req.query.gameId || req.headers['gameid'];
+	var teamId = req.query.teamId || req.headers['teamid'];
 
 	var quiz = activeGamesCollection.getQuiz(gameId);
-	var metadataList = gameMapper.teamListToTeamMetadataList(quiz.teams);
 
-	res.send({
-		teams: metadataList,
-		status: quiz.gameStatus,
-		startedBy: quiz.startedBy
-	});
+	if (quiz) {
+		var metadataList = gameMapper.teamListToTeamMetadataList(quiz.teams);
+
+		res.send({
+			"teams": metadataList,
+			"status": quiz.gameStatus,
+			"startedBy": quiz.startedBy
+		});
+	} else {
+		res.end();
+	}
+	
 });
 
 /**
@@ -126,14 +162,27 @@ router.get('/teams', function(req, res) {
 router.post('/sendanswer', function(req, res) {
 	var data = req.body;
 	var gameId = req.query.gameId || req.headers['gameid'];
+	var teamId = req.query.teamId || req.headers['teamid'];
 
-	var correct = gameControl.validateAnswer(data.answer, gameId, data.questionId, data.teamId, data.answerTime);
+	/**
+	*	Provjeri je li tim vec odgovorio na pitanje. Ako je
+	*	ne dozvoli mu da ponovno spremi odgovor.
+	*/
+	var teamAnswer = activeGamesCollection.getTeamAnswer(gameId, teamId, data.questionId);
 
-	res.send({
-		correct: correct
-	});
+	if(teamAnswer) {
+		res.send({
+			correct: teamAnswer.success
+		});
+	} else {
+		var correct = gameControl.validateAnswer(data.answer, gameId, data.questionId, data.teamId, data.answerTime);
 
-	gameControl.iterateAnsweredCounter(gameId);
+		res.send({
+			correct: correct
+		});
+
+		gameControl.iterateAnsweredCounter(gameId);
+	}
 });
 
 /**

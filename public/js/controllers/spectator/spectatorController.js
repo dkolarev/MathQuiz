@@ -14,6 +14,11 @@ function spectatorController(
 	var socket = io(socketNamespace);
 
 	$scope.currentQuestion = data.question;
+
+	data.scoreboard.sort(function(a,b) {
+		return (a.teamPoints - b.teamPoints) ? 1 : ((b.teamPoints - a.teamPoints) ? -1 : 0);
+	});
+	
 	$scope.scoreboard = data.scoreboard;
 
 	$scope.totalCount = data.scoreboard.length;
