@@ -155,11 +155,17 @@ router.get('/winnerdata', function(req, res) {
 	var gameId = req.query.gameId || req.headers['gameid'];
 
 	var data = gameControl.getWinnerData(gameId);
-
-	res.send({
-		"scoreboard": data.scoreboard,
-		"winner": data.winner
-	});
+	if (data.winner.teamPoints > 0) {
+		res.send({
+			"scoreboard": data.scoreboard,
+			"winner": data.winner
+		});
+	} else {
+		res.send({
+			"scoreboard": data.scoreboard,
+			"winner": null
+		});
+	}
 });
 
 module.exports = router;

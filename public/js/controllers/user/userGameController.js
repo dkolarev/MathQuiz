@@ -35,9 +35,7 @@ function userGameController(
 		if($scope.modalInstance) {
 			$scope.modalInstance.close('close');
 		}
-
 		$scope.currentQuestion = data.question;
-		console.log($scope.currentQuestion);
 		$scope.timer = data.time;
 
 		$scope.$apply();

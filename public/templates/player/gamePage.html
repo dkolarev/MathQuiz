@@ -16,7 +16,7 @@
 
 
 
-<div class="col-xs-12 col-sm-8 col-md-8 col-lg-9">
+<div class="col-xs-12 col-sm-8 col-md-8 col-lg-9" style="height: 100%; overflow:auto">
 	<div class="row">
 		<div class="col-xs-12"; style="padding-right: 50px">
 		<span style="float: right; font-size: 40px">{{timer || 0 | timerFilter | date: 'HH:mm:ss'}}</span>
@@ -35,22 +35,22 @@
 						<li class="col-sm-6">
 						<button type="button" id="button1" class="btn btn-default answerButton col-xs-12" ng-disabled="answerSended" ng-click="onClickSendAnswer(currentQuestion.questionAllAnswers.answer1,
 						currentQuestion.questionId, 'button1', timer)">
-						<strong>A: </strong>{{currentQuestion.questionAllAnswers.answer1}}</button></li> 
+						<strong>A: </strong><span dynamic-bind="currentQuestion.questionAllAnswers.answer1"></span></button></li> 
 						<li class="col-sm-6">
 						<button type="button" id="button2" class="btn btn-default answerButton col-xs-12" ng-disabled="answerSended" ng-click="onClickSendAnswer(
 						currentQuestion.questionAllAnswers.answer2,
 						currentQuestion.questionId, 'button2', timer)">
-						<strong>B: </strong>{{currentQuestion.questionAllAnswers.answer2}}</button></li> 
+						<strong>B: </strong><span dynamic-bind="currentQuestion.questionAllAnswers.answer2"></span></button></li> 
 						<li class="col-sm-6">
 						<button type="button" id="button3" class="btn btn-default answerButton col-xs-12" ng-disabled="answerSended" ng-click="onClickSendAnswer(
 						currentQuestion.questionAllAnswers.answer3,
 						currentQuestion.questionId, 'button3', timer)">
-						<strong>C: </strong>{{currentQuestion.questionAllAnswers.answer3}}</button></li> 
+						<strong>C: </strong><span dynamic-bind="currentQuestion.questionAllAnswers.answer3"></span></button></li> 
 						<li class="col-sm-6">
 						<button type="button" id="button4" class="btn btn-default answerButton col-xs-12" ng-disabled="answerSended" ng-click="onClickSendAnswer(
 						currentQuestion.questionAllAnswers.answer4,
 						currentQuestion.questionId, 'button4', timer)">
-						<strong>D: </strong>{{currentQuestion.questionAllAnswers.answer4}}</button></li>
+						<strong>D: </strong><span dynamic-bind="currentQuestion.questionAllAnswers.answer4"></span></button></li>
             		</ul>
             	</div>
     </div>

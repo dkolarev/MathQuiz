@@ -7,7 +7,13 @@ function gameEndController($scope, $state, data, gameService, gameResource, $int
 	});
 
 	$scope.scoreboard = data.scoreboard;
-	$scope.winner = data.winner;
+
+	if(data.winner) {
+		$scope.winner = data.winner;
+	} else {
+		$scope.noWinner = true;
+	}
+
 	$scope.rated = false;
 
 	$scope.totalCount = data.scoreboard.length;

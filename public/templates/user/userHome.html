@@ -11,8 +11,8 @@
 
 		<div ng-repeat="game in dashboard | paginationFilter:(currentPage - 1) * pageItems | limitTo: pageItems track by game.gameId" style="background-color: #5900b3; color: white; border-radius: 2px; min-height: 150px; padding: 15px; margin-bottom: 15px; border: 1px solid white">
 			<div class="col-xs-12" style="padding-left: 0px">
-				<span restrict-access user="user.username" created-by="game.startedBy" ng-show="game.gameStatus === 'waiting for players'" style="font-size: 19px; color: #ffff00"><strong>invitation: </strong>{{game.gameId}}</span>
-				<button restrict-access user="user.username" created-by="game.startedBy" type="button" class="btn btn-danger btn-xs" ng-click="onClickDissolve(game.gameId)" style="float: right; margin-left: 12px"><i class="fa fa-times" aria-hidden="true"></i> Dissolve</button>
+				<span restrict-access user="user.username" created-by="game.startedBy" style="font-size: 19px; color: #ffff00"><strong>invitation: </strong>{{game.gameId}}</span>
+				<button restrict-access user="user.username" created-by="game.startedBy" ng-show="game.gameStatus === 'waiting for players'" type="button" class="btn btn-danger btn-xs" ng-click="onClickDissolve(game.gameId)" style="float: right; margin-left: 12px"><i class="fa fa-times" aria-hidden="true"></i> Dissolve</button>
 				<button type="button" class="btn btn-info btn-xs" style="float: right" ng-click="onClickWatch(game.gameId, game.gameStatus)">Watch</button>
 				<button restrict-access user="user.username" created-by="game.startedBy" ng-show="game.gameStatus === 'waiting for players'" type="button" class="btn btn-success btn-xs" ng-click="onClickPlay(game.gameId, scoring)" style="float: right; margin-right: 5px">Play</button>
 				<span restrict-access user="user.username" created-by="game.startedBy" ng-show="game.gameStatus === 'waiting for players'" style="float: right; margin-right: 10px">

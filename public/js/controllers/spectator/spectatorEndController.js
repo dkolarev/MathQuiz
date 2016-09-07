@@ -7,7 +7,12 @@ function spectatorEndController($scope, gameService, $state, data, $interval) {
 	});
 
 	$scope.scoreboard = data.scoreboard;
-	$scope.winner = data.winner;
+
+	if(data.winner) {
+		$scope.winner = data.winner;
+	} else {
+		$scope.noWinner = true;
+	}
 
 	$scope.totalCount = data.scoreboard.length;
 	$scope.currentPage = 1;
