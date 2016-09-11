@@ -31,7 +31,6 @@ function newQuestionController($scope, $state, questionResource, uploadFile, enu
 	*	onchange="angular.element(this).scope().onClickUpload(this)"
 	*/
 	$scope.onClickUpload = function(element) {
-		console.log("DAV");
    		uploadFile.upload(element, function(image) {
    			$scope.newQuestion.image = image;
    			$scope.$apply();
