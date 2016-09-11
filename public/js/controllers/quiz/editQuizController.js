@@ -9,7 +9,8 @@ function editQuizController(
 	data, 
 	quiz, 
 	enumData,
-	questionFilterService
+	questionFilterService,
+	$location
 ) {
 	$scope.config = {
     	theme: 'minimal-dark',
@@ -91,6 +92,9 @@ function editQuizController(
 		filter = questionFilterService.clearDifficultyFilter(filter);
 	};
 
+	$scope.onClickCancel = function() {
+		$location.url('/user/quiz/quizprofile/' + quiz.quiz._id);
+	};
 
 	$scope.$on('destroy', function() {
 		socket.removeAllListeners();

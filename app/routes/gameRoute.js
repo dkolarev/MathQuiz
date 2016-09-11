@@ -7,9 +7,9 @@
 var express = require('express');
 var activeGamesCollection = require('../data/game/activeGamesCollection');
 var teamDataValidator = require('../data/game/teamDataValidator');
-var gameControl = require('../gameControl');
+var gameControl = require('../scripts/gameControl');
 var gameMapper = require('../mappers/gameMapper');
-var gameSocketService = require('../gameSocketService');
+var gameSocketService = require('../scripts/gameSocketService');
 var gameStatusEnum = require('../data/game/gameStatusEnum');
 
 

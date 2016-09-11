@@ -33,7 +33,7 @@ function gameController(
 
 	$scope.totalCount = data.scoreboard.length;
 	$scope.currentPage = 1;
-	$scope.pageItems = 2;
+	$scope.pageItems = 10;
 
 	socket.on('gameStatus', function(data) {
 		if (data.status == 'end') {

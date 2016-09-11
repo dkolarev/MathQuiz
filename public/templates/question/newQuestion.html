@@ -27,22 +27,90 @@
 					</div>
 				</div>
 			</div>
-			<div class="row" style="padding-left: 15px; padding-top: 15px">
-				<button type="button" class="btn btn-default btn-sm" ng-click="onClickText()">Text</button>
-				<button type="button" class="btn btn-default btn-sm" ng-click="onClickSum()">Sum</button>
-				<button type="button" class="btn btn-default btn-sm" ng-click="onClickProduct()">Product</button>
-				<button type="button" class="btn btn-default btn-sm" ng-click="onClickSqrt()">Sqrt</button>
-				<button type="button" class="btn btn-default btn-sm" ng-click="onClickIntegral()">Integral</button>
-				<button type="button" class="btn btn-default btn-sm" ng-click="onClickLim()">Lim</button>
-				<button type="button" class="btn btn-default btn-sm" ng-click="onClickFrac()">Frac</button>
-				<button type="button" class="btn btn-default btn-sm" ng-click="onClickSin()">Sin</button>
-				<button type="button" class="btn btn-default btn-sm" ng-click="onClickCos()">Cos</button>
-				<button type="button" class="btn btn-default btn-sm" ng-click="onClickTan()">Tan</button>
-				<button type="button" class="btn btn-default btn-sm" ng-click="onClickCot()">Cot</button>
-				<button type="button" class="btn btn-default btn-sm" ng-click="onClickArcSin()">ArcSin</button>
-				<button type="button" class="btn btn-default btn-sm" ng-click="onClickArcCos()">ArcCos</button>
-				<button type="button" class="btn btn-default btn-sm" ng-click="onClickArcTan()">ArcTan</button>
-				<button type="button" class="btn btn-default btn-sm" ng-click="onClickArcCot()">ArcCot</button>
+			<div ng-controller="mathFunctionsController" class="row" style="padding-left: 15px; padding-top: 15px">
+
+				<uib-tabset active="active">
+					<uib-tab index="0" heading="Math">
+						<div class="btn-group btn-group-sm">
+							<button type="button" class="btn btn-default" ng-click="onClickDollar()">$</button>
+							<button type="button" class="btn btn-default" ng-click="onClickDoubleDollar()">$$</button>
+							<button type="button" class="btn btn-default" ng-click="onClickSqrt()">&radic;</button>
+							<button type="button" class="btn btn-default" ng-click="onClickNSqrt()">n&radic;</button>
+							<button type="button" class="btn btn-default" ng-click="onClickIntegral()">&int;</button>
+							<button type="button" class="btn btn-default" ng-click="onClickSum()">&sum;</button>
+							<button type="button" class="btn btn-default" ng-click="onClickProduct()">&prod;</button>
+							<button type="button" class="btn btn-default" ng-click="onClickBigCap()">&cap;</button>
+							<button type="button" class="btn btn-default" ng-click="onClickBigCup()">&cup;</button>
+							<button type="button" class="btn btn-default" ng-click="onClickOr()">&or;</button>
+							<button type="button" class="btn btn-default" ng-click="onClickAnd()">&and;</button>
+							<button type="button" class="btn btn-default" ng-click="onClickIsElement()">&isin;</button>
+							<button type="button" class="btn btn-default" ng-click="onClickForAll()">&forall;</button>
+							<button type="button" class="btn btn-default" ng-click="onClickExist()">&exist;</button>
+							<button type="button" class="btn btn-default" ng-click="onClickSubset()">&sub;</button>
+							<button type="button" class="btn btn-default" ng-click="onClickSubseteq()">&sube;</button>
+							<button type="button" class="btn btn-default" ng-click="onClickLeq()">&le;</button>
+							<button type="button" class="btn btn-default" ng-click="onClickGeq()">&ge;</button>
+							<button type="button" class="btn btn-default" ng-click="onClickEquiv()">&equiv;</button>
+							<button type="button" class="btn btn-default" ng-click="onClickSim()">&sim;</button>
+							<button type="button" class="btn btn-default" ng-click="onClickAprox()">&asymp;</button>
+							<button type="button" class="btn btn-default" ng-click="onClickCong()">&cong;</button><button type="button" class="btn btn-default" ng-click="onClickNeq()">&ne;</button>
+							<button type="button" class="btn btn-default" ng-click="onClickEmptySet()">&empty;</button>
+							<button type="button" class="btn btn-default" ng-click="onClickInfinity()">&infin;</button>
+							<button type="button" class="btn btn-default" ng-click="onClickNabla()">&nabla;</button>
+						</div>
+					</uib-tab>
+    				<uib-tab index="1" heading="Functions">
+    					<div class="btn-group btn-group-sm">
+							<button type="button" class="btn btn-default btn-sm" ng-click="onClickText()">Text</button>												
+							<button type="button" class="btn btn-default btn-sm" ng-click="onClickLim()">Lim</button>
+							<button type="button" class="btn btn-default" ng-click="onClickLimInf()">Lim inf</button>
+							<button type="button" class="btn btn-default" ng-click="onClickLimSup()">Lim sup</button>
+							<button type="button" class="btn btn-default" ng-click="onClickInf()">Inf</button>
+							<button type="button" class="btn btn-default" ng-click="onClickSup()">Sup</button>
+							<button type="button" class="btn btn-default" ng-click="onClickFrac()">Frac</button>
+							<button type="button" class="btn btn-default" ng-click="onClickLn()">Ln</button>
+							<button type="button" class="btn btn-default" ng-click="onClickLog()">Log</button>
+							<button type="button" class="btn btn-default" ng-click="onClickExp()">Exp</button>
+							<button type="button" class="btn btn-default btn-sm" ng-click="onClickSin()">Sin</button>
+							<button type="button" class="btn btn-default btn-sm" ng-click="onClickCos()">Cos</button>
+							<button type="button" class="btn btn-default btn-sm" ng-click="onClickTan()">Tan</button>
+							<button type="button" class="btn btn-default btn-sm" ng-click="onClickCot()">Cot</button>
+							<button type="button" class="btn btn-default btn-sm" ng-click="onClickArcSin()">ArcSin</button>
+							<button type="button" class="btn btn-default btn-sm" ng-click="onClickArcCos()">ArcCos</button>
+							<button type="button" class="btn btn-default btn-sm" ng-click="onClickArcTan()">ArcTan</button>
+						</div>
+    				</uib-tab>
+    				<uib-tab index="2" heading="Greek">
+    					<div class="btn-group">
+    						<button type="button" class="btn btn-default" ng-click="onClickGamma()">&Gamma;</button>
+    						<button type="button" class="btn btn-default" ng-click="onClickDelta()">&Delta;</button>
+    						<button type="button" class="btn btn-default" ng-click="onClickTheta()">&Theta;</button>
+    						<button type="button" class="btn btn-default" ng-click="onClickLambda()">&Lambda;</button>
+    						<button type="button" class="btn btn-default" ng-click="onClickPi()">&Pi;</button>
+    						<button type="button" class="btn btn-default" ng-click="onClickSigma()">&Sigma;</button>
+    						<button type="button" class="btn btn-default" ng-click="onClickPhi()">&Phi;</button>
+    						<button type="button" class="btn btn-default" ng-click="onClickPsi()">&Psi;</button>
+    						<button type="button" class="btn btn-default" ng-click="onClickOmega()">&Omega;</button>
+    						<button type="button" class="btn btn-default" ng-click="onClickLittleAlpha()">&alpha;</button>
+    						<button type="button" class="btn btn-default" ng-click="onClickLittleBeta()">&beta;</button>
+    						<button type="button" class="btn btn-default" ng-click="onClickLittleGamma()">&gamma;</button>
+    						<button type="button" class="btn btn-default" ng-click="onClickLittleDelta()">&delta;</button>
+    						<button type="button" class="btn btn-default" ng-click="onClickLittleEpsilon()">&epsilon;</button>
+    						<button type="button" class="btn btn-default" ng-click="onClickLittleEta()">&eta;</button>
+    						<button type="button" class="btn btn-default" ng-click="onClickLittleTheta()">&theta;</button>
+    						<button type="button" class="btn btn-default" ng-click="onClickLittleLambda()">&lambda;</button>
+    						<button type="button" class="btn btn-default" ng-click="onClickLittleMu()">&mu;</button>
+    						<button type="button" class="btn btn-default" ng-click="onClickLittlePi()">&pi;</button>
+    						<button type="button" class="btn btn-default" ng-click="onClickLittleRho()">&rho;</button>
+    						<button type="button" class="btn btn-default" ng-click="onClickLittleSigma()">&sigma;</button>
+    						<button type="button" class="btn btn-default" ng-click="onClickLittleTau()">&tau;</button>
+    						<button type="button" class="btn btn-default" ng-click="onClickLittlePhi()">&phi;</button>
+    						<button type="button" class="btn btn-default" ng-click="onClickLittleChi()">&chi;</button>
+    						<button type="button" class="btn btn-default" ng-click="onClickLittlePsi()">&psi;</button>
+    						<button type="button" class="btn btn-default" ng-click="onClickLittleOmega()">&omega;</button>
+    					</div>
+    				</uib-tab>
+ 			</uib-tabset>
 			</div>
 			<div class="form-group" style="padding: 15px 0px">
 				<label for="description">Description:</label>
@@ -91,7 +159,8 @@
 		<label class="btn btn-default">
 			Upload image<input type="file" name="imageFile" id="file" onchange="angular.element(this).scope().onClickUpload(this)" accept="image/*" style="display: none">
 		</label>
-			<img ng-src="{{newQuestion.image}}" width="100%" style="margin-top: 15px; margin-bottom: 15px">
+		<button type="button" class="btn btn-warning" ng-show="newQuestion.image" ng-click="onClickRemoveImage(newQuestion)"><span class="glyphicon glyphicon-remove"></span> Remove image</button>
+			<img ng-show="newQuestion.image" ng-src="{{newQuestion.image}}" width="100%" style="margin-top: 15px; margin-bottom: 15px">
 	</div>
 	<div class="row">
 	<div class="col-xs-12">

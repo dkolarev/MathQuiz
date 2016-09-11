@@ -1,12 +1,12 @@
 //gameControl.js
 
-var activeGamesCollection = require('./data/game/activeGamesCollection');
-var quizDataRepository = require('./data/quiz/quizDataRepository').dataRepository;
-var gameMapper = require('./mappers/gameMapper');
+var activeGamesCollection = require('../data/game/activeGamesCollection');
+var quizDataRepository = require('../data/quiz/quizDataRepository').dataRepository;
+var gameMapper = require('../mappers/gameMapper');
 var ratingCalculator = require('./ratingCalculator');
-var gameStatusEnum = require('./data/game/gameStatusEnum');
+var gameStatusEnum = require('../data/game/gameStatusEnum');
 var gameSocketService = require('./gameSocketService');
-var gameTimeConstant = require('./data/game/gameTimeConstant');
+var gameTimeConstant = require('../data/game/gameTimeConstant');
 
 var iterateQuizQuestions = function(gameSocket, quiz) {
 	if(quiz.currentQuestionPointer == quiz.questions.length) {

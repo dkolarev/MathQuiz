@@ -1,6 +1,6 @@
 //gameSocketService.js
 
-var gameMapper = require('./mappers/gameMapper');
+var gameMapper = require('../mappers/gameMapper');
 
 var socketio;
 

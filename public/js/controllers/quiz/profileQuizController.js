@@ -33,7 +33,11 @@ function profileQuizController($scope, $state, $location, data, modalService, qu
 		};
 
 		quizResource.startQuiz(data).$promise.then(function(response) {
-			$scope.gameId = response.gameId;
+			if (response.success) {
+				$scope.gameId = response.gameId;
+			} else {
+				$scope.startError = response.message;
+			}
 		}, function(response) {
 			console.log(response);
 		});

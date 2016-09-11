@@ -1,11 +1,6 @@
 //createTeamController.js
 
 function createTeamController($scope, $state, gameResource, gameService) {
-	
-	$scope.config = {
-    	theme: 'minimal-dark',
-    	axis: 'y'
-  	};
 
 	$scope.team = {};
 	$scope.player = "";

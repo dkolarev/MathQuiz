@@ -37,7 +37,7 @@ db.connect(config, function() {
 
 	io = require('socket.io')(server);
 	app.set('socketio', io);
-	require('./gameSocketService').setSocket(io);
+	require('./scripts/gameSocketService').setSocket(io);
 });
 
 app.use('/api/auth', authRoute);

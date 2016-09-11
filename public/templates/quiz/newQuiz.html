@@ -36,7 +36,7 @@
 		</div>
 	</div>
 	<div class="text-center" style="border-bottom: 2px solid #007acc">
-		<ul uib-pagination boundary-links="true" max-size="5" total-items="totalCount" ng-model="filter.currentPage" items-per-page="filter.pageItems" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" ng-change="onPageChange(filter)" style="margin: 0px"></ul>
+		<ul uib-pagination boundary-links="true" max-size="5" total-items="totalCount" ng-model="filter.currentPage" items-per-page="filter.pageItems" class="pagination-xs" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" ng-change="onPageChange(filter)" style="margin: 0px"></ul>
 	</div>
 	<div style="height: 87%; overflow:auto" ng-scrollbars ng-scrollbars-config="config">
 	<ul class="list-unstyled">
@@ -95,7 +95,7 @@
 			<div class="row">
 				<div class="col-sm-5">
 					<button type="button" class="btn btn-default" ng-disabled="newQuizForm.$invalid" ng-click="onClickSave(newQuiz)">Save</button>
-					<button type="button" class="btn btn-danger" ui-sref="user.quizlist">Cancel</button>
+					<button type="button" class="btn btn-danger" ng-click="onClickCancel()">Cancel</button>
 				</div>
 			</div>
 		</form>

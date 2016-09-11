@@ -18,7 +18,7 @@ function gameEndController($scope, $state, data, gameService, gameResource, $int
 
 	$scope.totalCount = data.scoreboard.length;
 	$scope.currentPage = 1;
-	$scope.pageItems = 2;
+	$scope.pageItems = 10;
 
 	var gameId = gameService.getGameId();
 	var socketNamespace = '/' + gameId;

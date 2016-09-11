@@ -33,6 +33,7 @@ angular
 	.controller('editQuestionController', editQuestionController)
 	.controller('editQuizController', editQuizController)
 	.controller('dissolveGameModalController', dissolveGameModalController)
+	.controller('mathFunctionsController', mathFunctionsController)
 	.directive('checkUsername', checkUsername)
 	.directive('checkPassword', checkPassword)
 	.directive('checkEmail', checkEmail)

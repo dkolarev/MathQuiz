@@ -1,7 +1,7 @@
 //ratingCalculatorTest.js
 
 var assert = require('assert');
-var ratingCalculator = require('../app/ratingCalculator');
+var ratingCalculator = require('../app/scripts/ratingCalculator');
 
 var old_rating_1 = 4;
 var old_rating_count_1 = 1;

@@ -92,6 +92,9 @@ function newQuizController (
 		filter = questionFilterService.clearDifficultyFilter(filter);
 	};
 
+	$scope.onClickCancel = function() {
+		$state.go("user.quizlist");
+	};
 
 	$scope.$on('destroy', function() {
 		socket.removeAllListeners();

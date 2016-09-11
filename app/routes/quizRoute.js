@@ -8,11 +8,11 @@ var questionDataRepository = require('../data/question/questionDataRepository').
 var quizDataValidator = require('../data/quiz/quizDataValidator');
 var crypto = require('crypto');
 var activeGamesCollection = require('../data/game/activeGamesCollection');
-var gameControl = require('../gameControl');
+var gameControl = require('../scripts/gameControl');
 var paginationFilter = require('../filters/paginationFilter');
 var quizFilter = require('../filters/quizFilter');
 var gameMapper = require('../mappers/gameMapper');
-var extractTokenClaim = require('../extractTokenClaim');
+var extractTokenClaim = require('../scripts/extractTokenClaim');
 var gameStatusEnum = require('../data/game/gameStatusEnum');
 var secret = require('../config/config').secret;
 
@@ -233,42 +233,50 @@ router.post('/start', function(req, res) {
 	var quizId = req.body.quizId;
 	var user = req.body.user;
 	quizDataRepository.getQuiz(quizId).then(function(quiz) {
-		/**
-		*	Kreiraj jedinstveni nasumicni id aktivnog kviza
-		*	koji se ponasa kao token za pristup igraca.
-		*/
-		var gameId = crypto.randomBytes(4).toString('hex');
-		quiz.gameId = gameId;
-
-		//kreiraj namespace socket za tu igru
-		var socketio = req.app.get('socketio');
-		var socketNamespace = '/' + gameId;
-		var gameSocket = socketio.of(socketNamespace);
-		quiz.gameSocket = gameSocket;
-		
-		//timovi koji se natjecu u kvizu
-		quiz.teams = [];
-		//postavi indeks aktivnog pitanja na prvo pitanje
-		quiz.currentQuestionPointer = 0;
-		quiz.answersRecieved = 0;
-		quiz.gameStatus = gameStatusEnum.pendingStatus;
-		quiz.started = new Date().toISOString();
-		quiz.startedBy = user;
-		
-		questionDataRepository.questionListByIds(quiz.questions).toArray(function(err, doc) {
-			quiz.questions = doc;
-
-			activeGamesCollection.activateQuiz(quiz);
-
-			var dashboardItem = gameMapper.gameToDashboardItem(quiz);
-			socketio.emit('dashboardUpdate', {
-				item: dashboardItem
-			});
-
+		if(quiz.questions.length === 0) {
 			res.send({
-				"gameId": gameId
+				"success": false,
+				"message": "quiz has no questions."
 			});
-		});	
+		} else {
+			/**
+			*	Kreiraj jedinstveni nasumicni id aktivnog kviza
+			*	koji se ponasa kao token za pristup igraca.
+			*/
+			var gameId = crypto.randomBytes(4).toString('hex');
+			quiz.gameId = gameId;
+
+			//kreiraj namespace socket za tu igru
+			var socketio = req.app.get('socketio');
+			var socketNamespace = '/' + gameId;
+			var gameSocket = socketio.of(socketNamespace);
+			quiz.gameSocket = gameSocket;
+		
+			//timovi koji se natjecu u kvizu
+			quiz.teams = [];
+			//postavi indeks aktivnog pitanja na prvo pitanje
+			quiz.currentQuestionPointer = 0;
+			quiz.answersRecieved = 0;
+			quiz.gameStatus = gameStatusEnum.pendingStatus;
+			quiz.started = new Date().toISOString();
+			quiz.startedBy = user;
+		
+			questionDataRepository.questionListByIds(quiz.questions).toArray(function(err, doc) {
+				quiz.questions = doc;
+
+				activeGamesCollection.activateQuiz(quiz);
+
+				var dashboardItem = gameMapper.gameToDashboardItem(quiz);
+				socketio.emit('dashboardUpdate', {
+					item: dashboardItem
+				});
+
+				res.send({
+					"success": true,
+					"gameId": gameId
+				});
+			});	
+		}
 	});
 });
 

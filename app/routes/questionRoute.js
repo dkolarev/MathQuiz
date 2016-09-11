@@ -8,7 +8,7 @@ var quizDataRepository = require('../data/quiz/quizDataRepository').dataReposito
 var questionDataValidator = require('../data/question/questionDataValidator');
 var questionFilter = require('../filters/questionFilter');
 var paginationFilter = require('../filters/paginationFilter');
-var extractTokenClaim = require('../extractTokenClaim');
+var extractTokenClaim = require('../scripts/extractTokenClaim');
 var secret = require('../config/config').secret;
 
 var router = express.Router();
