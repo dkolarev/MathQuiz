@@ -46,10 +46,20 @@ function gameService ($window, $resource) {
 		return $window.localStorage.gameId;
 	};
 
+	var isActive = function() {
+		var gameId = getGameId();
+		if (gameId) {
+			return true;
+		} else {
+			return false;
+		}
+	};
+
 	return {
 		verifyGameId: verifyGameId,
 		saveGameId: saveGameId,
 		getGameId: getGameId,
+		isActive: isActive,
 		deleteGameId: deleteGameId,
 		saveTeamId: saveTeamId,
 		deleteTeamId: deleteTeamId,

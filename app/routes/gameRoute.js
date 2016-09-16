@@ -156,6 +156,34 @@ router.get('/teams', function(req, res) {
 	
 });
 
+router.get('/status', function(req, res) {
+	var gameId = req.query.gameId || req.headers['gameid'];
+	var teamId = req.query.teamId || req.headers['teamid'];
+
+	var quiz = activeGamesCollection.getQuiz(gameId);
+
+	if (quiz) {
+		if (teamId) {
+			var team = activeGamesCollection.getTeamById(gameId, teamId);
+			res.send({
+				"status": quiz.gameStatus,
+				"team": {
+					"name": team.name,
+					"players": team.players
+				}
+			});
+		} else {
+			res.send({
+				"status": quiz.gameStatus
+			});
+		}
+	} else {
+		res.send({
+			"status": "No quiz available."
+		});
+	}
+});
+
 /**
 *	Ruta za primanje odgovora od timova.
 */

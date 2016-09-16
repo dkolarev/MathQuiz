@@ -26,6 +26,8 @@ function gameEndController($scope, $state, data, gameService, gameResource, $int
 
 	socket.on('gameStatus', function(data) {
 		if (data.status === 'close') {
+			gameService.deleteGameId();
+			gameService.deleteTeamId();
 			$state.go('main.index');
 		}
 	});

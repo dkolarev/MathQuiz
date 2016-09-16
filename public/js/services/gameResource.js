@@ -26,12 +26,17 @@ function gameResource ($resource) {
 		return $resource('/api/game/teams', {gameId: '@gameId'}).get({gameId: gameId});
 	};
 
+	var getGameStatus = function() {
+		return $resource('/api/game/status').get();
+	};
+
 	return {
 		saveTeam: saveTeam,
 		getQuiz: getQuiz,
 		sendAnswer: sendAnswer,
 		sendRating: sendRating,
 		getWinnerData: getWinnerData,
-		getSignedTeams: getSignedTeams
+		getSignedTeams: getSignedTeams,
+		getGameStatus: getGameStatus
 	}
 };

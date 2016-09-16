@@ -260,7 +260,12 @@ angular
 				needGameId: true,
 				url: '/createteam',
 				templateUrl: 'templates/player/createTeam.html',
-				controller: 'createTeamController'
+				controller: 'createTeamController',
+				resolve: {
+					data: function(gameResource) {
+						return gameResource.getGameStatus().$promise;
+					}
+				}
 			})
 			.state('quizgame', {
 				needLogin: false,
@@ -326,7 +331,7 @@ angular
 		$urlRouterProvider.otherwise('/index');
 		$locationProvider.html5Mode(true);
 	})
-	.run(function($rootScope, $state, authService, gameService) {
+	.run(function($rootScope, $state, authService, gameService, gameService) {
 		$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
 			
 			/**
@@ -341,6 +346,13 @@ angular
 						$state.go('user.home');
 					}, function(response) {
 						console.log(response);
+					});
+				} else if (gameService.getGameId()) {
+					gameService.verifyGameId().$promise.then(function(response) {
+						$state.go('createteam');
+					}, function(response) {
+						gameService.deleteGameId();
+						gameService.deleteTeamId();
 					});
 				}
 			}

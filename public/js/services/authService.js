@@ -61,14 +61,6 @@ function authService($window, $resource) {
 		callb();
 	};
 
-	var storeUser = function(username) {
-		$localStorage.user = {
-			username: username,
-			isAuthenticated: true
-		};
-		console.log($localStorage.user);
-	};
-
 	var getUser = function() {
 		return getTokenClaim($window.localStorage.token);
 	};
@@ -88,7 +80,6 @@ function authService($window, $resource) {
 		logOut: logOut,
 		saveToken: saveToken,
 		verifyToken: verifyToken,
-		storeUser: storeUser,
 		getUser: getUser,
 		isAuthenticated: isAuthenticated
 	};

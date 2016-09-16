@@ -266,6 +266,16 @@ var getGameSocket = function(gameId) {
 	return quiz.gameSocket;
 };
 
+var getTeamById = function(gameId, teamId) {
+	var quiz = getQuiz(gameId);
+	for (var team of quiz.teams) {
+		if (team.teamId == teamId) {
+			return team;
+		}
+	}
+	return;
+};
+
 var getTeamAnswer = function(gameId, teamId, questionId) {
 	var quiz = getQuiz(gameId);
 	for (var team of quiz.teams) {
@@ -303,6 +313,7 @@ module.exports =  {
 	removeGame: removeGame,
 	removeInactiveGames: removeInactiveGames,
 	getGameSocket: getGameSocket,
-	getTeamAnswer: getTeamAnswer
+	getTeamAnswer: getTeamAnswer,
+	getTeamById: getTeamById
 };
 

@@ -10,7 +10,6 @@ function gameController(
 	$state,
 	$interval
 ) {
-
 	if(data.answered) {
 		$scope.answerSended = true;
 	} else {

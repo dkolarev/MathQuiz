@@ -1,10 +1,25 @@
 //createTeamController.js
 
-function createTeamController($scope, $state, gameResource, gameService) {
+function createTeamController($scope, $state, gameResource, gameService, data) {
+
+
+	if (data.status === 'playing') {
+		$state.go('quizgame');
+	} else if (data.status === 'close') {
+		$state.go('quizend');
+	} else if (data.status === 'close') {
+		gameService.deleteGameId();
+		gameService.deleteTeamId();
+		$state.go('main.index');
+	}
 
 	$scope.team = {};
 	$scope.player = "";
 	$scope.team.players = [{'id':1}];
+
+	if (data.team) {
+		$scope.team = data.team;
+	}
 
 	//provjeri je li korisnik vec unio podatke
 	if(gameService.getTeamId()) {
@@ -22,8 +37,11 @@ function createTeamController($scope, $state, gameResource, gameService) {
 
 	socket.on('gameStatus', function(data) {
 		if (data.status === 'start') {
+			console.log(data);
 			$state.go('quizgame');
 		} else if (data.status === 'close') {
+			gameService.deleteGameId();
+			gameService.deleteTeamId();
 			$state.go('main.index');
 		}
 	});
