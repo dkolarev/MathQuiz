@@ -45,13 +45,25 @@
 			     <a ng-href="#" ng-click="onClickQuestionInfo(question)" style="text-decoration: none; color: white"><div class="well hoverwell questionBox">{{question.title}}</div></a>
 		      </li>
 	       </ul>
-            <div class="col-xs-12 text-center">
+           <div class="col-xs-12 text-center" ng-show="profileQuizQuestions.length == 0">
+                <div style="font-size: 1.3em; margin-bottom: 10px"><span class="glyphicon glyphicon-remove-circle"></span> Cannot start quiz with no questions.</div>
+               <button type="button" class="btn btn-primary" ng-click="onClickEdit(profileQuiz)">Add questions</button>
+           </div>
+            <div class="col-xs-12 text-center" ng-hide="profileQuizQuestions.length == 0">
                 <ul uib-pagination max-size="5" total-items="profileQuizQuestions.length" ng-model="currentPage" items-per-page="pageItems" style="margin-top: 0px"></ul>
             </div>
         </div>
     </div>
 
     <div class="col-xs-12 col-sm-4">
+        <div style="border: 1px solid white; border-radius: 2px; padding: 10px; margin-bottom: 10px">
+            <div style="float:left; width: 2em; margin-top: 5px">
+                <span class="glyphicon glyphicon-info-sign" style="font-size: 1.5em"></span>
+            </div>
+            <div style="margin-left: 2em"> 
+                Press <strong>start quiz</strong> button to initialize new game and share invitation code with players.
+            </div>
+        </div>
         <button type="button" class="btn btn-success btn-block" ng-click="onClickStartQuiz(profileQuiz._id)">Start Quiz</button>
         <div class="alert alert-info" ng-show="gameId" style="min-height: 140px">
             <button type="button" class="btn btn-info btn-xs" style="float: right" ng-click="onClickDetails(gameId)">Details</button>

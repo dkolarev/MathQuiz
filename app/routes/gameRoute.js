@@ -88,7 +88,7 @@ router.post('/saveteam', function(req, res) {
 	} else {
 		res.send({
 			"success": false,
-			"message": "Invalid team input. Try again."
+			"message": "Invalid team. Team name and at least one player required."
 		});
 	}
 });
@@ -163,22 +163,30 @@ router.get('/status', function(req, res) {
 	var quiz = activeGamesCollection.getQuiz(gameId);
 
 	if (quiz) {
-		if (teamId) {
-			var team = activeGamesCollection.getTeamById(gameId, teamId);
+		var team = activeGamesCollection.getTeamById(gameId, teamId);
+		if (!team && quiz.gameStatus !== gameStatusEnum.pendingStatus) {
+			res.status(403).json({
+				"success": false,
+				"status": quiz.gameStatus
+			});	
+		} else if(!team && quiz.gameStatus === gameStatusEnum.pendingStatus){
 			res.send({
+				"success": true,
+				"status": quiz.gameStatus
+			});
+		} else {
+			res.send({
+				"success": true,
 				"status": quiz.gameStatus,
 				"team": {
 					"name": team.name,
 					"players": team.players
 				}
 			});
-		} else {
-			res.send({
-				"status": quiz.gameStatus
-			});
 		}
 	} else {
 		res.send({
+			"success": false,
 			"status": "No quiz available."
 		});
 	}

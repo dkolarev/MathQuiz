@@ -3,7 +3,7 @@
 function gameEndController($scope, $state, data, gameService, gameResource, $interval) {
 
 	data.scoreboard.sort(function(a,b) {
-		return (a.teamPoints - b.teamPoints) ? 1 : ((b.teamPoints - a.teamPoints) ? -1 : 0);
+		return b.teamPoints - a.teamPoints;
 	});
 
 	$scope.scoreboard = data.scoreboard;
@@ -20,6 +20,9 @@ function gameEndController($scope, $state, data, gameService, gameResource, $int
 	$scope.currentPage = 1;
 	$scope.pageItems = 10;
 
+	$scope.teamId = gameService.getTeamId();
+	var gameId = gameService.getGameId();
+
 	var gameId = gameService.getGameId();
 	var socketNamespace = '/' + gameId;
 	var socket = io(socketNamespace);
@@ -34,6 +37,7 @@ function gameEndController($scope, $state, data, gameService, gameResource, $int
 
 	$scope.onClickBackToMainPage = function() {
 		gameService.deleteGameId();
+		gameService.deleteTeamId();
 		$state.go('main.index');
 	};
 

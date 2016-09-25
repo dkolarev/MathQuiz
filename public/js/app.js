@@ -257,7 +257,7 @@ angular
 			})
 			.state('createteam', {
 				needLogin: false,
-				needGameId: true,
+				needGameId: false,
 				url: '/createteam',
 				templateUrl: 'templates/player/createTeam.html',
 				controller: 'createTeamController',
@@ -405,6 +405,8 @@ angular
 		*/
 		$rootScope.$on('forbidden', function (event) {
 			event.preventDefault();
+			gameService.deleteGameId();
+			gameService.deleteTeamId();
 			$state.go('main.index');
 		});
 	});

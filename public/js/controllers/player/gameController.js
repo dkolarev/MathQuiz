@@ -25,7 +25,7 @@ function gameController(
 	$scope.currentQuestion = data.question;
 
 	data.scoreboard.sort(function(a,b) {
-		return (a.teamPoints - b.teamPoints) ? 1 : ((b.teamPoints - a.teamPoints) ? -1 : 0);
+		return b.teamPoints - a.teamPoints;
 	});
 
 	$scope.scoreboard = data.scoreboard;
@@ -63,8 +63,9 @@ function gameController(
 
 	socket.on('scoreboard', function(data) {
 		data.scoreboard.sort(function(a,b) {
-			return (a.teamPoints - b.teamPoints) ? 1 : ((b.teamPoints - a.teamPoints) ? -1 : 0);
+			return b.teamPoints - a.teamPoints;
 		});
+		console.log(data.scoreboard);
 		$scope.scoreboard = data.scoreboard;
 		$scope.$apply();
 	});

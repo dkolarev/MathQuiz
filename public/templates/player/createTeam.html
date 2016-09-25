@@ -3,7 +3,7 @@
 <div class="col-xs-12" style="padding-top: 15px">
 <div class="row">
     <div class="alert alert-info" ng-show="showAlert" style="max-width: 500px; margin: 0px auto; text-align: center">Waiting for game start...</div>
-    <div class="alert alert-warning" ng-show="gameStarted" style="max-width: 500px; margin: 0px auto; text-align: center">{{gameStarted}}</div>
+    <div class="alert alert-warning" ng-show="teamError && !showAlert" style="max-width: 500px; margin: 0px auto; text-align: center">{{teamError}}</div>
 </div>
 
 <div class="row" style="padding-top: 60px">

@@ -1,13 +1,19 @@
 //createTeamController.js
 
-function createTeamController($scope, $state, gameResource, gameService, data) {
+function createTeamController(
+	$scope, 
+	$state, 
+	gameResource, 
+	gameService, 
+	data,
+	enumData
+) {
 
-
-	if (data.status === 'playing') {
+	if (data.status === enumData.gameStatusEnum.playingStatus) {
 		$state.go('quizgame');
-	} else if (data.status === 'close') {
+	} else if (data.status === enumData.gameStatusEnum.endStatus) {
 		$state.go('quizend');
-	} else if (data.status === 'close') {
+	} else if (data.status === enumData.gameStatusEnum.closeStatus) {
 		gameService.deleteGameId();
 		gameService.deleteTeamId();
 		$state.go('main.index');
@@ -64,14 +70,14 @@ function createTeamController($scope, $state, gameResource, gameService, data) {
 	};
 
 	$scope.onClickReady = function(team) {
-		if(team.players[0].name) {
+		if(team.players[0].name || !team.name) {
 			gameResource.saveTeam(team).$promise.then(function(response) {
 			if(response.success) {
 				gameService.saveTeamId(response.teamId);
 				$scope.teamSended = true;
 				$scope.showAlert = true;
 			} else {
-				$scope.gameStarted = response.message;
+				$scope.teamError = response.message;
 			} 		
 		}, function(response) {
 			console.log(response);

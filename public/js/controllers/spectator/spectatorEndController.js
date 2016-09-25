@@ -3,7 +3,7 @@
 function spectatorEndController($scope, gameService, $state, data, $interval) {
 
 	data.scoreboard.sort(function(a,b) {
-		return (a.teamPoints - b.teamPoints) ? 1 : ((b.teamPoints - a.teamPoints) ? -1 : 0);
+		return b.teamPoints - a.teamPoints;
 	});
 
 	$scope.scoreboard = data.scoreboard;

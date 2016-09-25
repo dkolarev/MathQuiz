@@ -78,9 +78,10 @@ var checkAnsweredCounter = function(gameId) {
 
 //dohvati pobijednika
 var extractWinner = function(scoreboard) {
-	return scoreboard.reduce(function(prev, current) {
-    			return (prev.pointsSum > current.pointsSum) ? prev : current
-			});
+	scoreboard.sort(function(a, b) {
+    	return b.teamPoints - a.teamPoints;
+	});
+	return scoreboard[0];
 };
 
 /**

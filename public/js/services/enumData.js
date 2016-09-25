@@ -28,7 +28,8 @@ function enumData() {
 	var gameStatusEnum = {
 		pendingStatus: 'waiting for players',
 		playingStatus: 'playing',
-		endStatus: 'ended'
+		endStatus: 'ended',
+		closeStatus: 'close'
 	};
 
 	var scoringEnum = ['difficulty', 'time'];

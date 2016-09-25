@@ -42,9 +42,6 @@
 	<ul class="list-unstyled">
 		<li ng-repeat="question in questionsList track by trackByItem(question)" class="questionsList">
 			<div class="checkbox">
-				<!--<label>
-					<input type="checkbox" checklist-model="newQuiz.questions" checklist-value="question._id">
-				</label> {{question.title}}-->
 				<label style="font-size: 1.2em">
 					<input type="checkbox" value="" name="questionSelect" checklist-model="newQuiz.questions" checklist-value="question._id">
 					<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
@@ -94,7 +91,7 @@
 			</div>
 			<div class="row">
 				<div class="col-sm-5">
-					<button type="button" class="btn btn-default" ng-disabled="newQuizForm.$invalid" ng-click="onClickSave(newQuiz)">Save</button>
+					<button type="button" class="btn btn-default" ng-disabled="newQuizForm.$invalid || newQuiz.questions.length == 0" ng-click="onClickSave(newQuiz)">Save</button>
 					<button type="button" class="btn btn-danger" ng-click="onClickCancel()">Cancel</button>
 				</div>
 			</div>
