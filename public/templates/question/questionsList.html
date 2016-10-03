@@ -47,7 +47,7 @@
 	<table class="table table-hover table-responsive questionTable">
 		<thead>
 			<tr style="background-color: #b3ffff">
-				<th><span style="margin-left: 15px"><a href="" ng-click="onClickNameSort(filter)" style="text-decoration: none">Title</a></span></th>
+				<th><span style="margin-left: 15px"><a href="#" ng-click="onClickNameSort(filter)" style="text-decoration: none">Title</a></span></th>
 				<th><span>Difficulty</span></th>
 				<th><span>Field</span></th>
 				<th><span><a href="" ng-click="onClickDateSort(filter)" style="text-decoration: none">Last Modified</a></span></th>
@@ -61,7 +61,7 @@
 				<td>{{question.difficulty}}</td>
 				<td>{{question.field}}</td>
 				<td>{{question.lastModified | date: 'dd.MM.yyyy. HH:mm'}}</td>
-				<td><a ng-href="/user/question/edit/{{question._id}}" restrict-access user="user.username" created-by="question.createdBy" style=" margin-left: 5px"><i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 20px"></i></a></td>
+				<td><a ng-href="/question/edit/{{question._id}}" restrict-access user="user.username" created-by="question.createdBy" style=" margin-left: 5px"><i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 20px"></i></a></td>
 				<td><a ng-href="#deleteQuestion" restrict-access user="user.username" created-by="question.createdBy" data-toggle="modal" ng-click="onClickDeleteQuestion(question)" style="margin-left: 10px"><i class="fa fa-trash-o" style="color: #333333; font-size: 16px"></i></a></td>
 			</tr>
 		</tbody>
