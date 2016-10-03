@@ -25,7 +25,7 @@
 				<div class="form-group">
 					<label>Repeat Password</label>
 					<input type="password" name="repeatPassword" required class="form-control" ng-model="repeatPassword" ng-model-options="{updateOn: 'blur'}" password="user.password" check-password="repeatPassword" placeholder="Enter password">
-					<div ng-messages="signUpForm.repeatPassword.$error" ng-show="signInForm.repeatPassword.$touched" role="alert">
+					<div ng-messages="signUpForm.repeatPassword.$error" ng-show="signUpForm.repeatPassword.$touched" role="alert">
 						<div ng-show="signUpForm.repeatPassword.$error.correct" class="errorMessage">Passwords don't match.</div>
 					</div>
 				</div>
