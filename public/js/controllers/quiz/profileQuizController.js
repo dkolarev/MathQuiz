@@ -17,7 +17,7 @@ function profileQuizController($scope, $state, $location, data, modalService, qu
 	$scope.onClickEdit = function(quiz) {
 		var user = authService.getUser();
 		if (user.username === quiz.createdBy) {
-			$location.url('/user/quiz/edit/' + quiz._id);
+			$location.url('/quiz/edit/' + quiz._id);
 		}
 	};
 
@@ -61,7 +61,7 @@ function profileQuizController($scope, $state, $location, data, modalService, qu
 	};
 
 	$scope.onClickDetails = function(gameId) {
-		$location.url('/user/game/pending/' + gameId);
+		$location.url('/game/pending/' + gameId);
 	};
 
 	$scope.onClickQuestionInfo = function(question) {

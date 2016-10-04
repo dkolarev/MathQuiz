@@ -32,7 +32,7 @@ function userGameController(
 			if($scope.modalInstance) {
 				$scope.modalInstance.close('close');
 			}
-			$location.url('/user/game/end/' + gameId);
+			$location.url('/game/end/' + gameId);
 		}
 	});
 

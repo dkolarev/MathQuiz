@@ -100,13 +100,12 @@ angular
 		$stateProvider
 			.state('main', {
 				needLogin: false,
-				url: '/',
 				templateUrl: 'templates/firstPage.html',
 				controller: 'mainPageController'
 			})
 			.state('main.index', {
 				needLogin: false,
-				url: '/index',
+				url: '/',
 				templateUrl: '/templates/firstPageContent.html'
 			})
 			.state('main.signup', {
@@ -121,7 +120,6 @@ angular
 			})
 			.state('user', {
 				needLogin: true,
-				url: '/user',
 				templateUrl: 'templates/user/user.html',
 				controller: 'userController'
 			})
@@ -328,7 +326,7 @@ angular
 				}
 			});
 
-		$urlRouterProvider.otherwise('/index');
+		$urlRouterProvider.otherwise('/');
 		$locationProvider.html5Mode(true);
 	})
 	.run(function($rootScope, $state, authService, gameService, gameService) {
@@ -363,17 +361,10 @@ angular
 			*/
 			if (toState.needLogin) {			
 				authService.verifyToken().$promise.then(function(response) {
-					if(toState.name === 'user') {
-						event.preventDefault();
-						$state.go('user.home');
-					}
 				}, function(response) {
 					console.log(response);
 				});
-			} else if (toState.name === 'main') {
-				event.preventDefault();
-				$state.go('main.index');
-			} 
+			}
 			/**
 			*	Ako je za pristup stanju potrebno imati gameId, validiraj
 			*	ga na serveru te nastavi ako je sve u redu. U suprotnom

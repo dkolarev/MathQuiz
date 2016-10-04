@@ -79,11 +79,11 @@ function userHomeController (
 
 	$scope.onClickWatch = function(gameId, gameStatus) {
 		if(gameStatus === enumData.gameStatusEnum.pendingStatus) {
-			$location.url('/user/game/pending/' + gameId);
+			$location.url('/game/pending/' + gameId);
 		} else if(gameStatus === enumData.gameStatusEnum.playingStatus) {
-			$location.url('/user/game/playing/' + gameId);
+			$location.url('/game/playing/' + gameId);
 		} else {
-			$location.url('/user/game/end/' + gameId);
+			$location.url('/game/end/' + gameId);
 		}
 	};
 

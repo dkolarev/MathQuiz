@@ -13,9 +13,9 @@ function userGamePendingController(
 	modalService
 ) {
 	if(data.status === enumData.gameStatusEnum.playingStatus) {
-		$location.url('/user/game/playing/' + gameId);
+		$location.url('/game/playing/' + gameId);
 	} else if (data.status === enumData.gameStatusEnum.endStatus) {
-		$location.url('/user/game/end/' + gameId);
+		$location.url('/game/end/' + gameId);
 	}
 
 	var gameId = $stateParams.gameId;
@@ -35,7 +35,7 @@ function userGamePendingController(
 
 	socket.on('gameStatus', function(data) {
 		if (data.status === 'start') {
-			$location.url('/user/game/playing/' + gameId);
+			$location.url('/game/playing/' + gameId);
 		} else if (data.status === 'close') {
 			$state.go('user.home');
 		}
