@@ -110,12 +110,12 @@ angular
 			})
 			.state('main.signup', {
 				needLogin: false,
-				url: 'signup',
+				url: '/signup',
 				templateUrl: 'templates/signUp.html'
 			})
 			.state('main.login', {
 				needLogin: false,
-				url: 'login',
+				url: '/login',
 				templateUrl: 'templates/logIn.html'
 			})
 			.state('user', {
