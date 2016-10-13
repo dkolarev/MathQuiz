@@ -96,7 +96,7 @@ function editQuizController(
 		$location.url('/user/quiz/quizprofile/' + quiz.quiz._id);
 	};
 
-	$scope.$on('destroy', function() {
+	/*$scope.$on('destroy', function() {
 		socket.removeAllListeners();
-	});
+	});*/
 }

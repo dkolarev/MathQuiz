@@ -76,6 +76,6 @@ function spectatorController(
 			$interval.cancel(scoreboardTimer);
 		}
 
-		socket.removeAllListeners();
+		//socket.removeAllListeners();
 	});
 }

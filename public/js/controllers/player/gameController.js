@@ -102,11 +102,11 @@ function gameController(
 		}
 	}, 10000);
 
-	$scope.$on('$destroy', function() {
+	/*$scope.$on('$destroy', function() {
 		if(angular.isDefined(scoreboardTimer)) {
 			$interval.cancel(scoreboardTimer);
 		}
 
 		socket.removeAllListeners();
-	});
+	});*/
 }

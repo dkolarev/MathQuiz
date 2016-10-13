@@ -37,6 +37,6 @@
             </div>
         </div>
         <div class="modal-footer">
-        	<button type="button" class="btn btn-default" ng-click="onClickEdit(question._id)">Edit</button>
+        	<button type="button" class="btn btn-default" restrict-access user="user.username" created-by="question.createdBy" ng-click="onClickEdit(question._id)">Edit</button>
         </div>
 </div>

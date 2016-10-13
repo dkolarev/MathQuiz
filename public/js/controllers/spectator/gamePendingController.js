@@ -29,7 +29,7 @@ function gamePendingController($scope, gameService, $state, data) {
 	});
 
 	
-	$scope.$on('destroy', function() {
+	/*$scope.$on('destroy', function() {
 		socket.removeAllListeners();
-	});
+	});*/
 }

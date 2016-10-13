@@ -46,6 +46,6 @@ function spectatorEndController($scope, gameService, $state, data, $interval) {
 			$interval.cancel(scoreboardTimer);
 		}
 
-		socket.removeAllListeners();
+		//socket.removeAllListeners();
 	});
 }

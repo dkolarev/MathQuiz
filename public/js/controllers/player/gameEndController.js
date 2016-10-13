@@ -65,6 +65,6 @@ function gameEndController($scope, $state, data, gameService, gameResource, $int
 			$interval.cancel(scoreboardTimer);
 		}
 
-		socket.removeAllListeners();
+		//socket.removeAllListeners();
 	});
 }

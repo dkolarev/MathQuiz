@@ -64,7 +64,7 @@ function userGamePendingController(
 		var modalInstance = modalService.dissolveGameModal(gameId);
 	};
 	
-	$scope.$on('destroy', function() {
+	/*$scope.$on('destroy', function() {
 		socket.removeAllListeners();
-	});
+	});*/
 }

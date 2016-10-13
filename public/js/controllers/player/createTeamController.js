@@ -87,7 +87,8 @@ function createTeamController(
 		}
 	};
 
+	/*
 	$scope.$on('destroy', function() {
 		socket.removeAllListeners();
-	});
+	});*/
 };

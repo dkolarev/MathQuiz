@@ -96,6 +96,6 @@ function userHomeController (
 			$interval.cancel(dashboardTimer);
 		}
 
-		socket.removeAllListeners();
+		//socket.removeAllListeners();
 	});
 }

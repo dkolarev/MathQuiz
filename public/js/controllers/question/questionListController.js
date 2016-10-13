@@ -21,6 +21,10 @@ function questionListController(
 
 	var socket = io();
 
+	socket.on('connect', function() {
+		console.log("connect");
+	});
+
 	$scope.trackByItem = function(item) {
 		return item._id + item.lastModified;
 	};
@@ -108,7 +112,7 @@ function questionListController(
 		filter = questionFilterService.clearDifficultyFilter(filter);
 	};
 
-	$scope.$on('destroy', function() {
+	/*$scope.$on('destroy', function() {
 		socket.removeAllListeners();
-	});
+	});*/
 }

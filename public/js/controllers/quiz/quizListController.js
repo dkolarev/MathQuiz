@@ -13,6 +13,10 @@ function quizListController($scope, data, quizResource, enumData, quizFilterServ
 
 	var socket = io();
 
+	socket.on('connect', function() {
+		console.log('quiz list');
+	});
+
 	/**
 	*	Ako je kviz obrisan u bazi, primi od servera
 	*	id obrisanog kviza te ga ukloni iz liste s kvizovima.
@@ -54,7 +58,7 @@ function quizListController($scope, data, quizResource, enumData, quizFilterServ
 		});
 	};
 
-	$scope.$on('destroy', function() {
+	/*$scope.$on('destroy', function() {
 		socket.removeAllListeners();
-	});
+	});*/
 }

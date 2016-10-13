@@ -96,7 +96,7 @@ function newQuizController (
 		$state.go("user.quizlist");
 	};
 
-	$scope.$on('destroy', function() {
+	/*$scope.$on('destroy', function() {
 		socket.removeAllListeners();
-	});
+	});*/
 };
